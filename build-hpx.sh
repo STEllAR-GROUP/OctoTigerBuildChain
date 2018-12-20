@@ -1,0 +1,39 @@
+#!/bin/bash
+set -e
+set -x
+
+. source-gcc.sh
+
+if [ ! -d hpx ] ; then
+ 
+git clone https://github.com/STEllAR-GROUP/hpx.git
+cd hpx
+mkdir -p build/
+cd build
+
+$HOME/opt/cmake/bin/cmake \
+ -DCMAKE_INSTALL_PREFIX=$HOME/opt/hpx \
+ -DCMAKE_BUILD_TYPE=Release \
+ -DCMAKE_CXX_FLAGS="$CXXFLAGS" "$CUDAFLAGS"   \
+ -DCMAKE_EXE_LINKER_FLAGS="$LDCXXFLAGS" \
+ -DCMAKE_SHARED_LINKER_FLAGS="$LDCXXFLAGS" \
+ -DHPX_WITH_CUDA=${OCT_WITH_CUDA} \
+ -DHPX_WITH_CXX14=${OCT_WITH_CUDA} \
+ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+ -DHPX_WITH_THREAD_IDLE_RATES=ON \
+ -DHPX_WITH_DISABLED_SIGNAL_EXCEPTION_HANDLERS=ON \
+ -DHWLOC_ROOT=$HOME/opt/hwloc/ \
+ -DHPX_WITH_MALLOC=JEMALLOC \
+ -DJEMALLOC_ROOT=$HOME/opt/jemalloc/ \
+ -DBOOST_ROOT=$HOME/opt/boost/ \
+ -DHPX_WITH_CUDA_ARCH=sm_37 \
+ -DVc_DIR=$HOME/opt/Vc/lib/cmake/Vc \
+ -DHPX_WITH_DATAPAR_VC=ON \
+ -DHPX_WITH_DATAPAR_VC_NO_LIBRARY=ON \
+ -DHPX_WITH_EXAMPLES:BOOL=ON \
+ -DHPX_WITH_NETWORKING=ON \
+ ../
+
+make -j 20  VERBOSE=1
+
+fi
