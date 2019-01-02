@@ -34,8 +34,9 @@ $HOME/opt/cmake/bin/cmake \
  -DHPX_WITH_NETWORKING=ON \
  -DHPX_WITH_MORE_THAN_64_THREADS=ON \
  -DHPX_WITH_MAX_CPU_COUNT=256 \
+ -DHPX_WITH_EXAMPLES \
  ../
 
-make -j 20  VERBOSE=1
+make -j 20 VERBOSE=1
 
 fi
