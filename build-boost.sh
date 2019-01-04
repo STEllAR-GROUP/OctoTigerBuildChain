@@ -10,4 +10,5 @@ if [ ! -d "boost_1_68_0/" ]; then
     echo "using gcc : 8.2 : $CXX ; " >> tools/build/src/user-config.jam
     ./bootstrap.sh --prefix=$HOME/opt/boost --with-toolset=gcc 
     ./b2 -j 20 install --with-atomic --with-filesystem --with-program_options --with-regex --with-system --with-chrono --with-date_time --with-thread
+    cp sign.hpp $HOME/opt/boost/include/boost/spirit/home/support/detail/
 fi
