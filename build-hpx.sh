@@ -2,10 +2,14 @@
 set -e
 set -x
 
+if [ -z ${octotiger_source_me_sources} ] ; then
+    . source-me.sh
+fi
+
 . source-gcc.sh
 
 if [ ! -d hpx ] ; then
- 
+
 git clone https://github.com/STEllAR-GROUP/hpx.git
 
 fi
@@ -39,5 +43,5 @@ $HOME/opt/cmake/bin/cmake \
  -DHPX_WITH_EXAMPLES=OFF \
  ../
 
-make -j  VERBOSE=1
+make -j${PARALLEL_BUILD}  VERBOSE=1
 make install

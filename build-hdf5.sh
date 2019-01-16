@@ -1,3 +1,10 @@
+#!/bin/bash
+set -x
+set -e
+if [ -z ${octotiger_source_me_sources} ] ; then
+   . source-me.sh
+fi
+
 . source-gcc.sh
 
 
@@ -19,5 +26,5 @@ $HOME/opt/cmake/bin/cmake \
       -DBUILD_TESTING=OFF \                                                          -DCMAKE_BUILD_TYPE=Release \                                                     -DCMAKE_INSTALL_PREFIX=$HOME/opt/hdf5 \
 	..
 
-make -j VERBOSE=1 install
+make -j${PARALLEL_BUILD} VERBOSE=1 install
 
