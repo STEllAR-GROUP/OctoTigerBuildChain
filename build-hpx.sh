@@ -33,7 +33,7 @@ $HOME/opt/cmake/bin/cmake \
  -DHPX_WITH_MALLOC=JEMALLOC \
  -DJEMALLOC_ROOT=$HOME/opt/jemalloc/ \
  -DBOOST_ROOT=$HOME/opt/boost/ \
- -DHPX_WITH_CUDA_ARCH=sm_62 \
+ -DHPX_WITH_CUDA_ARCH=sm_61 \
  -DVc_DIR=$HOME/opt/Vc/lib/cmake/Vc \
  -DHPX_WITH_DATAPAR_VC=ON \
  -DHPX_WITH_EXAMPLES:BOOL=ON \
