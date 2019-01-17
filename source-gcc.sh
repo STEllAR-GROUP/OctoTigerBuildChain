@@ -10,9 +10,11 @@ export LDCXXFLAGS="$LDFLAGS -std=c++14 "
 if [ "$arch" == 'ppc64le' ];
 then
 export CXXFLAGS="-fPIC -mcpu=native -mtune=native  -ffast-math -std=c++14 "
+export LIBHPX=lib64
 fi
 
 if [ "$arch" == 'x86_64' ];
 then
 export CXXFLAGS="-fPIC -march=native  -ffast-math -std=c++14 "
+export LIBHPX=lib64
 fi

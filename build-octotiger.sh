@@ -31,10 +31,10 @@ $HOME/opt/cmake/bin/cmake \
 -DCMAKE_SHARED_LINKER_FLAGS="$LDCXXFLAGS $CUDAFLAGS" \
 -DBOOST_ROOT=$INSTALL_ROOT/boost/$BOOST_VER \
 -DOCTOTIGER_WITH_CUDA=ON \
--DCMAKE_BUILD_TYPE=RelWithDebInfo \
+-DCMAKE_BUILD_TYPE=$BUILDTYPE \
 -DOCTOTIGER_WITH_SILO=ON \
 -DBOOST_ROOT=$HOME/opt/boost/ \
--DHPX_DIR=$HOME/opt/hpx/lib/cmake/HPX/  \
+-DHPX_DIR=$HOME/opt/hpx/$LIBHPX/cmake/HPX/  \
 -DHDF5_INCLUDE_DIR=$HOME/opt/hdf5/include \
 -DHDF5_LIBRARY=$HOME/opt/hdf5/lib/libhdf5.a \
 -DSilo_INCLUDE_DIR=$HOME/opt/silo/include \
