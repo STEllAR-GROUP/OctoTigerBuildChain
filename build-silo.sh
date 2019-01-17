@@ -1,5 +1,9 @@
 #!/bin/bash -e
 set -x
+set -e
+if [ -z ${octotiger_source_me_sources} ] ; then
+    . source-me.sh
+fi
 
 . source-gcc.sh
 
@@ -21,5 +25,5 @@ chmod 755 configure
 autoreconf -ifv
 ./configure --prefix=$HOME/opt/silo --with-hdf5=$HOME/opt/hdf5/include,$HOME/opt/hdf5/lib/ --enable-optimization
 
-make -j  install
+make -j${PARALLEL_BUILD}  install
 
