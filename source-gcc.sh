@@ -16,5 +16,5 @@ fi
 if [ "$arch" == 'x86_64' ];
 then
 export CXXFLAGS="-fPIC -march=native  -ffast-math -std=c++14 "
-export LIBHPX=lib64
+export LIBHPX=lib
 fi

@@ -11,7 +11,7 @@ fi
 if [ ! -d octotiger ] ; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git
     cd octotiger
-    git checkout p2p_memory_improvements_patrick
+    git checkout merge-master
     cd ..
 fi
 
@@ -22,6 +22,7 @@ cd build/
 echo $(pwd)
 
 export LD_LIBRARY_PATH=$HOME/opt/gcc/lib64:$HOME/opt/silo/lib/:$HOME/opt/hdf5/lib:$LD_LIBRARY_PATH
+export HDF5_ROOT=$HOME/opt/hdf5/
 
 $HOME/opt/cmake/bin/cmake \
 -DCMAKE_PREFIX_PATH=${BUILD_ROOT}/build/hpx \
@@ -30,7 +31,7 @@ $HOME/opt/cmake/bin/cmake \
 -DCMAKE_EXE_LINKER_FLAGS="$LDCXXFLAGS $CUDAFLAGS -lz -L$HOME/opt/hdf5/lib -lhdf5" \
 -DCMAKE_SHARED_LINKER_FLAGS="$LDCXXFLAGS $CUDAFLAGS" \
 -DBOOST_ROOT=$INSTALL_ROOT/boost/$BOOST_VER \
--DOCTOTIGER_WITH_CUDA=ON \
+-DOCTOTIGER_WITH_CUDA=$OCT_WITH_CUDA \
 -DCMAKE_BUILD_TYPE=$BUILDTYPE \
 -DOCTOTIGER_WITH_SILO=ON \
 -DBOOST_ROOT=$HOME/opt/boost/ \
