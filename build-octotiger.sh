@@ -41,7 +41,7 @@ $HOME/opt/cmake/bin/cmake \
 -DHDF5_LIBRARY=$HOME/opt/hdf5/lib/libhdf5.a \
 -DSilo_INCLUDE_DIR=$HOME/opt/silo/include \
 -DSilo_LIBRARY=$HOME/opt/silo/lib/libsiloh5.a \
--DCMAKE_CUDA_FLAGS="-ccbin $HOME/opt/gcc/bin -std=c++14" \
+-DCMAKE_CUDA_FLAGS="-arch=$CUDA_SM -ccbin $HOME/opt/gcc/bin -std=c++14" \
 -DOCTOTIGER_WITH_BLAST_TEST=OFF \
 ../
 
