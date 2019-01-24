@@ -11,7 +11,7 @@ fi
 if [ ! -d octotiger ] ; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git
     cd octotiger
-    git checkout flopcounter
+    git checkout master
     cd ..
 fi
 
@@ -42,6 +42,7 @@ $HOME/opt/cmake/bin/cmake \
 -DSilo_INCLUDE_DIR=$HOME/opt/silo/include \
 -DSilo_LIBRARY=$HOME/opt/silo/lib/libsiloh5.a \
 -DCMAKE_CUDA_FLAGS="-ccbin $HOME/opt/gcc/bin -std=c++14" \
+-DOCTOTIGER_WITH_BLAST_TEST=OFF \
 ../
 
 make -j${PARALLEL_BUILD}  VERBOSE=1
