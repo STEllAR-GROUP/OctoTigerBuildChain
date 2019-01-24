@@ -11,7 +11,7 @@ fi
 if [ ! -d octotiger ] ; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git
     cd octotiger
-    git checkout merge-master
+    git checkout flopcounter
     cd ..
 fi
 
@@ -33,6 +33,7 @@ $HOME/opt/cmake/bin/cmake \
 -DBOOST_ROOT=$INSTALL_ROOT/boost/$BOOST_VER \
 -DOCTOTIGER_WITH_CUDA=$OCT_WITH_CUDA \
 -DCMAKE_BUILD_TYPE=$BUILDTYPE \
+-DVc_DIR=$HOME/opt/Vc/lib/cmake/Vc \
 -DOCTOTIGER_WITH_SILO=ON \
 -DBOOST_ROOT=$HOME/opt/boost/ \
 -DHPX_DIR=$HOME/opt/hpx/$LIBHPX/cmake/HPX/  \
