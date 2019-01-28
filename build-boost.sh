@@ -10,7 +10,7 @@ fi
 
 cd $SOURCE_ROOT
 if [ ! -f "boost_$BOOST_SUFFIX.tar.bz2" ]; then
-    wget http://downloads.sourceforge.net/project/boost/boost/$BOOST_VER/boost_$BOOST_SUFFIX.tar.bz2
+    wget http://downloads.sourceforge.net/project/boost/boost/$BOOST_VERSION/boost_$BOOST_SUFFIX.tar.bz2
 fi
 tar xf boost_$BOOST_SUFFIX.tar.bz2
 cd boost_$BOOST_SUFFIX
