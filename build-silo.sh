@@ -3,9 +3,9 @@ set -x
 set -e
 if [ -z ${octotiger_source_me_sources} ] ; then
     . source-me.sh
+    . source-gcc.sh
 fi
 
-. source-gcc.sh
 
 if [ ! -d "silo/" ]; then
     mkdir silo

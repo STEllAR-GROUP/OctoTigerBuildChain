@@ -4,9 +4,9 @@ set -x
 
 if [ -z ${octotiger_source_me_sources} ] ; then
     . source-me.sh
+    . source-gcc.sh
 fi
 
-    . source-gcc.sh
 
 if [ ! -d octotiger ] ; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git

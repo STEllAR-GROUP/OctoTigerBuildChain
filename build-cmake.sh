@@ -5,6 +5,7 @@ set -e
 CMAKE_VERSION=3.13.2
 if [ -z ${octotiger_source_me_sources} ]; then
 	. source-me.sh
+	. source-gcc.sh
 fi
 
 if [ ! -d "cmake-${CMAKE_VERSION}/" ]; then
@@ -13,7 +14,7 @@ fi
 cd cmake-${CMAKE_VERSION}
 mkdir build
 cd build
-./bootstrap --parallel=${PARALLEL_BUILD} --prefix=$HOME/opt/cmake
+./../bootstrap --parallel=${PARALLEL_BUILD} --prefix=$HOME/opt/cmake
 make install
 
 

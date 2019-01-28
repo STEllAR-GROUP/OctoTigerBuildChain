@@ -4,10 +4,10 @@ set -x
 
 if [ -z ${octotiger_source_me_sources} ] ; then
     . source-me.sh
+    . source-gcc.sh
 fi
 
 
-. source-gcc.sh
 
 
 if [ ! -d "jemalloc-5.0.1/" ]; then

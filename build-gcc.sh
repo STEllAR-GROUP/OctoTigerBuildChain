@@ -3,7 +3,7 @@ set -x
 set -e
 
 if [ -z ${octotiger_source_me_sources} ] ; then
-    . source-me.sh
+    source source-me.sh $1 $2
 fi
 
 if [ ! -d "gcc-$USED_GCC_VERSION/" ]; then
