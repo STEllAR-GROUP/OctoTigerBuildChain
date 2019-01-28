@@ -1,6 +1,6 @@
 export CC=$INSTALL_ROOT/gcc/bin/gcc
 export CXX=$INSTALL_ROOT/gcc/bin/g++
-export LD_LIBRARY_PATH=$INSTALL_ROOT/gcc/lib64
+export LD_LIBRARY_PATH=$INSTALL_ROOT/gcc/lib64:$LD_LIBRARY_PATH
 
 arch=$(uname -i)
 

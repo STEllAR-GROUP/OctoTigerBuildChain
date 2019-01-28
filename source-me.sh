@@ -21,14 +21,22 @@ elif [[ `echo $hostid | grep argon-tesla1` ]]; then
     source /usr/local.nfs/Modules/init/bash
     module load cuda-9.0
     export CUDATOOLKIT_HOME=/usr/local.nfs/sw/cuda/cuda-9.0
-    export CUDAFLAGS="--cuda-path=$CUDATOOLKIT_HOME"
+    export CUDAFLAGS="--cuda-path=$CUDATOOLKIT_HOME \
+ -L$CUDATOOLKIT_HOME/lib64 \
+ -L$CUDATOOLKIT_HOME/extras/CUPTI/lib64"
     export CUDA_VISIBLE_DEVICES=0,1
+    export LD_LIBRARY_PATH=/usr/local.nfs/sw/cuda/cuda-9.0/lib64:$LD_LIBRARY_PATH
 elif [[ `echo $hostid | grep argon-tesla2` ]]; then
     echo "compiling for argon-tesla2, doing additional setup";
     source /usr/local.nfs/Modules/init/bash
     module load cuda-9.0
     export CUDATOOLKIT_HOME=/usr/local.nfs/sw/cuda/cuda-9.0
-    export CUDAFLAGS="--cuda-path=$CUDATOOLKIT_HOME"
+    export CUDAFLAGS="--cuda-path=$CUDATOOLKIT_HOME \
+ -L$CUDATOOLKIT_HOME/lib64 \
+ -L$CUDATOOLKIT_HOME/extras/CUPTI/lib64 \
+ -lcudart_static -ldl -lrt -pthread \
+ -lcuda -lcublas "
+    export CUDA_VISIBLE_DEVICES=0,1
 else
     echo "compiling for normal desktop machine, expecting cuda in /usr/local/cuda";
     export CUDAFLAGS=""
