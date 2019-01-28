@@ -20,7 +20,7 @@ elif [[ `echo $hostid | grep argon-tesla1` ]]; then
     echo "compiling for argon-tesla1, doing additional setup";
     source /usr/local.nfs/Modules/init/bash
     module load cuda-9.0
-    export CUDATOOLKIT_HOME=/usr/local.nfs/sw/cuda/cuda-8.0
+    export CUDATOOLKIT_HOME=/usr/local.nfs/sw/cuda/cuda-9.0
     export CUDAFLAGS="--cuda-path=$CUDATOOLKIT_HOME"
     export CUDA_VISIBLE_DEVICES=0,1
 elif [[ `echo $hostid | grep argon-tesla2` ]]; then

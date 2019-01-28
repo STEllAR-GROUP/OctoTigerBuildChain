@@ -16,9 +16,9 @@ if [ ! -d octotiger ] ; then
     cd ..
 fi
 
-cd ..
-mkdir -p build/octotiger
-cd build/octotiger
+cd $INSTALL_ROOT
+mkdir -p octotiger
+cd octotiger
 
 export LD_LIBRARY_PATH=$INSTALL_ROOT/gcc/lib64:$INSTALL_ROOT/silo/lib/:$INSTALL_ROOT/hdf5/lib:$LD_LIBRARY_PATH
 export HDF5_ROOT=$INSTALL_ROOT/hdf5/
@@ -42,6 +42,6 @@ $INSTALL_ROOT/cmake/bin/cmake \
 -DSilo_LIBRARY=$INSTALL_ROOT/silo/lib/libsiloh5.a \
 -DCMAKE_CUDA_FLAGS="-arch=$CUDA_SM -ccbin $HOME/opt/gcc/bin -std=c++14" \
 -DOCTOTIGER_WITH_BLAST_TEST=OFF \
-../
+$SOURCE_ROOT/octotiger
 
 make -j${PARALLEL_BUILD}  VERBOSE=1

@@ -14,18 +14,20 @@ else
     git pull
     cd ..
 fi
-
 cd hdf5
 git checkout hdf5_1_10_4 
+cd $INSTALL_ROOT
+mkdir -p hdf5 
+cd hdf5
 mkdir -p build
 cd build
-$HOME/opt/cmake/bin/cmake \
+$INSTALL_ROOT/cmake/bin/cmake \
       -DCMAKE_C_COMPILER=$CC \
       -DCMAKE_CXX_COMPILER=$CXX \
-      -DBUILD_TESTING=OFF \                                                          
-      -DCMAKE_BUILD_TYPE=Release \                                                     
+      -DBUILD_TESTING=OFF \
+      -DCMAKE_BUILD_TYPE=Release \
       -DCMAKE_INSTALL_PREFIX=$INSTALL_ROOT/hdf5 \
-	..
+      $SOURCE_ROOT/hdf5
 
 make -j${PARALLEL_BUILD} VERBOSE=1 install
 
