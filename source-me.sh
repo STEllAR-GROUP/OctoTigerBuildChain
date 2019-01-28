@@ -5,7 +5,7 @@ export INSTALL_ROOT=$BUILD_ROOT/build
 export SOURCE_ROOT=$BUILD_ROOT/src
 export BOOST_SUFFIX=1_68_0
 export BOOST_VERSION=1.68.0
-export BOOST_ROOT=$INSTALL_ROOT/boost/$BOOST_VER
+export BOOST_ROOT=$INSTALL_ROOT/boost/$BOOST_VERSION
 
 export USED_GCC_VERSION=6.5.0
 export PARALLEL_BUILD=$((`lscpu -p=cpu | wc -l`-4))
