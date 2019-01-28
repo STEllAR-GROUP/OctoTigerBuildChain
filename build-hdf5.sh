@@ -6,8 +6,7 @@ if [ -z ${octotiger_source_me_sources} ] ; then
    . source-gcc.sh
 fi
 
-
-
+cd $SOURCE_ROOT
 if [ ! -d "hdf5/" ]; then
     git clone https://github.com/live-clones/hdf5
 else
@@ -23,7 +22,9 @@ cd build
 $HOME/opt/cmake/bin/cmake \
       -DCMAKE_C_COMPILER=$CC \
       -DCMAKE_CXX_COMPILER=$CXX \
-      -DBUILD_TESTING=OFF \                                                          -DCMAKE_BUILD_TYPE=Release \                                                     -DCMAKE_INSTALL_PREFIX=$HOME/opt/hdf5 \
+      -DBUILD_TESTING=OFF \                                                          
+      -DCMAKE_BUILD_TYPE=Release \                                                     
+      -DCMAKE_INSTALL_PREFIX=$INSTALL_ROOT/hdf5 \
 	..
 
 make -j${PARALLEL_BUILD} VERBOSE=1 install

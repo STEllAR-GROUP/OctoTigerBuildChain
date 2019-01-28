@@ -8,18 +8,17 @@ if [ -z ${octotiger_source_me_sources} ] ; then
 fi
 
 
+cd $SOURCE_ROOT
 if [ ! -d hpx ] ; then
-
-git clone https://github.com/STEllAR-GROUP/hpx.git
-
+    git clone https://github.com/STEllAR-GROUP/hpx.git
 fi
 
 cd hpx
 mkdir -p build/
 cd build
 
-$HOME/opt/cmake/bin/cmake \
- -DCMAKE_INSTALL_PREFIX=$HOME/opt/hpx \
+$INSTALL_ROOT/cmake/bin/cmake \
+ -DCMAKE_INSTALL_PREFIX=$INSTALL_ROOT/hpx \
  -DCMAKE_BUILD_TYPE=$BUILDTYPE \
  -DCMAKE_CXX_FLAGS="$CXXFLAGS" "$CUDAFLAGS"   \
  -DCMAKE_EXE_LINKER_FLAGS="$LDCXXFLAGS" \
@@ -29,12 +28,12 @@ $HOME/opt/cmake/bin/cmake \
  -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
  -DHPX_WITH_THREAD_IDLE_RATES=ON \
  -DHPX_WITH_DISABLED_SIGNAL_EXCEPTION_HANDLERS=ON \
- -DHWLOC_ROOT=$HOME/opt/hwloc/ \
+ -DHWLOC_ROOT=$INSTALL_ROOT/hwloc/ \
  -DHPX_WITH_MALLOC=JEMALLOC \
- -DJEMALLOC_ROOT=$HOME/opt/jemalloc/ \
- -DBOOST_ROOT=$HOME/opt/boost/ \
+ -DJEMALLOC_ROOT=$INSTALL_ROOT/jemalloc/ \
+ -DBOOST_ROOT=$BOOST_ROOT \
  -DHPX_WITH_CUDA_ARCH=$CUDA_SM \
- -DVc_DIR=$HOME/opt/Vc/lib/cmake/Vc \
+ -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
  -DHPX_WITH_DATAPAR_VC=ON \
  -DHPX_WITH_EXAMPLES:BOOL=ON \
  -DHPX_WITH_NETWORKING=ON \

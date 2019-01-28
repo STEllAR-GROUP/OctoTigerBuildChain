@@ -7,6 +7,7 @@ if [ -z ${octotiger_source_me_sources} ] ; then
 fi
 
 
+cd $SOURCE_ROOT
 if [ ! -d "silo/" ]; then
     mkdir silo
     cd silo
@@ -23,7 +24,7 @@ cat configure | sed 's/-lhdf5/$hdf5_lib\/libhdf5.a -ldl/g' > tmp
 mv tmp configure
 chmod 755 configure
 autoreconf -ifv
-./configure --prefix=$HOME/opt/silo --with-hdf5=$HOME/opt/hdf5/include,$HOME/opt/hdf5/lib/ --enable-optimization
+./configure --prefix=$INSTALL_ROOT/silo --with-hdf5=$INSTALL_ROOT/hdf5/include,$INSTALL_ROOT/hdf5/lib/ --enable-optimization
 
 make -j${PARALLEL_BUILD}  install
 

@@ -8,6 +8,7 @@ if [ -z ${octotiger_source_me_sources} ] ; then
 fi
 
 
+cd $SOURCE_ROOT
 if [ ! -d "Vc/" ]; then
     git clone https://github.com/VcDevel/Vc.git
 fi
@@ -17,5 +18,5 @@ git fetch --all --tags --prune
 git checkout tags/1.4.1
 mkdir -p build
 cd build
-$HOME/opt/cmake/bin/cmake -DCMAKE_INSTALL_PREFIX=$HOME/opt/Vc -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF ../
+$INSTALL_ROOT/cmake/bin/cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_ROOT/Vc -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF ../
 make -j${PARALLEL_BUILD} VERBOSE=1 install

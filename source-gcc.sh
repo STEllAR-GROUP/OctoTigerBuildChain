@@ -1,6 +1,6 @@
-export CC=$HOME/opt/gcc/bin/gcc
-export CXX=$HOME/opt/gcc/bin/g++
-export LD_LIBRARY_PATH=$HOME/opt/gcc/lib64
+export CC=$INSTALL_ROOT/gcc/bin/gcc
+export CXX=$INSTALL_ROOT/gcc/bin/g++
+export LD_LIBRARY_PATH=$INSTALL_ROOT/gcc/lib64
 
 arch=$(uname -i)
 
