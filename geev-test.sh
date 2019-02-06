@@ -6,7 +6,7 @@
 basedir=$(pwd)
 # Get current date
 today=$(date +%m-%d-%H-%M)
-cd octotiger
+cd src/octotiger
 current_commit_message=$(git log --oneline -n 1)
 cd "$basedir"
 result_folder="${current_commit_message}-$today"
@@ -26,7 +26,7 @@ launches multipole, percentage of multipole launches on GPU, cpu launches p2p, c
 p2p, percentage of multipole" > "$result_filename"
 for i in $(seq 20 -2 2); do
     echo "---->>Running test $i" | tee -a LOG.txt
-    output=$(nvprof "../octotiger/build/octotiger" -t${i} $octotiger_args --cuda_streams_per_locality=128 --cuda_streams_per_gpu=128)
+    output=$(nvprof "../build/octotiger/octotiger" -t${i} $octotiger_args --cuda_streams_per_locality=128 --cuda_streams_per_gpu=128)
     filename="scenario${i}_output.txt"
     echo "$output" > "$filename"
 
@@ -35,15 +35,18 @@ for i in $(seq 20 -2 2); do
     cpu_multipole=$(echo "$output" | grep 'CPU multipole launches' | sed 's/CPU multipole launches //g')
     cuda_multipole=$(echo "$output" | grep 'CUDA multipole launches' | sed 's/CUDA multipole launches //g')
     multipole_percentage=$(echo "$output" | grep '=> Percentage of multipole on the GPU: ' | sed 's/=> Percentage of multipole on the GPU: //g')
+    cpu_non_rho_multipole=$(echo "$output" | grep 'CPU non-rho-multipole launches' | sed 's/CPU non-rho-multipole launches //g')
+    cuda_non_rho_multipole=$(echo "$output" | grep 'CUDA non-rho-multipole launches' | sed 's/CUDA non-rho-multipole launches //g')
+    non_rho_multipole_percentage=$(echo "$output" | grep '=> Percentage of non-rho-multipole on the GPU: ' | sed 's/=> Percentage of non-rho-multipole on the GPU: //g')
     cpu_p2p=$(echo "$output" | grep 'CPU p2p launches' | sed 's/CPU p2p launches //g')
     cuda_p2p=$(echo "$output" | grep 'CUDA p2p launches' | sed 's/CUDA p2p launches //g')
-    p2p_percentage=$(echo "$output" | grep '=> Percentage of multipole on the GPU: ' | sed 's/=> Percentage of multipole on the GPU: //g')
+    p2p_percentage=$(echo "$output" | grep '=> Percentage of p2p on the GPU: ' | sed 's/=> Percentage of p2p on the GPU: //g')
 
     echo "$i, $total_time , $computation_time , $cpu_multipole , $cuda_multipole , \
-$multipole_percentage , $cpu_p2p , $cuda_p2p , $p2p_percentage"
+$multipole_percentage , $cpu_non_rho_multipole , $cuda_non_rho_multipole , $non_rho_multipole_percentage , $cpu_p2p , $cuda_p2p , $p2p_percentage"
     echo "$i, $total_time , $computation_time , $cpu_multipole , $cuda_multipole , \
-$multipole_percentage , $cpu_p2p , $cuda_p2p , $p2p_percentage" >> "$result_filename"
-    profiling_output=$(perf record "../octotiger/build/octotiger" -t${i} $octotiger_args --cuda_streams_per_locality=0 --cuda_streams_per_gpu=0)
+$multipole_percentage , $cpu_non_rho_multipole , $cuda_non_rho_multipole , $non_rho_multipole_percentage , $cpu_p2p , $cuda_p2p , $p2p_percentage" >> "$result_filename"
+    echo "---->>Profiling for test $i" | tee -a LOG.txt
+    perf record "../build/octotiger/octotiger" -t${i} $octotiger_args --cuda_streams_per_locality=0 --cuda_streams_per_gpu=0
     mv perf.data "profiling${i}.data"
-    echo "$profiling_output" > "scenario${i}_profiling_log.txt"
 done
