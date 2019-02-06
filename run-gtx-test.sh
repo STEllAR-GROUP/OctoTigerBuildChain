@@ -44,5 +44,5 @@ $multipole_percentage , $cpu_p2p , $cuda_p2p , $p2p_percentage"
     echo "$i, $total_time , $computation_time , $cpu_multipole , $cuda_multipole , \
 $multipole_percentage , $cpu_p2p , $cuda_p2p , $p2p_percentage" >> "$result_filename"
 done
-profiling=$(perf record "../octotiger/build/octotiger" $octotiger_args --cuda_streams_per_locality=$i --cuda_streams_per_gpu=32)
-echo "$profiling" > "$filename"
+profiling=$(perf record "../octotiger/build/octotiger" $octotiger_args --cuda_streams_per_locality=0 --cuda_streams_per_gpu=0)
+echo "$profiling" > "scenario_profiling.txt"
