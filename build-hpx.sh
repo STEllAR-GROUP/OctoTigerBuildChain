@@ -1,6 +1,9 @@
 #!/bin/bash
+
 set -e
 set -x
+
+export HPX_WORKING_CHANGESET=65c22662ccd5c63f43421cf76ca29d8222bf7f23
 
 if [ -z ${octotiger_source_me_sources} ] ; then
     . source-me.sh
@@ -10,7 +13,17 @@ fi
 
 cd $SOURCE_ROOT
 if [ ! -d hpx ] ; then
-    git clone https://github.com/STEllAR-GROUP/hpx.git
+    (
+        mkdir hpx
+        cd hpx
+        # Github doesn't allow fetching a specific changeset without cloning
+        # the entire repository (fetching unadvertised objects). We can, 
+        # however, download the commit in form of a .zip or a .tar.gz file
+        curl -JL https://github.com/stellar-group/hpx/archive/${HPX_WORKING_CHANGESET}.tar.gz \
+            | tar xz --strip-components=1
+        # Legacy command. Clone the entire repository and use master/HEAD
+        #git clone https://github.com/STEllAR-GROUP/hpx.git
+    )
 fi
 
 cd $INSTALL_ROOT
