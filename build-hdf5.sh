@@ -1,33 +1,21 @@
-#!/bin/bash
-set -x
-set -e
-if [ -z ${octotiger_source_me_sources} ] ; then
-   . source-me.sh
-   . source-gcc.sh
+#!/usr/bin/env bash
+
+DIR_SRC=${SOURCE_ROOT}/hdf5
+DIR_BUILD=${INSTALL_ROOT}/hdf5/build
+DIR_INSTALL=${INSTALL_ROOT}/hdf5
+
+if [[ ! -d ${DIR_SRC} ]]; then
+    git clone --branch=hdf5_1_10_4 --depth=1 https://github.com/live-clones/hdf5 ${DIR_SRC}
 fi
 
-cd $SOURCE_ROOT
-if [ ! -d "hdf5/" ]; then
-    git clone https://github.com/live-clones/hdf5
-else
-    cd hdf5
-    git pull
-    cd ..
-fi
-cd hdf5
-git checkout hdf5_1_10_4 
-cd $INSTALL_ROOT
-mkdir -p hdf5 
-cd hdf5
-mkdir -p build
-cd build
-$INSTALL_ROOT/cmake/bin/cmake \
+${CMAKE} \
+      -H${DIR_SRC} \
+      -B${DIR_BUILD} \
+      -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL} \
       -DCMAKE_C_COMPILER=$CC \
       -DCMAKE_CXX_COMPILER=$CXX \
       -DBUILD_TESTING=OFF \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_INSTALL_PREFIX=$INSTALL_ROOT/hdf5 \
-      $SOURCE_ROOT/hdf5
+      -DCMAKE_BUILD_TYPE=Release
 
-make -j${PARALLEL_BUILD} VERBOSE=1 install
+${CMAKE} --build ${DIR_BUILD} --target install -- -j${PARALLEL_BUILD} VERBOSE=1
 

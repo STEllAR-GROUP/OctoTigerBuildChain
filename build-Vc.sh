@@ -1,25 +1,19 @@
-#!/bin/bash -e
-set -x
-set -e
+#!/usr/bin/env bash
 
-if [ -z ${octotiger_source_me_sources} ] ; then
-    . source-me.sh
-    . source-gcc.sh
+DIR_SRC=${SOURCE_ROOT}/Vc
+DIR_BUILD=${INSTALL_ROOT}/Vc/build
+DIR_INSTALL==${INSTALL_ROOT}/Vc
+
+if [[ ! -d ${DIR_SRC} ]]; then
+    git clone --branch=1.4.1 --depth=1 https://github.com/VcDevel/Vc.git ${DIR_SRC}
 fi
 
+${CMAKE} \
+    -H${DIR_SRC} \
+    -B${DIR_BUILD} \
+    -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL} \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_TESTING=OFF
 
-cd $SOURCE_ROOT
-if [ ! -d "Vc/" ]; then
-    git clone https://github.com/VcDevel/Vc.git
-fi
+${CMAKE} --build ${DIR_BUILD} --target install -- -j${PARALLEL_BUILD} VERBOSE=1
 
-cd Vc
-git fetch --all --tags --prune
-git checkout tags/1.4.1
-cd $INSTALL_ROOT
-mkdir -p Vc
-cd Vc
-mkdir -p build
-cd build
-$INSTALL_ROOT/cmake/bin/cmake -DCMAKE_INSTALL_PREFIX=$INSTALL_ROOT/Vc -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF $SOURCE_ROOT/Vc
-make -j${PARALLEL_BUILD} VERBOSE=1 install

@@ -1,22 +1,21 @@
-#!/bin/bash
-set -x
-set -e
+#!/usr/bin/env bash
 
-if [ -z ${octotiger_source_me_sources} ] ; then
-    . source-me.sh
-    . source-gcc.sh
+DIR_SRC=${SOURCE_ROOT}/hwloc
+DIR_BUILD=${INSTALL_ROOT}/hwloc/build
+DIR_INSTALL==${INSTALL_ROOT}/hwloc
+
+DOWNLOAD_URL="https://download.open-mpi.org/release/hwloc/v1.11/hwloc-1.11.12.tar.gz"
+
+if [[ ! -d ${DIR_SRC} ]]; then
+    (
+        curl -JL ${DOWNLOAD_URL} tar xz --strip-components=1
+    )
 fi
 
-
-cd $SOURCE_ROOT
-if [ ! -f "hwloc-1.11.12.tar.gz" ]; then
-   wget https://download.open-mpi.org/release/hwloc/v1.11/hwloc-1.11.12.tar.gz
-   tar -xf hwloc-1.11.12.tar.gz 
-fi
-cd hwloc-1.11.12
-./configure --prefix=$INSTALL_ROOT/hwloc/ --disable-opencl 
-make -j ${PARALLEL_BUILD}
-make install
-
-
+(
+    cd ${DIR_BUILD}
+    ${DIR_SRC}/configure --prefix=${DIR_INSTALL} --disable-opencl 
+    make -j ${PARALLEL_BUILD}
+    make install
+)
 

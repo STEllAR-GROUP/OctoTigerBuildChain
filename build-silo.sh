@@ -1,30 +1,25 @@
-#!/bin/bash -e
-set -x
-set -e
-if [ -z ${octotiger_source_me_sources} ] ; then
-    . source-me.sh
-    . source-gcc.sh
+#!/usr/bin/env bash
+
+DIR_SRC=${SOURCE_ROOT}/silo
+#DIR_BUILD=${INSTALL_ROOT}/silo/build
+DIR_INSTALL==${INSTALL_ROOT}/silo
+
+DOWNLOAD_URL="http://phys.lsu.edu/~dmarcel/silo-4.10.2.tar.gz"
+
+if [[ ! -d ${DIR_SRC} ]]; then
+    (
+        mkdir -p ${DIR_SRC}
+        cd ${DIR_SRC}
+        curl -JL ${DOWNLOAD_URL} | tar xz --strip-components=1
+    )
 fi
 
+(
+    cd ${DIR_SRC}
+    sed -i 's/-lhdf5/$hdf5_lib\/libhdf5.a -ldl/g' configure
+    autoreconf -ifv
+    ./configure --prefix=${DIR_INSTALL} --with-hdf5=$INSTALL_ROOT/hdf5/include,$INSTALL_ROOT/hdf5/lib/ --enable-optimization
 
-cd $SOURCE_ROOT
-if [ ! -d "silo/" ]; then
-    mkdir silo
-    cd silo
-    if [ ! -d "silo-4.10.2" ]; then
-       wget phys.lsu.edu/~dmarcel/silo-4.10.2.tar.gz
-    fi
-       tar -xvf silo-4.10.2.tar.gz
-    cd ..
-fi
-
-cd silo
-cd silo-4.10.2
-cat configure | sed 's/-lhdf5/$hdf5_lib\/libhdf5.a -ldl/g' > tmp
-mv tmp configure
-chmod 755 configure
-autoreconf -ifv
-./configure --prefix=$INSTALL_ROOT/silo --with-hdf5=$INSTALL_ROOT/hdf5/include,$INSTALL_ROOT/hdf5/lib/ --enable-optimization
-
-make -j${PARALLEL_BUILD}  install
+    make -j${PARALLEL_BUILD} install
+)
 
