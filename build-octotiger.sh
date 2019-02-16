@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+set -ex
+
 DIR_SRC=${SOURCE_ROOT}/octotiger
 DIR_BUILD=${INSTALL_ROOT}/octotiger/build
-#DIR_INSTALL==${INSTALL_ROOT}/octotiger
+#DIR_INSTALL=${INSTALL_ROOT}/octotiger
 
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}

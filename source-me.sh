@@ -60,7 +60,7 @@ function print_synopsis
 {
     cat <<EOF
 SYNOPSIS
-    ${0} [Release|RelWithDebInfo|Debug] [with-cuda|without-cuda]
+    ${0} {Release|RelWithDebInfo|Debug} {with-cuda|without-cuda}
 DESCRIPTION
     Download, configure, build, and install Octo-tiger and its dependencies
 EOF

@@ -5,7 +5,7 @@ set -x
 
 source source-me.sh
 
-CMAKE=${INSTALL_ROOT}/cmake/bin/cmake
+export CMAKE=${INSTALL_ROOT}/cmake/bin/cmake
 
 if [[ -z ${octotiger_source_me_sources} ]]; then
     source source-me.sh
@@ -13,25 +13,25 @@ if [[ -z ${octotiger_source_me_sources} ]]; then
 fi
 
 (
-    echo "Building gcc"
+    echo "Building GCC"
     ./build-gcc.sh
-    source source-gcc.sh
-    echo "Building boost"
-    ./build-boost.sh
-    echo "Building cmake"
+    echo "Building CMake"
     ./build-cmake.sh
-    echo "Building hdf5"
+    source source-gcc.sh
+    echo "Building Boost"
+    ./build-boost.sh
+    echo "Building HDF5"
     ./build-hdf5.sh
-    echo "Building silo"
+    echo "Building Silo"
     ./build-silo.sh
     echo "Building hwloc"
     ./build-hwloc.sh
     echo "Building jemalloc"
     ./build-jemalloc.sh
-    echo "Building vc"
+    echo "Building Vc"
     ./build-Vc.sh
-    echo "Building hpx"
+    echo "Building HPX"
     ./build-hpx.sh
-    echo "Building octotiger"
+    echo "Building Octo-tiger"
     ./build-octotiger.sh
 )

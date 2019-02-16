@@ -5,6 +5,7 @@ set -ex
 DIR_SRC=${SOURCE_ROOT}/gcc
 DIR_BUILD=${INSTALL_ROOT}/gcc/build
 DIR_INSTALL=${INSTALL_ROOT}/gcc
+FILE_MODULE=${INSTALL_ROOT}/modules/gcc/${USED_GCC_VERSION}
 
 DOWNLOAD_URL="https://ftp.gnu.org/gnu/gcc/gcc-${USED_GCC_VERSION}/gcc-${USED_GCC_VERSION}.tar.xz"
 #DOWNLOAD_URL="https://bigsearcher.com/mirrors/gcc/releases/gcc-${USED_GCC_VERSION}/gcc-${USED_GCC_VERSION}.tar.gz"
@@ -26,4 +27,26 @@ fi
     make -j${PARALLEL_BUILD}
     make install
 )
+
+mkdir -p $(dirname ${FILE_MODULE})
+cat >${FILE_MODULE} <<EOF
+#%Module
+proc ModulesHelp { } {
+  puts stderr {GCC}
+}
+module-whatis {GCC}
+set root    ${DIR_INSTALL}
+conflict    GCC
+prepend-path    CPATH              \$root/include
+prepend-path    LD_LIBRARY_PATH    \$root/lib
+prepend-path    LD_LIBRARY_PATH    \$root/lib64
+prepend-path    LD_LIBRARY_PATH    \$root/lib/gcc/$(ls ${DIR_INSTALL}/lib/gcc/)/${USED_GCC_VERSION}
+prepend-path    LIBRARY_PATH       \$root/lib
+prepend-path    LIBRARY_PATH       \$root/lib64
+prepend-path    MANPATH            \$root/share/man
+prepend-path    PATH               \$root/bin
+setenv  	CC	\$root/bin/gcc
+setenv		CXX	\$root/bin/g++
+
+EOF
 

@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
+set -ex
+
 DIR_SRC=${SOURCE_ROOT}/silo
 #DIR_BUILD=${INSTALL_ROOT}/silo/build
-DIR_INSTALL==${INSTALL_ROOT}/silo
+DIR_INSTALL=${INSTALL_ROOT}/silo
+FILE_MODULE=${INSTALL_ROOT}/modules/silo/4.10.2
 
 DOWNLOAD_URL="http://phys.lsu.edu/~dmarcel/silo-4.10.2.tar.gz"
 
@@ -22,4 +25,21 @@ fi
 
     make -j${PARALLEL_BUILD} install
 )
+
+mkdir -p $(dirname ${FILE_MODULE})
+cat >${FILE_MODULE} <<EOF
+#%Module
+proc ModulesHelp { } {
+  puts stderr {Silo}
+}
+module-whatis {Silo}
+set root    ${DIR_INSTALL}
+conflict    silo
+prepend-path    CPATH              \$root/include
+prepend-path    PATH               \$root/bin
+prepend-path    LD_LIBRARY_PATH    \$root/lib
+prepend-path    LIBRARY_PATH       \$root/lib
+setenv          SILO_ROOT          \$root
+setenv          SILO_DIR           \$root
+EOF
 

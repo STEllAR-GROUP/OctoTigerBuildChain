@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+set -ex
+
 # Octotiger does not currently work with current master/HEAD
 export HPX_WORKING_CHANGESET="65c22662ccd5c63f43421cf76ca29d8222bf7f23"
 
 DIR_SRC=${SOURCE_ROOT}/hpx
 DIR_BUILD=${INSTALL_ROOT}/hpx/build
-DIR_INSTALL==${INSTALL_ROOT}/hpx
+DIR_INSTALL=${INSTALL_ROOT}/hpx
+FILE_MODULE=${INSTALL_ROOT}/modules/hpx/${HPX_WORKING_CHANGESET}-${BUILDTYPE}
 
 if [[ ! -d ${DIR_SRC} ]] ; then
     (
@@ -49,4 +52,20 @@ ${CMAKE} \
 
 ${CMAKE} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 ${CMAKE} --build ${DIR_BUILD} --target install
+
+mkdir -p $(dirname ${FILE_MODULE})
+cat >${FILE_MODULE} <<EOF
+#%Module
+proc ModulesHelp { } {
+  puts stderr {HPX}
+}
+module-whatis {HPX}
+set root    ${DIR_INSTALL}
+conflict    hpx
+prepend-path    CPATH              \$root/include
+prepend-path    PATH               \$root/bin
+prepend-path    LD_LIBRARY_PATH    \$root/lib
+prepend-path    LIBRARY_PATH       \$root/lib
+setenv          HPX_DIR            \$root/${LIBHPX}/cmake/HPX
+EOF
 
