@@ -1,17 +1,28 @@
 export BUILD_ROOT=$(pwd)
-mkdir -p src
-mkdir -p build
 export INSTALL_ROOT=$BUILD_ROOT/build
 export SOURCE_ROOT=$BUILD_ROOT/src
+mkdir -p ${BUILD_ROOT}/{src,build}
+
+################################################################################
+# Boost
 export BOOST_VERSION=1.68.0
 export BOOST_ROOT=$INSTALL_ROOT/boost
 
+# GCC
 export USED_GCC_VERSION=6.5.0
-export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
-export CUDA_SM=sm_61
-export octotiger_source_me_sources=1
-hostid=$(hostname)
 
+# CUDA
+export CUDA_SM=sm_61
+
+# Max number of parallel jobs
+export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
+
+export octotiger_source_me_sources=1
+
+################################################################################
+# Host-specific configuration
+################################################################################
+hostid=$(hostname)
 if [[ ${hostid} == krypton ]]; then
     echo "compiling for krypton, doing additional setup";
     module load cuda-9.2
@@ -42,29 +53,36 @@ else
 fi
 
 
-if [[ ! -z $1 ]]; then
-    if [[ ! ("$1" == "Release" || "$1" == "RelWithDebInfo" || "$1" == "Debug") ]]; then
-    echo "build type invalid: valid are Release, RelWithDebInfo and Debug"
-    kill -INT $$
-    fi
+################################################################################
+# Command-line help
+################################################################################
+function print_synopsis
+{
+    cat <<EOF
+SYNOPSIS
+    ${0} [Release|RelWithDebInfo|Debug] [with-cuda|without-cuda]
+DESCRIPTION
+    Download, configure, build, and install Octo-tiger and its dependencies
+EOF
+    exit 1
+}
+
+################################################################################
+# Command-line options
+################################################################################
+if [[ "$1" == "Release" || "$1" == "RelWithDebInfo" || "$1" == "Debug" ]]; then
     export BUILDTYPE=$1
+    echo "Build Type: ${BUILDTYPE}"
 else
-    echo "no build type specified: specify either Release, RelWithDebInfo or Debug as first argument"
-    kill -INT $$
-    # export BUILDTYPE=Release
+    print_synopsis
 fi
-echo "build type: $BUILDTYPE"
-if [[ ! -z $2 ]]; then
-    if [[ ! ("$2" == "with-cuda" || "$2" == "without-cuda") ]]; then
-    echo "no build cuda type specified: Use either with-cuda or without-cuda as second argument!"
-    kill -INT $$
-    fi
+
 if [[ "$2" == "without-cuda" ]]; then
     export OCT_WITH_CUDA=OFF
+    echo "CUDA Support: Enabled"
 elif [[ "$2" == "with-cuda" ]]; then
     export OCT_WITH_CUDA=ON
-fi
+    echo "CUDA Support: Disabled"
 else
-    echo "no build cuda type specified: Use either with-cuda or without-cuda as second argument!"
-    kill -INT $$
+    print_synopsis
 fi
