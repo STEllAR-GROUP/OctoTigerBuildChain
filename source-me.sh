@@ -3,20 +3,19 @@ mkdir -p src
 mkdir -p build
 export INSTALL_ROOT=$BUILD_ROOT/build
 export SOURCE_ROOT=$BUILD_ROOT/src
-export BOOST_SUFFIX=1_68_0
 export BOOST_VERSION=1.68.0
-export BOOST_ROOT=$INSTALL_ROOT/boost/$BOOST_VERSION
+export BOOST_ROOT=$INSTALL_ROOT/boost
 
 export USED_GCC_VERSION=6.5.0
-export PARALLEL_BUILD=$((`lscpu -p=cpu | wc -l`-4))
+export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
 export CUDA_SM=sm_61
 export octotiger_source_me_sources=1
 hostid=$(hostname)
 
-if [[ `echo $hostid | grep krypton` ]]; then
+if [[ ${hostid} == krypton ]]; then
     echo "compiling for krypton, doing additional setup";
     module load cuda-9.2
-elif [[ `echo $hostid | grep argon-tesla1` ]]; then
+elif echo $hostid | grep -Fxq argon-tesla1; then
     echo "compiling for argon-tesla1, doing additional setup";
     source /usr/local.nfs/Modules/init/bash
     module load cuda-9.0
@@ -26,7 +25,7 @@ elif [[ `echo $hostid | grep argon-tesla1` ]]; then
  -L$CUDATOOLKIT_HOME/extras/CUPTI/lib64"
     export CUDA_VISIBLE_DEVICES=0,1
     export LD_LIBRARY_PATH=/usr/local.nfs/sw/cuda/cuda-9.0/lib64:$LD_LIBRARY_PATH
-elif [[ `echo $hostid | grep argon-tesla2` ]]; then
+elif echo $hostid | grep -Fxq argon-tesla2; then
     echo "compiling for argon-tesla2, doing additional setup";
     source /usr/local.nfs/Modules/init/bash
     module load cuda-9.0
