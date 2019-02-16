@@ -9,7 +9,7 @@ DOWNLOAD_URL="https://github.com/jemalloc/jemalloc/releases/download/5.1.0/jemal
 if [[ ! -d ${DIR_SRC} ]]; then
     mkdir -p ${DIR_SRC}
     cd ${DIR_SRC}
-    curl -JL ${DOWNLOAD_URL} | tar xJ --strip-components=1
+    wget -O- ${DOWNLOAD_URL} | tar xJ --strip-components=1
 fi
 
 (

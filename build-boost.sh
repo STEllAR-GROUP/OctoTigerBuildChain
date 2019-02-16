@@ -10,7 +10,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
     (
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
-        curl -JL ${DOWNLOAD_URL} | tar xJ --strip-components=1
+        wget -O- ${DOWNLOAD_URL} | tar xJ --strip-components=1
     )
 fi
 #if [[ -d "boost_$BOOST_SUFFIX" ]]; then

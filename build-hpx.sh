@@ -14,7 +14,7 @@ if [[ ! -d ${DIR_SRC} ]] ; then
         # Github doesn't allow fetching a specific changeset without cloning
         # the entire repository (fetching unadvertised objects). We can, 
         # however, download the commit in form of a .zip or a .tar.gz file
-        curl -JL https://github.com/stellar-group/hpx/archive/${HPX_WORKING_CHANGESET}.tar.gz \
+        wget -O- https://github.com/stellar-group/hpx/archive/${HPX_WORKING_CHANGESET}.tar.gz \
             | tar xz --strip-components=1
         # Legacy command. Clone the entire repository and use master/HEAD
         #git clone https://github.com/STEllAR-GROUP/hpx.git

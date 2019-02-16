@@ -8,7 +8,7 @@ DOWNLOAD_URL="https://download.open-mpi.org/release/hwloc/v1.11/hwloc-1.11.12.ta
 
 if [[ ! -d ${DIR_SRC} ]]; then
     (
-        curl -JL ${DOWNLOAD_URL} tar xz --strip-components=1
+        wget -O- ${DOWNLOAD_URL} tar xz --strip-components=1
     )
 fi
 
