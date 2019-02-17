@@ -2,6 +2,9 @@
 
 set -ex
 
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${CC:?} ${CXX:?} \
+    ${CMAKE_COMMAND:?} ${CMAKE_VERSION:?}
+
 DIR_SRC=${SOURCE_ROOT}/hdf5
 DIR_BUILD=${INSTALL_ROOT}/hdf5/build
 DIR_INSTALL=${INSTALL_ROOT}/hdf5
@@ -33,7 +36,9 @@ module-whatis {HDF5}
 set root    ${DIR_INSTALL}
 conflict    hdf5
 module load gcc/${GCC_VERSION}
+module load cmake/${CMAKE_VERSION}
 prereq      gcc/${GCC_VERSION}
+prereq      cmake/${CMAKE_VERSION}
 prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin
 prepend-path    LD_LIBRARY_PATH    \$root/lib

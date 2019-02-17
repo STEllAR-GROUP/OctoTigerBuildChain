@@ -2,13 +2,15 @@
 
 set -ex
 
-# Octotiger does not currently work with current master/HEAD
-export HPX_WORKING_CHANGESET="65c22662ccd5c63f43421cf76ca29d8222bf7f23"
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${LIBHPX:?} ${BUILD_TYPE:?} \
+    ${CMAKE_VERSION:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${CUDA_SM:?} \
+    ${BOOST_VERSION:?} ${BOOST_BUILD_TYPE:?} \
+    ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_VERSION:?}
 
 DIR_SRC=${SOURCE_ROOT}/hpx
 DIR_BUILD=${INSTALL_ROOT}/hpx/build
 DIR_INSTALL=${INSTALL_ROOT}/hpx
-FILE_MODULE=${INSTALL_ROOT}/modules/hpx/${HPX_WORKING_CHANGESET}-${BUILD_TYPE}
+FILE_MODULE=${INSTALL_ROOT}/modules/hpx/${HPX_VERSION}-${BUILD_TYPE}
 
 if [[ ! -d ${DIR_SRC} ]] ; then
     (
@@ -17,7 +19,7 @@ if [[ ! -d ${DIR_SRC} ]] ; then
         # Github doesn't allow fetching a specific changeset without cloning
         # the entire repository (fetching unadvertised objects). We can, 
         # however, download the commit in form of a .zip or a .tar.gz file
-        wget -O- https://github.com/stellar-group/hpx/archive/${HPX_WORKING_CHANGESET}.tar.gz \
+        wget -O- https://github.com/stellar-group/hpx/archive/${HPX_VERSION}.tar.gz \
             | tar xz --strip-components=1
         # Legacy command. Clone the entire repository and use master/HEAD
         #git clone https://github.com/STEllAR-GROUP/hpx.git

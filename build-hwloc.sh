@@ -2,6 +2,8 @@
 
 set -ex
 
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${HWLOC_VERSION:?}
+
 DIR_SRC=${SOURCE_ROOT}/hwloc
 DIR_BUILD=${INSTALL_ROOT}/hwloc/build
 DIR_INSTALL=${INSTALL_ROOT}/hwloc

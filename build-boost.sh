@@ -2,6 +2,9 @@
 
 set -ex
 
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${CXX:?} \
+    ${BOOST_VERSION:?} ${BOOST_BUILD_TYPE:?} ${POWERTIGER_ROOT:?}
+
 DIR_SRC=${SOURCE_ROOT}/boost
 #DIR_BUILD=${INSTALL_ROOT}/boost/build
 DIR_INSTALL=${INSTALL_ROOT}/boost

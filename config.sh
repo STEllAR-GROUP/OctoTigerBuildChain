@@ -32,6 +32,10 @@ export SILO_VERSION=4.10.2
 # Vc
 export VC_VERSION=1.4.1
 
+# HPX
+# Octotiger does not currently work with current master/HEAD
+export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
+
 # CUDA
 export CUDA_SM=sm_61
 

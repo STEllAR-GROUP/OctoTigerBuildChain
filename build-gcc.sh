@@ -2,6 +2,8 @@
 
 set -ex
 
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?}
+
 DIR_SRC=${SOURCE_ROOT}/gcc
 DIR_BUILD=${INSTALL_ROOT}/gcc/build
 DIR_INSTALL=${INSTALL_ROOT}/gcc

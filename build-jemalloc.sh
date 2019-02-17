@@ -2,6 +2,8 @@
 
 set -ex
 
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${JEMALLOC_VERSION:?}
+
 DIR_SRC=${SOURCE_ROOT}/jemalloc
 #DIR_BUILD=${INSTALL_ROOT}/jemalloc/build
 DIR_INSTALL=${INSTALL_ROOT}/jemalloc
