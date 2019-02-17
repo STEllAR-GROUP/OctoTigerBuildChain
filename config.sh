@@ -1,5 +1,7 @@
-export INSTALL_ROOT=$POWERTIGER_ROOT/build
-export SOURCE_ROOT=$POWERTIGER_ROOT/src
+: ${POWERTIGER_ROOT:?'POWERTIGER_ROOT must be set to the appropriate path'}
+
+export INSTALL_ROOT=${POWERTIGER_ROOT}/build
+export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 
 ################################################################################
 # Package Configuration
@@ -15,7 +17,7 @@ export HDF5_VERSION=1.10.4
 
 # Boost
 export BOOST_VERSION=1.68.0
-export BOOST_ROOT=$INSTALL_ROOT/boost
+export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
 # jemalloc
@@ -49,6 +51,7 @@ case $(hostname) in
     rostam)
         echo 'Compiling for rostam, doing additional setup'
         module load cuda/9.2.14
+        ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'
         source /usr/local.nfs/Modules/init/bash
