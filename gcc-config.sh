@@ -1,4 +1,4 @@
-: ${INSALL_ROOT:?'INSTALL_ROOT must be set to the appropriate path'}
+: ${INSTALL_ROOT:?'INSTALL_ROOT must be set to the appropriate path'}
 
 export CC=${INSTALL_ROOT}/gcc/bin/gcc
 export CXX={$INSTALL_ROOT}/gcc/bin/g++

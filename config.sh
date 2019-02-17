@@ -1,4 +1,4 @@
-: ${POWERTIGER_ROOT:?'POWERTIGER_ROOT must be set to the appropriate path'}
+: ${POWERTIGER_ROOT:?} ${BUILD_TYPE:?}
 
 export INSTALL_ROOT=${POWERTIGER_ROOT}/build
 export SOURCE_ROOT=${POWERTIGER_ROOT}/src
@@ -41,8 +41,6 @@ export CUDA_SM=sm_61
 
 # Max number of parallel jobs
 export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
-
-export octotiger_source_me_sources=1
 
 ################################################################################
 # Host-specific configuration
