@@ -1,7 +1,7 @@
 : ${INSTALL_ROOT:?'INSTALL_ROOT must be set to the appropriate path'}
 
 export CC=${INSTALL_ROOT}/gcc/bin/gcc
-export CXX={$INSTALL_ROOT}/gcc/bin/g++
+export CXX=${INSTALL_ROOT}/gcc/bin/g++
 export LD_LIBRARY_PATH=${INSTALL_ROOT}/gcc/lib64:${LD_LIBRARY_PATH}
 
 export CFLAGS=-fPIC

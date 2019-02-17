@@ -9,21 +9,24 @@ DIR_BUILD=${INSTALL_ROOT}/gcc/build
 DIR_INSTALL=${INSTALL_ROOT}/gcc
 FILE_MODULE=${INSTALL_ROOT}/modules/gcc/${GCC_VERSION}
 
-case $(wget -O- https://ifconfig.co/country-iso) in
-    DE)
-        DOWNLOAD_URL="ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.xz"
-        ;;
-    *)
-        DOWNLOAD_URL="https://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.xz"
-        ;;
-esac
-#DOWNLOAD_URL="https://bigsearcher.com/mirrors/gcc/releases/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
+get_download_url()
+{
+    case $(wget -O- https://ifconfig.co/country-iso) in
+        DE)
+            echo "ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.xz"
+            ;;
+        *)
+            echo "https://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.xz"
+            ;;
+    esac
+    #echo "https://bigsearcher.com/mirrors/gcc/releases/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
+}
 
 if [[ ! -d ${DIR_SRC} ]]; then
     (
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
-        wget -O- "${DOWNLOAD_URL}" | tar xJ --strip-components=1
+        wget -O- $(get_download_url) | tar xJ --strip-components=1
         ./contrib/download_prerequisites
     )
 fi
