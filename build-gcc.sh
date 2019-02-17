@@ -7,9 +7,15 @@ DIR_BUILD=${INSTALL_ROOT}/gcc/build
 DIR_INSTALL=${INSTALL_ROOT}/gcc
 FILE_MODULE=${INSTALL_ROOT}/modules/gcc/${GCC_VERSION}
 
-DOWNLOAD_URL="https://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.xz"
+case $(wget -O- https://ifconfig.co/country-iso) in
+    DE)
+        DOWNLOAD_URL="ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.xz"
+        ;;
+    *)
+        DOWNLOAD_URL="https://ftp.gnu.org/gnu/gcc/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.xz"
+        ;;
+esac
 #DOWNLOAD_URL="https://bigsearcher.com/mirrors/gcc/releases/gcc-${GCC_VERSION}/gcc-${GCC_VERSION}.tar.gz"
-#DOWNLOAD_URL="ftp://ftp.fu-berlin.de/unix/languages/gcc/releases/gcc-$GCC_VERSION/gcc-$GCC_VERSION.tar.xz"
 
 if [[ ! -d ${DIR_SRC} ]]; then
     (
