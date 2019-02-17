@@ -48,8 +48,8 @@ set -x
 # Script directory
 export POWERTIGER_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd )"
 
-# Build Configuration Parameters
-source source-me.sh
+# Set Build Configuration Parameters
+source config.sh
 
 ################################################################################
 # Create source and installation directories
@@ -68,7 +68,9 @@ export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
 ################################################################################
 # Dependencies
 ################################################################################
-source source-gcc.sh
+# Set GCC Environment Variables
+source gcc-config.sh
+
 echo "Building Boost"
 ./build-boost.sh
 echo "Building HDF5"

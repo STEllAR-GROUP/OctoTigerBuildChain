@@ -17,5 +17,6 @@ case $(uname -i) in
     *)
         echo 'Unknown architecture encountered.' 2>&1
         exit 1
+        ;;
 esac
 
