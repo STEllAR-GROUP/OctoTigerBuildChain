@@ -2,8 +2,6 @@
 
 set -ex
 
-BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
-
 # Octotiger does not currently work with current master/HEAD
 export HPX_WORKING_CHANGESET="65c22662ccd5c63f43421cf76ca29d8222bf7f23"
 

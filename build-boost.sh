@@ -2,8 +2,6 @@
 
 set -ex
 
-BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
-
 DIR_SRC=${SOURCE_ROOT}/boost
 #DIR_BUILD=${INSTALL_ROOT}/boost/build
 DIR_INSTALL=${INSTALL_ROOT}/boost
@@ -29,7 +27,7 @@ fi
 )
 # Patch Boost 1.69 - HPX 1.2 compatibility issue
 (
-    cp ${BUILD_ROOT}/sign.hpp ${DIR_INSTALL}/include/boost/spirit/home/support/detail/
+    cp ${POWERTIGER_ROOT}/sign.hpp ${DIR_INSTALL}/include/boost/spirit/home/support/detail/
 )
 
 mkdir -p $(dirname ${FILE_MODULE})

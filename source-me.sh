@@ -1,8 +1,8 @@
-export BUILD_ROOT=$(pwd)
-export INSTALL_ROOT=$BUILD_ROOT/build
-export SOURCE_ROOT=$BUILD_ROOT/src
-mkdir -p ${BUILD_ROOT}/{src,build}
+export INSTALL_ROOT=$POWERTIGER_ROOT/build
+export SOURCE_ROOT=$POWERTIGER_ROOT/src
 
+################################################################################
+# Package Configuration
 ################################################################################
 # CMake
 export CMAKE_VERSION=3.13.2
@@ -16,6 +16,7 @@ export HDF5_VERSION=1.10.4
 # Boost
 export BOOST_VERSION=1.68.0
 export BOOST_ROOT=$INSTALL_ROOT/boost
+export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
 # jemalloc
 export JEMALLOC_VERSION=5.1.0
@@ -76,40 +77,4 @@ case $(hostname) in
         export CUDAFLAGS=""
         ;;
 esac
-
-################################################################################
-# Command-line help
-################################################################################
-print_synopsis ()
-{
-    cat <<EOF >&2
-SYNOPSIS
-    ${0} {Release|RelWithDebInfo|Debug} {with-cuda|without-cuda}
-DESCRIPTION
-    Download, configure, build, and install Octo-tiger and its dependencies
-EOF
-    exit 1
-}
-
-################################################################################
-# Command-line options
-################################################################################
-if [[ "$1" == "Release" || "$1" == "RelWithDebInfo" || "$1" == "Debug" ]]; then
-    export BUILD_TYPE=$1
-    echo "Build Type: ${BUILD_TYPE}"
-else
-    echo 'Build type must be provided and has to be "Release", "RelWithDebInfo", or "Debug"' >&2
-    print_synopsis
-fi
-
-if [[ "$2" == "without-cuda" ]]; then
-    export OCT_WITH_CUDA=OFF
-    echo "CUDA Support: Enabled"
-elif [[ "$2" == "with-cuda" ]]; then
-    export OCT_WITH_CUDA=ON
-    echo "CUDA Support: Disabled"
-else
-    echo 'CUDA support must be specified and has to be "with-cuda"  or "without-cuda"' >&2
-    print_synopsis
-fi
 
