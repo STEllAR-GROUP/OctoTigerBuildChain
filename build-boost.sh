@@ -29,9 +29,7 @@ fi
     ./b2 -j${PARALLEL_BUILD} --with-atomic --with-filesystem --with-program_options --with-regex --with-system --with-chrono --with-date_time --with-thread ${BOOST_BUILD_TYPE} install
 )
 # Patch Boost 1.69 - HPX 1.2 compatibility issue
-(
-    cp ${POWERTIGER_ROOT}/sign.hpp ${DIR_INSTALL}/include/boost/spirit/home/support/detail/
-)
+cp ${POWERTIGER_ROOT}/sign.hpp ${DIR_INSTALL}/include/boost/spirit/home/support/detail/
 
 mkdir -p $(dirname ${FILE_MODULE})
 cat >${FILE_MODULE} <<EOF

@@ -42,5 +42,6 @@ prepend-path    LD_LIBRARY_PATH    \$root/lib
 prepend-path    LIBRARY_PATH       \$root/lib
 prepend-path    PKG_CONFIG_PATH    \$root/lib/pkgconfig
 setenv          JEMALLOC_ROOT      \$root
+setenv          JEMALLOC_VERSION   ${JEMALLOC_VERSION}
 EOF
 

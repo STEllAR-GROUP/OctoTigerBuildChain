@@ -32,7 +32,7 @@ elif [[ "$2" == "with-cuda" ]]; then
     export OCT_WITH_CUDA=ON
     echo "CUDA Support: Disabled"
 else
-    echo 'CUDA support must be specified and has to be "with-cuda"  or "without-cuda"' >&2
+    echo 'CUDA support must be specified and has to be "with-cuda" or "without-cuda"' >&2
     print_synopsis
 fi
 

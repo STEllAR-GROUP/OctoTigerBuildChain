@@ -37,6 +37,7 @@ set root    ${DIR_INSTALL}
 conflict    cmake
 prepend-path    PATH            \$root/bin
 prepend-path    ACLOCAL_PATH    \$root/share/aclocal
-setenv          CMAKE           \$root/bin/cmake
+setenv          CMAKE_COMMAND   \$root/bin/cmake
+setenv          CMAKE_VERSION   ${CMAKE_VERSION}
 EOF
 

@@ -59,8 +59,8 @@ prepend-path    LIBRARY_PATH       \$root/lib
 prepend-path    LIBRARY_PATH       \$root/lib64
 prepend-path    MANPATH            \$root/share/man
 prepend-path    PATH               \$root/bin
-setenv  	CC	\$root/bin/gcc
-setenv		CXX	\$root/bin/g++
-
+setenv  CC              \$root/bin/gcc
+setenv  CXX             \$root/bin/g++
+setenv  GCC_VERSION     ${GCC_VERSION}
 EOF
 

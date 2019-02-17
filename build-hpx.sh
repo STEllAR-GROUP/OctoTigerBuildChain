@@ -12,7 +12,7 @@ DIR_BUILD=${INSTALL_ROOT}/hpx/build
 DIR_INSTALL=${INSTALL_ROOT}/hpx
 FILE_MODULE=${INSTALL_ROOT}/modules/hpx/${HPX_VERSION}-${BUILD_TYPE}
 
-if [[ ! -d ${DIR_SRC} ]] ; then
+if [[ ! -d ${DIR_SRC} ]]; then
     (
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
@@ -83,5 +83,6 @@ prepend-path    PATH               \$root/bin
 prepend-path    LD_LIBRARY_PATH    \$root/lib
 prepend-path    LIBRARY_PATH       \$root/lib
 setenv          HPX_DIR            \$root/${LIBHPX}/cmake/HPX
+setenv          HPX_VERSION        ${HPX_VERSION}
 EOF
 

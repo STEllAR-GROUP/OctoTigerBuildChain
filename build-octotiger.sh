@@ -27,7 +27,7 @@ ${CMAKE_COMMAND} \
     -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
     -DOCTOTIGER_WITH_SILO=ON \
     -DBOOST_ROOT=$BOOST_ROOT \
-    -DHPX_DIR=$INSTALL_ROOT/hpx/$LIBHPX/cmake/HPX/  \
+    -DHPX_DIR=$INSTALL_ROOT/hpx/$LIBHPX/cmake/HPX/ \
     -DHDF5_INCLUDE_DIR=$INSTALL_ROOT/hdf5/include \
     -DHDF5_LIBRARY=$INSTALL_ROOT/hdf5/lib/libhdf5.a \
     -DSilo_DIR=$INSTALL_ROOT/silo \
