@@ -32,6 +32,7 @@ proc ModulesHelp { } {
 module-whatis {HDF5}
 set root    ${DIR_INSTALL}
 conflict    hdf5
+module load gcc/${GCC_VERSION}
 prereq      gcc/${GCC_VERSION}
 prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin

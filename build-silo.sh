@@ -5,9 +5,9 @@ set -ex
 DIR_SRC=${SOURCE_ROOT}/silo
 #DIR_BUILD=${INSTALL_ROOT}/silo/build
 DIR_INSTALL=${INSTALL_ROOT}/silo
-FILE_MODULE=${INSTALL_ROOT}/modules/silo/4.10.2
+FILE_MODULE=${INSTALL_ROOT}/modules/silo/${SILO_VERSION}
 
-DOWNLOAD_URL="http://phys.lsu.edu/~dmarcel/silo-4.10.2.tar.gz"
+DOWNLOAD_URL="http://phys.lsu.edu/~dmarcel/silo-${SILO_VERSION}.tar.gz"
 
 if [[ ! -d ${DIR_SRC} ]]; then
     (
@@ -35,6 +35,8 @@ proc ModulesHelp { } {
 module-whatis {Silo}
 set root    ${DIR_INSTALL}
 conflict    silo
+module load gcc/${GCC_VERSION}
+module load hdf5/${HDF5_VERSION}
 prereq      gcc/${GCC_VERSION}
 prereq      hdf5/${HDF5_VERSION}
 prepend-path    CPATH              \$root/include

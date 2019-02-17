@@ -17,8 +17,17 @@ export HDF5_VERSION=1.10.4
 export BOOST_VERSION=1.68.0
 export BOOST_ROOT=$INSTALL_ROOT/boost
 
+# jemalloc
+export JEMALLOC_VERSION=5.1.0
+
+# hwloc
+export HWLOC_VERSION=1.11.12
+
+# Silo
+export SILO_VERSION=4.10.2
+
 # Vc
-export Vc_VERSION=1.4.1
+export VC_VERSION=1.4.1
 
 # CUDA
 export CUDA_SM=sm_61
@@ -100,3 +109,4 @@ else
     echo 'CUDA support must be specified and has to be "with-cuda"  or "without-cuda"' >&2
     print_synopsis
 fi
+

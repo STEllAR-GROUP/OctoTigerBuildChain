@@ -5,9 +5,9 @@ set -ex
 DIR_SRC=${SOURCE_ROOT}/jemalloc
 #DIR_BUILD=${INSTALL_ROOT}/jemalloc/build
 DIR_INSTALL=${INSTALL_ROOT}/jemalloc
-FILE_MODULE=${INSTALL_ROOT}/modules/jemalloc/5.1.0
+FILE_MODULE=${INSTALL_ROOT}/modules/jemalloc/${JEMALLOC_VERSION}
 
-DOWNLOAD_URL="https://github.com/jemalloc/jemalloc/releases/download/5.1.0/jemalloc-5.1.0.tar.bz2"
+DOWNLOAD_URL="https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2"
 
 if [[ ! -d ${DIR_SRC} ]]; then
     (
@@ -30,6 +30,7 @@ proc ModulesHelp { } {
 module-whatis {jemalloc}
 set root    ${DIR_INSTALL}
 conflict    jemalloc
+module load gcc/${GCC_VERSION}
 prereq      gcc/${GCC_VERSION}
 prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -ex
+
 DIR_SRC=${SOURCE_ROOT}/cmake
 DIR_BUILD=${INSTALL_ROOT}/cmake/build
 DIR_INSTALL=${INSTALL_ROOT}/cmake

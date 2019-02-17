@@ -5,9 +5,9 @@ set -ex
 DIR_SRC=${SOURCE_ROOT}/hwloc
 DIR_BUILD=${INSTALL_ROOT}/hwloc/build
 DIR_INSTALL=${INSTALL_ROOT}/hwloc
-FILE_MODULE=${INSTALL_ROOT}/modules/hwloc/1.11.12
+FILE_MODULE=${INSTALL_ROOT}/modules/hwloc/${HWLOC_VERSION}
 
-DOWNLOAD_URL="https://download.open-mpi.org/release/hwloc/v1.11/hwloc-1.11.12.tar.gz"
+DOWNLOAD_URL="https://download.open-mpi.org/release/hwloc/v${HWLOC_VERSION%.*}/hwloc-${HWLOC_VERSION}.tar.gz"
 
 if [[ ! -d ${DIR_SRC} ]]; then
     (
@@ -34,6 +34,7 @@ proc ModulesHelp { } {
 module-whatis {hwloc}
 set root    ${DIR_INSTALL}
 conflict    hwloc
+module load gcc/${GCC_VERSION}
 prereq      gcc/${GCC_VERSION}
 prepend-path    CPATH           \$root/include
 prepend-path    PATH            \$root/bin

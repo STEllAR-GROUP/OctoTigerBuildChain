@@ -64,10 +64,20 @@ proc ModulesHelp { } {
 module-whatis {HPX}
 set root    ${DIR_INSTALL}
 conflict    hpx
+
+module load gcc/${GCC_VERSION}
+module load boost/${BOOST_VERSION}-${BOOST_BUILD_TYPE}
+module load cmake/${CMAKE_VERSION}
+module load jemalloc/${JEMALLOC_VERSION}
+module load hwloc/${HWLOC_VERSION}
+module load Vc/${VC_VERSION}-${BUILDTYPE}
+
 prereq      gcc/${GCC_VERSION}
 prereq      boost/${BOOST_VERSION}-${BOOST_BUILD_TYPE}
 prereq      cmake/${CMAKE_VERSION}
-prereq      Vc/${CMAKE_VERSION}-${BUILDTYPE}
+prereq      jemalloc/${JEMALLOC_VERSION}
+prereq      hwloc/${HWLOC_VERSION}
+prereq      Vc/${VC_VERSION}-${BUILDTYPE}
 prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin
 prepend-path    LD_LIBRARY_PATH    \$root/lib
