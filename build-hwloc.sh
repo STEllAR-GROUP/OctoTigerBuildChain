@@ -34,7 +34,7 @@ proc ModulesHelp { } {
 module-whatis {hwloc}
 set root    ${DIR_INSTALL}
 conflict    hwloc
-prereq      gcc/${USED_GCC_VERSION}
+prereq      gcc/${GCC_VERSION}
 prepend-path    CPATH           \$root/include
 prepend-path    PATH            \$root/bin
 prepend-path    LD_LIBRARY_PATH \$root/lib

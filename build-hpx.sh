@@ -26,7 +26,7 @@ if [[ ! -d ${DIR_SRC} ]] ; then
     )
 fi
 
-${CMAKE} \
+${CMAKE_COMMAND} \
     -H${DIR_SRC} \
     -B${DIR_BUILD} \
     -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL} \
@@ -52,8 +52,8 @@ ${CMAKE} \
     -DHPX_WITH_MAX_CPU_COUNT=256 \
     -DHPX_WITH_EXAMPLES=OFF
 
-${CMAKE} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
-${CMAKE} --build ${DIR_BUILD} --target install
+${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
+${CMAKE_COMMAND} --build ${DIR_BUILD} --target install
 
 mkdir -p $(dirname ${FILE_MODULE})
 cat >${FILE_MODULE} <<EOF
@@ -64,7 +64,7 @@ proc ModulesHelp { } {
 module-whatis {HPX}
 set root    ${DIR_INSTALL}
 conflict    hpx
-prereq      gcc/${USED_GCC_VERSION}
+prereq      gcc/${GCC_VERSION}
 prereq      boost/${BOOST_VERSION}-${BOOST_BUILD_TYPE}
 prereq      cmake/${CMAKE_VERSION}
 prereq      Vc/${CMAKE_VERSION}-${BUILDTYPE}

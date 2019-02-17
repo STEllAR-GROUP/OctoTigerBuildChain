@@ -8,7 +8,7 @@ mkdir -p ${BUILD_ROOT}/{src,build}
 export CMAKE_VERSION=3.13.2
 
 # GCC
-export USED_GCC_VERSION=6.5.0
+export GCC_VERSION=6.5.0
 
 # HDF5
 export HDF5_VERSION=1.10.4

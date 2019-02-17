@@ -5,17 +5,14 @@ set -x
 
 source source-me.sh
 
-export CMAKE=${INSTALL_ROOT}/cmake/bin/cmake
-
-if [[ -z ${octotiger_source_me_sources} ]]; then
-    source source-me.sh
-    source source-gcc.sh
-fi
-
+# Build tools
 echo "Building GCC"
 ./build-gcc.sh
 echo "Building CMake"
 ./build-cmake.sh
+export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
+
+# Dependencies
 source source-gcc.sh
 echo "Building Boost"
 ./build-boost.sh
@@ -31,5 +28,8 @@ echo "Building Vc"
 ./build-Vc.sh
 echo "Building HPX"
 ./build-hpx.sh
+
+# Octo-tiger
 echo "Building Octo-tiger"
 ./build-octotiger.sh
+

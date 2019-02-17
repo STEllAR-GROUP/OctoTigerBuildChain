@@ -13,7 +13,7 @@ fi
 export LD_LIBRARY_PATH=$INSTALL_ROOT/gcc/lib64:$INSTALL_ROOT/silo/lib/:$INSTALL_ROOT/hdf5/lib:$LD_LIBRARY_PATH
 export HDF5_ROOT=$INSTALL_ROOT/hdf5/
 
-${CMAKE} \
+${CMAKE_COMMAND} \
     -H${DIR_SRC} \
     -B${DIR_BUILD} \
     -DCMAKE_PREFIX_PATH=${BUILD_ROOT}/build/hpx \
@@ -34,5 +34,5 @@ ${CMAKE} \
     -DCMAKE_CUDA_FLAGS="-arch=$CUDA_SM -ccbin $INSTALL_ROOT/gcc/bin -std=c++14" \
     -DOCTOTIGER_WITH_BLAST_TEST=OFF
 
-${CMAKE} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
+${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 

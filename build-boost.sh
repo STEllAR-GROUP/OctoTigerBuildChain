@@ -41,7 +41,7 @@ proc ModulesHelp { } {
 module-whatis {boost}
 set root    ${DIR_INSTALL}
 conflict    boost
-prereq      gcc/${USED_GCC_VERSION}
+prereq      gcc/${GCC_VERSION}
 prepend-path    CPATH           \$root
 prepend-path    LD_LIBRARY_PATH \$root/lib
 prepend-path    LIBRARY_PATH    \$root/lib

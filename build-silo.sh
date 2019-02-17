@@ -35,7 +35,7 @@ proc ModulesHelp { } {
 module-whatis {Silo}
 set root    ${DIR_INSTALL}
 conflict    silo
-prereq      gcc/${USED_GCC_VERSION}
+prereq      gcc/${GCC_VERSION}
 prereq      hdf5/${HDF5_VERSION}
 prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin
