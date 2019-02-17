@@ -4,12 +4,21 @@ export SOURCE_ROOT=$BUILD_ROOT/src
 mkdir -p ${BUILD_ROOT}/{src,build}
 
 ################################################################################
+# CMake
+export CMAKE_VERSION=3.13.2
+
+# GCC
+export USED_GCC_VERSION=6.5.0
+
+# HDF5
+export HDF5_VERSION=1.10.4
+
 # Boost
 export BOOST_VERSION=1.68.0
 export BOOST_ROOT=$INSTALL_ROOT/boost
 
-# GCC
-export USED_GCC_VERSION=6.5.0
+# Vc
+export Vc_VERSION=1.4.1
 
 # CUDA
 export CUDA_SM=sm_61
@@ -56,9 +65,9 @@ fi
 ################################################################################
 # Command-line help
 ################################################################################
-function print_synopsis
+print_synopsis ()
 {
-    cat <<EOF
+    cat <<EOF >&2
 SYNOPSIS
     ${0} {Release|RelWithDebInfo|Debug} {with-cuda|without-cuda}
 DESCRIPTION
@@ -74,6 +83,7 @@ if [[ "$1" == "Release" || "$1" == "RelWithDebInfo" || "$1" == "Debug" ]]; then
     export BUILDTYPE=$1
     echo "Build Type: ${BUILDTYPE}"
 else
+    echo 'Build type must be provided and has to be "Release", "RelWithDebInfo", or "Debug"' >&2
     print_synopsis
 fi
 
@@ -84,5 +94,6 @@ elif [[ "$2" == "with-cuda" ]]; then
     export OCT_WITH_CUDA=ON
     echo "CUDA Support: Disabled"
 else
+    echo 'CUDA support must be specified and has to be "with-cuda"  or "without-cuda"' >&2
     print_synopsis
 fi

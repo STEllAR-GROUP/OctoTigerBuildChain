@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-CMAKE_VERSION=3.13.2
-
 DIR_SRC=${SOURCE_ROOT}/cmake
 DIR_BUILD=${INSTALL_ROOT}/cmake/build
 DIR_INSTALL=${INSTALL_ROOT}/cmake

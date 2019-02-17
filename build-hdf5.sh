@@ -5,10 +5,10 @@ set -ex
 DIR_SRC=${SOURCE_ROOT}/hdf5
 DIR_BUILD=${INSTALL_ROOT}/hdf5/build
 DIR_INSTALL=${INSTALL_ROOT}/hdf5
-FILE_MODULE=${INSTALL_ROOT}/modules/hdf5/1.10.4
+FILE_MODULE=${INSTALL_ROOT}/modules/hdf5/${HDF5_VERSION}
 
 if [[ ! -d ${DIR_SRC} ]]; then
-    git clone --branch=hdf5_1_10_4 --depth=1 https://github.com/live-clones/hdf5 ${DIR_SRC}
+    git clone --branch=hdf5_${HDF5_VERSION//./_} --depth=1 https://github.com/live-clones/hdf5 ${DIR_SRC}
 fi
 
 ${CMAKE} \
@@ -32,6 +32,7 @@ proc ModulesHelp { } {
 module-whatis {HDF5}
 set root    ${DIR_INSTALL}
 conflict    hdf5
+prereq      gcc/${USED_GCC_VERSION}
 prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin
 prepend-path    LD_LIBRARY_PATH    \$root/lib

@@ -30,6 +30,7 @@ proc ModulesHelp { } {
 module-whatis {jemalloc}
 set root    ${DIR_INSTALL}
 conflict    jemalloc
+prereq      gcc/${USED_GCC_VERSION}
 prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin
 prepend-path    PATH               \$root/sbin

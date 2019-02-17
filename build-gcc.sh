@@ -21,8 +21,11 @@ if [[ ! -d ${DIR_SRC} ]]; then
 fi
 
 (
+    unset LIBRARY_PATH CPATH C_INCLUDE_PATH PKG_CONFIG_PATH CPLUS_INCLUDE_PATH INCLUDE
+
     mkdir -p ${DIR_BUILD}
     cd ${DIR_BUILD}
+
     ${DIR_SRC}/configure --prefix=${DIR_INSTALL} --enable-languages=c,c++,fortran --disable-multilib --disable-nls
     make -j${PARALLEL_BUILD}
     make install

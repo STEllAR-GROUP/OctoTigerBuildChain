@@ -2,6 +2,8 @@
 
 set -ex
 
+BOOST_BUILD_TYPE=$(echo ${BUILDTYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
+
 # Octotiger does not currently work with current master/HEAD
 export HPX_WORKING_CHANGESET="65c22662ccd5c63f43421cf76ca29d8222bf7f23"
 
@@ -28,21 +30,21 @@ ${CMAKE} \
     -H${DIR_SRC} \
     -B${DIR_BUILD} \
     -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL} \
-    -DCMAKE_BUILD_TYPE=$BUILDTYPE \
-    -DCMAKE_CXX_FLAGS="$CXXFLAGS" "$CUDAFLAGS"   \
-    -DCMAKE_EXE_LINKER_FLAGS="$LDCXXFLAGS" "$CUDAFLAGS"\
-    -DCMAKE_SHARED_LINKER_FLAGS="$LDCXXFLAGS" "$CUDAFLAGS" \
-    -DHPX_WITH_CUDA=$OCT_WITH_CUDA \
+    -DCMAKE_BUILD_TYPE=${BUILDTYPE} \
+    -DCMAKE_CXX_FLAGS="${CXXFLAGS} ${CUDAFLAGS}" \
+    -DCMAKE_EXE_LINKER_FLAGS="${LDCXXFLAGS} ${CUDAFLAGS}" \
+    -DCMAKE_SHARED_LINKER_FLAGS="${LDCXXFLAGS} ${CUDAFLAGS}" \
+    -DHPX_WITH_CUDA=${OCT_WITH_CUDA} \
     -DHPX_WITH_CXX14=ON \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
     -DHPX_WITH_THREAD_IDLE_RATES=ON \
     -DHPX_WITH_DISABLED_SIGNAL_EXCEPTION_HANDLERS=ON \
-    -DHWLOC_ROOT=$INSTALL_ROOT/hwloc/ \
+    -DHWLOC_ROOT=${INSTALL_ROOT}/hwloc/ \
     -DHPX_WITH_MALLOC=JEMALLOC \
-    -DJEMALLOC_ROOT=$INSTALL_ROOT/jemalloc/ \
-    -DBOOST_ROOT=$BOOST_ROOT \
-    -DHPX_WITH_CUDA_ARCH=$CUDA_SM \
-    -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
+    -DJEMALLOC_ROOT=${INSTALL_ROOT}/jemalloc/ \
+    -DBOOST_ROOT=${BOOST_ROOT} \
+    -DHPX_WITH_CUDA_ARCH=${CUDA_SM} \
+    -DVc_DIR=${INSTALL_ROOT}/Vc/lib/cmake/Vc \
     -DHPX_WITH_DATAPAR_VC=ON \
     -DHPX_WITH_EXAMPLES=ON \
     -DHPX_WITH_NETWORKING=ON \
@@ -62,6 +64,10 @@ proc ModulesHelp { } {
 module-whatis {HPX}
 set root    ${DIR_INSTALL}
 conflict    hpx
+prereq      gcc/${USED_GCC_VERSION}
+prereq      boost/${BOOST_VERSION}-${BOOST_BUILD_TYPE}
+prereq      cmake/${CMAKE_VERSION}
+prereq      Vc/${CMAKE_VERSION}-${BUILDTYPE}
 prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin
 prepend-path    LD_LIBRARY_PATH    \$root/lib

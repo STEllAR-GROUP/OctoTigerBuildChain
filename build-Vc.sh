@@ -5,7 +5,7 @@ set -ex
 DIR_SRC=${SOURCE_ROOT}/Vc
 DIR_BUILD=${INSTALL_ROOT}/Vc/build
 DIR_INSTALL=${INSTALL_ROOT}/Vc
-FILE_MODULE=${INSTALL_ROOT}/modules/Vc/1.4.1-${BUILDTYPE}
+FILE_MODULE=${INSTALL_ROOT}/modules/Vc/${Vc_VERSION}-${BUILDTYPE}
 
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone --branch=1.4.1 --depth=1 https://github.com/VcDevel/Vc.git ${DIR_SRC}
@@ -30,6 +30,8 @@ proc ModulesHelp { } {
 module-whatis {Vc}
 set root    ${DIR_INSTALL}
 conflict    Vc
+prereq      gcc/${USED_GCC_VERSION}
+prereq      cmake/${CMAKE_VERSION}
 prepend-path    CPATH                 \$root/include
 prepend-path    CPLUS_INCLUDE_PATH    \$root/include
 prepend-path    PATH                  \$root/bin
