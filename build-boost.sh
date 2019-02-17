@@ -2,7 +2,7 @@
 
 set -ex
 
-BOOST_BUILD_TYPE=$(echo ${BUILDTYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
+BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
 DIR_SRC=${SOURCE_ROOT}/boost
 #DIR_BUILD=${INSTALL_ROOT}/boost/build

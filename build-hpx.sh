@@ -2,7 +2,7 @@
 
 set -ex
 
-BOOST_BUILD_TYPE=$(echo ${BUILDTYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
+BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
 # Octotiger does not currently work with current master/HEAD
 export HPX_WORKING_CHANGESET="65c22662ccd5c63f43421cf76ca29d8222bf7f23"
@@ -10,7 +10,7 @@ export HPX_WORKING_CHANGESET="65c22662ccd5c63f43421cf76ca29d8222bf7f23"
 DIR_SRC=${SOURCE_ROOT}/hpx
 DIR_BUILD=${INSTALL_ROOT}/hpx/build
 DIR_INSTALL=${INSTALL_ROOT}/hpx
-FILE_MODULE=${INSTALL_ROOT}/modules/hpx/${HPX_WORKING_CHANGESET}-${BUILDTYPE}
+FILE_MODULE=${INSTALL_ROOT}/modules/hpx/${HPX_WORKING_CHANGESET}-${BUILD_TYPE}
 
 if [[ ! -d ${DIR_SRC} ]] ; then
     (
@@ -30,7 +30,7 @@ ${CMAKE_COMMAND} \
     -H${DIR_SRC} \
     -B${DIR_BUILD} \
     -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL} \
-    -DCMAKE_BUILD_TYPE=${BUILDTYPE} \
+    -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
     -DCMAKE_CXX_FLAGS="${CXXFLAGS} ${CUDAFLAGS}" \
     -DCMAKE_EXE_LINKER_FLAGS="${LDCXXFLAGS} ${CUDAFLAGS}" \
     -DCMAKE_SHARED_LINKER_FLAGS="${LDCXXFLAGS} ${CUDAFLAGS}" \
@@ -70,14 +70,14 @@ module load boost/${BOOST_VERSION}-${BOOST_BUILD_TYPE}
 module load cmake/${CMAKE_VERSION}
 module load jemalloc/${JEMALLOC_VERSION}
 module load hwloc/${HWLOC_VERSION}
-module load Vc/${VC_VERSION}-${BUILDTYPE}
+module load Vc/${VC_VERSION}-${BUILD_TYPE}
 
 prereq      gcc/${GCC_VERSION}
 prereq      boost/${BOOST_VERSION}-${BOOST_BUILD_TYPE}
 prereq      cmake/${CMAKE_VERSION}
 prereq      jemalloc/${JEMALLOC_VERSION}
 prereq      hwloc/${HWLOC_VERSION}
-prereq      Vc/${VC_VERSION}-${BUILDTYPE}
+prereq      Vc/${VC_VERSION}-${BUILD_TYPE}
 prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin
 prepend-path    LD_LIBRARY_PATH    \$root/lib

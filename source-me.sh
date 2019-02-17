@@ -92,8 +92,8 @@ EOF
 # Command-line options
 ################################################################################
 if [[ "$1" == "Release" || "$1" == "RelWithDebInfo" || "$1" == "Debug" ]]; then
-    export BUILDTYPE=$1
-    echo "Build Type: ${BUILDTYPE}"
+    export BUILD_TYPE=$1
+    echo "Build Type: ${BUILD_TYPE}"
 else
     echo 'Build type must be provided and has to be "Release", "RelWithDebInfo", or "Debug"' >&2
     print_synopsis
