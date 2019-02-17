@@ -42,11 +42,14 @@ export octotiger_source_me_sources=1
 ################################################################################
 case $(hostname) in
     krypton)
-        echo 'Compiling for krypton, doing additional setup';
+        echo 'Compiling for krypton, doing additional setup'
         module load cuda-9.2
         ;;
+    rostam)
+        echo 'Compiling for rostam, doing additional setup'
+        module load cuda/9.2.14
     *argon-tesla1*)
-        echo 'Compiling for argon-tesla1, doing additional setup';
+        echo 'Compiling for argon-tesla1, doing additional setup'
         source /usr/local.nfs/Modules/init/bash
         module load cuda-9.0
         export CUDATOOLKIT_HOME=/usr/local.nfs/sw/cuda/cuda-9.0
@@ -57,7 +60,7 @@ case $(hostname) in
         export LD_LIBRARY_PATH=/usr/local.nfs/sw/cuda/cuda-9.0/lib64:$LD_LIBRARY_PATH
         ;;
     *argon-tesla2*)
-        echo 'Compiling for argon-tesla2, doing additional setup';
+        echo 'Compiling for argon-tesla2, doing additional setup'
         source /usr/local.nfs/Modules/init/bash
         module load cuda-9.0
         export CUDATOOLKIT_HOME=/usr/local.nfs/sw/cuda/cuda-9.0
@@ -69,7 +72,7 @@ case $(hostname) in
         export CUDA_VISIBLE_DEVICES=0,1
         ;;
     *)
-        echo 'Compiling for a generic machine, expecting CUDA in "/usr/local/cuda"';
+        echo 'Compiling for a generic machine, expecting CUDA in "/usr/local/cuda"'
         export CUDAFLAGS=""
         ;;
 esac
