@@ -1,24 +1,51 @@
-#!/bin/bash -e
-set -x
-set -e
+#!/usr/bin/env bash
 
-if [ -z ${octotiger_source_me_sources} ] ; then
-	. source-me.sh
-	. source-gcc.sh
-fi
+set -ex
 
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${CXX:?} \
+    ${BOOST_VERSION:?} ${BOOST_BUILD_TYPE:?} ${POWERTIGER_ROOT:?}
 
-cd $SOURCE_ROOT
-if [ ! -f "boost_$BOOST_SUFFIX.tar.bz2" ]; then
-    wget http://downloads.sourceforge.net/project/boost/boost/$BOOST_VERSION/boost_$BOOST_SUFFIX.tar.bz2
+DIR_SRC=${SOURCE_ROOT}/boost
+#DIR_BUILD=${INSTALL_ROOT}/boost/build
+DIR_INSTALL=${INSTALL_ROOT}/boost
+FILE_MODULE=${INSTALL_ROOT}/modules/boost/${BOOST_VERSION}-${BOOST_BUILD_TYPE}
+
+DOWNLOAD_URL="http://downloads.sourceforge.net/project/boost/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//./_}.tar.bz2"
+
+if [[ ! -d ${DIR_SRC} ]]; then
+    (
+        mkdir -p ${DIR_SRC}
+        cd ${DIR_SRC}
+        wget -O- ${DOWNLOAD_URL} | tar xj --strip-components=1
+        echo "using gcc : : $CXX ; " >tools/build/src/user-config.jam
+    )
 fi
-if [ -d "boost_$BOOST_SUFFIX" ]; then
-    rm -rf boost_$BOOST_SUFFIX
-fi
-tar xf boost_$BOOST_SUFFIX.tar.bz2
-cd boost_$BOOST_SUFFIX
-echo "using gcc : 8.2 : $CXX ; " >> tools/build/src/user-config.jam
-./bootstrap.sh --prefix=$BOOST_ROOT --with-toolset=gcc
-./b2 -j${PARALLEL_BUILD} install --with-atomic --with-filesystem --with-program_options --with-regex --with-system --with-chrono --with-date_time --with-thread 
-cd $BUILD_ROOT
-cp sign.hpp $BOOST_ROOT/include/boost/spirit/home/support/detail/
+#if [[ -d "boost_${BOOST_VERSION//./_}" ]]; then
+#    rm -rf boost_${BOOST_VERSION//./_}
+#fi
+(
+    cd ${DIR_SRC}
+    ./bootstrap.sh --prefix=${DIR_INSTALL} --with-toolset=gcc
+    ./b2 -j${PARALLEL_BUILD} --with-atomic --with-filesystem --with-program_options --with-regex --with-system --with-chrono --with-date_time --with-thread ${BOOST_BUILD_TYPE} install
+)
+# Patch Boost 1.69 - HPX 1.2 compatibility issue
+cp ${POWERTIGER_ROOT}/sign.hpp ${DIR_INSTALL}/include/boost/spirit/home/support/detail/
+
+mkdir -p $(dirname ${FILE_MODULE})
+cat >${FILE_MODULE} <<EOF
+#%Module
+proc ModulesHelp { } {
+  puts stderr {boost}
+}
+module-whatis {boost}
+set root    ${DIR_INSTALL}
+conflict    boost
+module load gcc/${GCC_VERSION}
+prereq      gcc/${GCC_VERSION}
+prepend-path    CPATH           \$root
+prepend-path    LD_LIBRARY_PATH \$root/lib
+prepend-path    LIBRARY_PATH    \$root/lib
+setenv          BOOST_ROOT      \$root
+setenv          BOOST_VERSION   ${BOOST_VERSION}
+EOF
+

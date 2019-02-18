@@ -1,33 +1,47 @@
-#!/bin/bash
-set -x
-set -e
-if [ -z ${octotiger_source_me_sources} ] ; then
-   . source-me.sh
-   . source-gcc.sh
+#!/usr/bin/env bash
+
+set -ex
+
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${CC:?} ${CXX:?} \
+    ${CMAKE_COMMAND:?} ${CMAKE_VERSION:?}
+
+DIR_SRC=${SOURCE_ROOT}/hdf5
+DIR_BUILD=${INSTALL_ROOT}/hdf5/build
+DIR_INSTALL=${INSTALL_ROOT}/hdf5
+FILE_MODULE=${INSTALL_ROOT}/modules/hdf5/${HDF5_VERSION}
+
+if [[ ! -d ${DIR_SRC} ]]; then
+    git clone --branch=hdf5_${HDF5_VERSION//./_} --depth=1 https://github.com/live-clones/hdf5 ${DIR_SRC}
 fi
 
-cd $SOURCE_ROOT
-if [ ! -d "hdf5/" ]; then
-    git clone https://github.com/live-clones/hdf5
-else
-    cd hdf5
-    git pull
-    cd ..
-fi
-cd hdf5
-git checkout hdf5_1_10_4 
-cd $INSTALL_ROOT
-mkdir -p hdf5 
-cd hdf5
-mkdir -p build
-cd build
-$INSTALL_ROOT/cmake/bin/cmake \
-      -DCMAKE_C_COMPILER=$CC \
-      -DCMAKE_CXX_COMPILER=$CXX \
-      -DBUILD_TESTING=OFF \
-      -DCMAKE_BUILD_TYPE=Release \
-      -DCMAKE_INSTALL_PREFIX=$INSTALL_ROOT/hdf5 \
-      $SOURCE_ROOT/hdf5
+${CMAKE_COMMAND} \
+    -Wno-dev \
+    -H${DIR_SRC} \
+    -B${DIR_BUILD} \
+    -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL} \
+    -DCMAKE_C_COMPILER=$CC \
+    -DCMAKE_CXX_COMPILER=$CXX \
+    -DBUILD_TESTING=OFF \
+    -DCMAKE_BUILD_TYPE=Release
 
-make -j${PARALLEL_BUILD} VERBOSE=1 install
+${CMAKE_COMMAND} --build ${DIR_BUILD} --target install -- -j${PARALLEL_BUILD} VERBOSE=1
+
+mkdir -p $(dirname ${FILE_MODULE})
+cat >${FILE_MODULE} <<EOF
+#%Module
+proc ModulesHelp { } {
+  puts stderr {HDF5}
+}
+module-whatis {HDF5}
+set root    ${DIR_INSTALL}
+conflict    hdf5
+module load gcc/${GCC_VERSION}
+module load cmake/${CMAKE_VERSION}
+prereq      gcc/${GCC_VERSION}
+prereq      cmake/${CMAKE_VERSION}
+prepend-path    CPATH              \$root/include
+prepend-path    PATH               \$root/bin
+prepend-path    LD_LIBRARY_PATH    \$root/lib
+prepend-path    LIBRARY_PATH       \$root/lib
+EOF
 
