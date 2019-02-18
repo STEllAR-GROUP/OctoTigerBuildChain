@@ -50,7 +50,7 @@ case $(hostname) in
         echo 'Compiling for krypton, doing additional setup'
         module load cuda-9.2
         ;;
-    rostam)
+    rostam*|geev|bahram|reno|tycho|trillian*|marvin*)
         echo 'Compiling for rostam, doing additional setup'
         module load cuda/9.2.14
         ;;
