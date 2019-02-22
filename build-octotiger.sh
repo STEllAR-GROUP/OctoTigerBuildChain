@@ -2,6 +2,9 @@
 
 set -ex
 
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} \
+    ${BOOST_ROOT:?} ${LIBHPX:?}
+
 DIR_SRC=${SOURCE_ROOT}/octotiger
 DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 #DIR_INSTALL=${INSTALL_ROOT}/octotiger
@@ -16,7 +19,7 @@ export HDF5_ROOT=$INSTALL_ROOT/hdf5/
 ${CMAKE_COMMAND} \
     -H${DIR_SRC} \
     -B${DIR_BUILD} \
-    -DCMAKE_PREFIX_PATH=${POWERTIGER_ROOT}/build/hpx \
+    -DCMAKE_PREFIX_PATH=${INSTALL_ROOT}/hpx \
     -DCMAKE_CXX_COMPILER=$CXX \
     -DCMAKE_CXX_FLAGS="$CXXFLAGS -fpermissive" \
     -DCMAKE_EXE_LINKER_FLAGS="$LDCXXFLAGS -lz -L$INSTALL_ROOT/hdf5/lib -lhdf5" \

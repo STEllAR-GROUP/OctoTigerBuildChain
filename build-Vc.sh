@@ -12,6 +12,10 @@ FILE_MODULE=${INSTALL_ROOT}/modules/Vc/${VC_VERSION}-${BUILD_TYPE}
 
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone --branch=1.4.1 --depth=1 https://github.com/VcDevel/Vc.git ${DIR_SRC}
+    (
+        cd ${DIR_SRC}
+        git submodule update --init
+    )
 fi
 
 ${CMAKE_COMMAND} \
