@@ -2,8 +2,8 @@
 
 set -ex
 
-: ${SOURCE_ROOT:?} ${INSTALL_ROOT} ${CMAKE_COMMAND} ${OCT_WITH_CUDA:?} \
-    ${BOOST_ROOT} ${LIBHPX}
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} \
+    ${BOOST_ROOT:?} ${LIBHPX:?}
 
 DIR_SRC=${SOURCE_ROOT}/octotiger
 DIR_BUILD=${INSTALL_ROOT}/octotiger/build
