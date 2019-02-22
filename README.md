@@ -22,4 +22,5 @@ just the specified target(s).
     * `./build-all.sh Debug with-cuda octotiger vc hpx boost`
 
 ## Notes
-* The
+* Target builds do not check for an existing build.
+* Building a target does not trigger the build of it dependencies if they are not built
