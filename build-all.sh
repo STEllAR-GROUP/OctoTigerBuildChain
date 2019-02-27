@@ -8,7 +8,7 @@ print_usage_abort ()
     cat <<EOF >&2
 SYNOPSIS
     ${0} {Release|RelWithDebInfo|Debug} {with-cuda|without-cuda}
-    [cmake|gcc|boost|hdf5|silo|hwloc|jemalloc|vc|hpx|octotiger ...]
+    [cmake|gcc|boost|hdf5|silo|hwloc|jemalloc|vc|hpx|octotiger|openmpi ...]
 DESCRIPTION
     Download, configure, build, and install Octo-tiger and its dependencies or
     just the specified target.
@@ -50,6 +50,12 @@ while [[ -n $3 ]]; do
             export BUILD_TARGET_GCC=
             shift
         ;;
+        openmpi)
+            echo 'Target openmpi will build.'
+            export BUILD_TARGET_OPENMPI=
+            shift
+        ;;
+
         boost)
             echo 'Target boost will build.'
             export BUILD_TARGET_BOOST=
@@ -102,6 +108,7 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     echo 'No targets specified. All targets will build.'
     export BUILD_TARGET_CMAKE=
     export BUILD_TARGET_GCC=
+    export BUILD_TARGET_OPENMPI=
     export BUILD_TARGET_BOOST=
     export BUILD_TARGET_HDF5=
     export BUILD_TARGET_SILO=
@@ -140,6 +147,7 @@ mkdir -p ${SOURCE_ROOT} ${INSTALL_ROOT}
     echo "Building GCC"
     ./build-gcc.sh
 )
+
 [[ -v BUILD_TARGET_CMAKE ]] && \
 (
     echo "Building CMake"
@@ -152,6 +160,12 @@ export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
 ################################################################################
 # Set GCC Environment Variables
 source gcc-config.sh
+
+[[ -v BUILD_TARGET_OPENMPI ]] && \
+(
+    echo "Building Openmpi"
+    ./build-openmpi.sh
+)
 
 [[ -v BUILD_TARGET_BOOST ]] && \
 (

@@ -12,6 +12,8 @@ export CMAKE_VERSION=3.13.2
 # GCC
 export GCC_VERSION=6.5.0
 
+export OPENMPI_VERSION=4.0.0
+
 # HDF5
 export HDF5_VERSION=1.10.4
 
