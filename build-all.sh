@@ -38,8 +38,19 @@ else
     print_usage_abort
 fi
 
-while [[ -n $3 ]]; do
-    case $3 in
+if [[ "$3" == "without-mpi" ]]; then
+    export OCT_WITH_PARCEL=OFF
+    echo "Parcelport disabled"
+elif [[ "$3" == "with-mpi" ]]; then
+    export OCT_WITH_PARCEL=ON
+    echo "Parcelport enabled"
+else
+    echo 'Parcelport support must be provided and has to be "with-mpi" or "without-mpi"' >&2
+    print_usage_abort
+fi
+
+while [[ -n $4 ]]; do
+    case $4 in
         cmake)
             echo 'Target cmake will build.'
             export BUILD_TARGET_CMAKE=
@@ -166,6 +177,10 @@ source gcc-config.sh
     echo "Building Openmpi"
     ./build-openmpi.sh
 )
+
+if [[ ${OCT_WITH_PARCEL} == ON ]]; then
+    source openmpi-config.sh
+fi
 
 [[ -v BUILD_TARGET_BOOST ]] && \
 (
