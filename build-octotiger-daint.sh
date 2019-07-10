@@ -8,10 +8,11 @@ INSTALL_ROOT=$PWD
 
 DIR_SRC=${SOURCE_ROOT}/src/octotiger/
 DIR_BUILD=${INSTALL_ROOT}/build/octotiger/build
-#DIR_INSTALL=${INSTALL_ROOT}/octotiger
+DEP_DIR=/apps/daint/UES/biddisco/gcc/7.3.0/
 
 if [[ ! -d ${DIR_SRC} ]]; then
-    git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC} --branch=master
+    git clone -n https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC} 
+    cd ${DIR_SRC} && git checkout d6ad085
 fi
 
 CMAKE_version=3.12.0
@@ -60,7 +61,7 @@ ${CMAKE_COMMAND} \
     -DVc_DIR=/apps/daint/UES/biddisco/gcc/7.3.0/Vc/lib/cmake/Vc \
     -DOCTOTIGER_WITH_SILO=ON \
     -DBOOST_ROOT=/apps/daint/UES/biddisco/gcc/7.3.0/boost/7.3.0/1.68.0/ \
-    -DHPX_DIR=/apps/daint/UES/biddisco/gcc/7.3.0/hpx4octotiger-tcmalloc-release/lib64/cmake/HPX/ \
+    -DHPX_DIR=/apps/daint/UES/biddisco/gcc/7.3.0/hpx4octotiger-release/lib64/cmake/HPX/ \
     -DHDF5_ROOT=/apps/daint/UES/biddisco/gcc/7.3.0/hdf5/1.10.4/ \
     -DSilo_DIR=/apps/daint/UES/biddisco/gcc/7.3.0/silo/ \
     -DCMAKE_CUDA_FLAGS="-arch=$CUDA_SM -std=c++14" \
