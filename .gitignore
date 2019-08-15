@@ -1,2 +1,4 @@
+build/*
+src/*
 *.tar.*
 CMakeCache.txt
