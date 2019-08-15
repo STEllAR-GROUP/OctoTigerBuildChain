@@ -29,10 +29,10 @@ fi
 
 if [[ "$2" == "without-cuda" ]]; then
     export OCT_WITH_CUDA=OFF
-    echo "CUDA Support: Enabled"
+    echo "CUDA Support: Disabled"
 elif [[ "$2" == "with-cuda" ]]; then
     export OCT_WITH_CUDA=ON
-    echo "CUDA Support: Disabled"
+    echo "CUDA Support: Enabled"
 else
     echo 'CUDA support must be specified and has to be "with-cuda" or "without-cuda"' >&2
     print_usage_abort

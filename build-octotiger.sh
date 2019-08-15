@@ -33,6 +33,8 @@ ${CMAKE_COMMAND} \
     -DHPX_DIR=$INSTALL_ROOT/hpx/$LIBHPX/cmake/HPX/ \
     -DHDF5_INCLUDE_DIR=$INSTALL_ROOT/hdf5/include \
     -DHDF5_LIBRARY=$INSTALL_ROOT/hdf5/lib/libhdf5.a \
+    -DSilo_INCLUDE_DIR=$INSTALL_ROOT/silo/include \
+    -DSilo_LIBRARY=$INSTALL_ROOT/silo/lib/libsiloh5.a \
     -DSilo_DIR=$INSTALL_ROOT/silo \
     -DCMAKE_CUDA_FLAGS="-arch=$CUDA_SM -ccbin $INSTALL_ROOT/gcc/bin -std=c++14" \
     -DOCTOTIGER_WITH_BLAST_TEST=OFF
