@@ -11,7 +11,7 @@ FILE_MODULE=${INSTALL_ROOT}/modules/jemalloc/${JEMALLOC_VERSION}
 
 DOWNLOAD_URL="https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2"
 
-if [[ ! -d ${DIR_SRC} ]]; then
+if [[ ! -d ${DIR_INSTALL} ]]; then
     (
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
