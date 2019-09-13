@@ -10,7 +10,7 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 export CMAKE_VERSION=3.13.2
 
 # GCC
-export GCC_VERSION=8.3.0
+export GCC_VERSION=7.4.0
 
 export OPENMPI_VERSION=4.0.0
 
