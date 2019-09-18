@@ -58,18 +58,20 @@ case $(hostname) in
         ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'
-        source /usr/local.nfs/Modules/init/bash
+        export GCC_VERSION=6.5.0
+        source /usr/local.nfs/Modules/4.3.0/init/bash
         module load cuda-9.0
         export CUDATOOLKIT_HOME=/usr/local.nfs/sw/cuda/cuda-9.0
         export CUDAFLAGS="--cuda-path=$CUDATOOLKIT_HOME \
  -L$CUDATOOLKIT_HOME/lib64 \
  -L$CUDATOOLKIT_HOME/extras/CUPTI/lib64"
         export CUDA_VISIBLE_DEVICES=0,1
-        export LD_LIBRARY_PATH=/usr/local.nfs/sw/cuda/cuda-9.0/lib64:$LD_LIBRARY_PATH
+        #export LD_LIBRARY_PATH=/usr/local.nfs/sw/cuda/cuda-9.0/lib64:$LD_LIBRARY_PATH
         ;;
     *argon-tesla2*)
+        export GCC_VERSION=6.5.0
         echo 'Compiling for argon-tesla2, doing additional setup'
-        source /usr/local.nfs/Modules/init/bash
+        source /usr/local.nfs/Modules/4.3.0/init/bash
         module load cuda-9.0
         export CUDATOOLKIT_HOME=/usr/local.nfs/sw/cuda/cuda-9.0
         export CUDAFLAGS="--cuda-path=$CUDATOOLKIT_HOME \

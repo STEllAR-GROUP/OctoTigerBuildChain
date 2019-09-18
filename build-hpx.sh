@@ -25,6 +25,9 @@ if [[ ! -d ${DIR_SRC} ]]; then
         # Legacy command. Clone the entire repository and use master/HEAD
 	cd ..
         git clone https://github.com/STEllAR-GROUP/hpx.git
+	cd hpx
+	git checkout 1.3.0
+	cd ..
     )
 fi
 
@@ -33,9 +36,9 @@ ${CMAKE_COMMAND} \
     -B${DIR_BUILD} \
     -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL} \
     -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
-    -DCMAKE_CXX_FLAGS="${CXXFLAGS} ${CUDAFLAGS}" \
-    -DCMAKE_EXE_LINKER_FLAGS="${LDCXXFLAGS} ${CUDAFLAGS}" \
-    -DCMAKE_SHARED_LINKER_FLAGS="${LDCXXFLAGS} ${CUDAFLAGS}" \
+    -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
+    -DCMAKE_EXE_LINKER_FLAGS="${LDCXXFLAGS}" \
+    -DCMAKE_SHARED_LINKER_FLAGS="${LDCXXFLAGS}" \
     -DHPX_WITH_CUDA=${OCT_WITH_CUDA} \
     -DHPX_WITH_CXX14=ON \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
