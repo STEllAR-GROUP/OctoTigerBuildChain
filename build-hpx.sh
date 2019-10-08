@@ -8,6 +8,25 @@ set -ex
     ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_VERSION:?} \
     ${OCT_WITH_PARCEL:?}
 
+
+case $(uname -i) in
+    ppc64le)
+        USE_VC=OFF
+	;;
+    x86_64)
+        USE_VC=ON
+	;;
+
+    *)
+        echo 'Unknown architecture encountered.' 2>&1
+        exit 1
+        ;;
+esac
+
+
+
+
+
 DIR_SRC=${SOURCE_ROOT}/hpx
 DIR_BUILD=${INSTALL_ROOT}/hpx/build
 DIR_INSTALL=${INSTALL_ROOT}/hpx
@@ -25,9 +44,9 @@ if [[ ! -d ${DIR_SRC} ]]; then
         # Legacy command. Clone the entire repository and use master/HEAD
 	cd ..
         git clone https://github.com/STEllAR-GROUP/hpx.git
-	cd hpx
-	git checkout 1.3.0
-	cd ..
+	#cd hpx
+	#git checkout 1.3.0
+	#cd ..
     )
 fi
 
@@ -50,12 +69,12 @@ ${CMAKE_COMMAND} \
     -DBOOST_ROOT=${BOOST_ROOT} \
     -DHPX_WITH_CUDA_ARCH=${CUDA_SM} \
     -DVc_DIR=${INSTALL_ROOT}/Vc/lib/cmake/Vc \
-    -DHPX_WITH_DATAPAR_VC=ON \
-    -DHPX_WITH_EXAMPLES=ON \
+    -DHPX_WITH_DATAPAR_VC=$USE_VC \
     -DHPX_WITH_NETWORKING=ON \
     -DHPX_WITH_MORE_THAN_64_THREADS=ON \
     -DHPX_WITH_MAX_CPU_COUNT=256 \
-    -DHPX_WITH_EXAMPLES=OFF \
+    -DHPX_WITH_EXAMPLES=ON \
+    -DHPX_WITH_TESTS=ON \
     -DHPX_WITH_PARCELPORT_MPI=${OCT_WITH_PARCEL} \
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
