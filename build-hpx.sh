@@ -8,20 +8,20 @@ set -ex
     ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_VERSION:?} \
     ${OCT_WITH_PARCEL:?}
 
-
-case $(uname -i) in
-    ppc64le)
-        USE_VC=OFF
-	;;
-    x86_64)
-        USE_VC=ON
-	;;
-
-    *)
-        echo 'Unknown architecture encountered.' 2>&1
-        exit 1
-        ;;
-esac
+#Disable VC for HPX, since we do not use HPX's VC suuport anymore
+#case $(uname -i) in
+#    ppc64le)
+#        USE_VC=OFF
+#	;;
+#    x86_64)
+#        USE_VC=ON
+#	;;
+#
+#    *)
+#        echo 'Unknown architecture encountered.' 2>&1
+#        exit 1
+#        ;;
+#esac
 
 
 
@@ -68,8 +68,6 @@ ${CMAKE_COMMAND} \
     -DJEMALLOC_ROOT=${INSTALL_ROOT}/jemalloc/ \
     -DBOOST_ROOT=${BOOST_ROOT} \
     -DHPX_WITH_CUDA_ARCH=${CUDA_SM} \
-    -DVc_DIR=${INSTALL_ROOT}/Vc/lib/cmake/Vc \
-    -DHPX_WITH_DATAPAR_VC=$USE_VC \
     -DHPX_WITH_NETWORKING=ON \
     -DHPX_WITH_MORE_THAN_64_THREADS=ON \
     -DHPX_WITH_MAX_CPU_COUNT=256 \
