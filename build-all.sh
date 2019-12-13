@@ -153,13 +153,13 @@ mkdir -p ${SOURCE_ROOT} ${INSTALL_ROOT}
 ################################################################################
 # Build tools
 ################################################################################
-[[ -v BUILD_TARGET_GCC ]] && \
+[[ -n ${BUILD_TARGET_GCC+x} ]] && \
 (
     echo "Building GCC"
     ./build-gcc.sh
 )
 
-[[ -v BUILD_TARGET_CMAKE ]] && \
+[[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (
     echo "Building CMake"
     ./build-cmake.sh
@@ -172,7 +172,7 @@ export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
 # Set GCC Environment Variables
 source gcc-config.sh
 
-[[ -v BUILD_TARGET_OPENMPI ]] && \
+[[ -n ${BUILD_TARGET_OPENMPI+x} ]] && \
 (
     echo "Building Openmpi"
     ./build-openmpi.sh
@@ -182,37 +182,37 @@ if [[ ${OCT_WITH_PARCEL} == ON ]]; then
     source openmpi-config.sh
 fi
 
-[[ -v BUILD_TARGET_BOOST ]] && \
+[[ -n ${BUILD_TARGET_BOOST+x} ]] && \
 (
     echo "Building Boost"
     ./build-boost.sh
 )
-[[ -v BUILD_TARGET_HDF5 ]] && \
+[[ -n ${BUILD_TARGET_HDF5+x} ]] && \
 (
     echo "Building HDF5"
     ./build-hdf5.sh
 )
-[[ -v BUILD_TARGET_SILO ]] && \
+[[ -n ${BUILD_TARGET_SILO+x} ]] && \
 (
     echo "Building Silo"
     ./build-silo.sh
 )
-[[ -v BUILD_TARGET_HWLOC ]] && \
+[[ -n ${BUILD_TARGET_HWLOC+x} ]] && \
 (
     echo "Building hwloc"
     ./build-hwloc.sh
 )
-[[ -v BUILD_TARGET_JEMALLOC ]] && \
+[[ -n ${BUILD_TARGET_JEMALLOC+x} ]] && \
 (
     echo "Building jemalloc"
     ./build-jemalloc.sh
 )
-[[ -v BUILD_TARGET_VC ]] && \
+[[ -n ${BUILD_TARGET_VC+x} ]] && \
 (
     echo "Building Vc"
     ./build-Vc.sh
 )
-[[ -v BUILD_TARGET_HPX ]] && \
+[[ -n ${BUILD_TARGET_HPX+x} ]] && \
 (
     echo "Building HPX"
     ./build-hpx.sh
@@ -220,7 +220,7 @@ fi
 ################################################################################
 # Octo-tiger
 ################################################################################
-[[ -v BUILD_TARGET_OCTOTIGER ]] && \
+[[ -n ${BUILD_TARGET_OCTOTIGER+x} ]] && \
 (
     echo "Building Octo-tiger"
     ./build-octotiger.sh
