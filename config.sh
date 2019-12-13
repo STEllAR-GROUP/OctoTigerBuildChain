@@ -10,12 +10,12 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 export CMAKE_VERSION=3.13.2
 
 # GCC
-export GCC_VERSION=8.3.0
+export GCC_VERSION=5.3.0
 
 export OPENMPI_VERSION=4.0.0
 
 # HDF5
-export HDF5_VERSION=1.10.4
+export HDF5_VERSION=1.8.11
 
 # Boost
 export BOOST_VERSION=1.68.0

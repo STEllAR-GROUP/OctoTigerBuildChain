@@ -130,6 +130,10 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     export BUILD_TARGET_OCTOTIGER=
 fi
 
+if [[ -d "/etc/opt/cray/release/" ]]; then
+    unset BUILD_TARGET_GCC
+    unset BUILD_TARGET_OPENMPI
+fi
 ################################################################################
 # Diagnostics
 ################################################################################
