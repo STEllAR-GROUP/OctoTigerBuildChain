@@ -182,8 +182,10 @@ source gcc-config.sh
     ./build-openmpi.sh
 )
 
-if [[ ${OCT_WITH_PARCEL} == ON ]]; then
-    source openmpi-config.sh
+if [[ ${OCT_WITH_PARCEL} == ON  ]]; then    
+   if [[ -d ${INSTALL_ROOT}/openmpi  ]]; then
+	source openmpi-config.sh
+   fi
 fi
 
 [[ -n ${BUILD_TARGET_BOOST+x} ]] && \
