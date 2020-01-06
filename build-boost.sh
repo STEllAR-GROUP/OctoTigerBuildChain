@@ -5,6 +5,14 @@ set -ex
 : ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${CXX:?} \
     ${BOOST_VERSION:?} ${BOOST_BUILD_TYPE:?} ${POWERTIGER_ROOT:?}
 
+if [[ -d "/etc/opt/cray/release/" ]]; then 
+	flag1="cxxflags=$CXXFLAGS"
+        flag2="threading=multi link=shared"
+else
+	flag1=""
+	flag2=""
+fi
+
 DIR_SRC=${SOURCE_ROOT}/boost
 #DIR_BUILD=${INSTALL_ROOT}/boost/build
 DIR_INSTALL=${INSTALL_ROOT}/boost
@@ -26,7 +34,7 @@ fi
 (
     cd ${DIR_SRC}
     ./bootstrap.sh --prefix=${DIR_INSTALL} --with-toolset=gcc
-    ./b2 -j${PARALLEL_BUILD} --with-atomic --with-filesystem --with-program_options --with-regex --with-system --with-chrono --with-date_time --with-thread ${BOOST_BUILD_TYPE} install
+    ./b2 -j${PARALLEL_BUILD} "${flag1}" ${flag2} --with-atomic --with-filesystem --with-program_options --with-regex --with-system --with-chrono --with-date_time --with-thread ${BOOST_BUILD_TYPE} install
 )
 # Patch Boost 1.69 - HPX 1.2 compatibility issue
 cp ${POWERTIGER_ROOT}/sign.hpp ${DIR_INSTALL}/include/boost/spirit/home/support/detail/

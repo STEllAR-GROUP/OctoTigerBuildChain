@@ -17,6 +17,12 @@ if [[ ! -d ${DIR_SRC} ]]; then
     cd -
 fi
 
+if  [[ -d "/etc/opt/cray/release/" ]]; then
+    try1="-DALLOW_UNSUPPORTED=ON \
+    -DHDF5_ENABLE_PARALLEL:BOOL=ON \
+    -DHDF5_BUILD_CPP_LIB:BOOL=OFF "
+fi
+
 ${CMAKE_COMMAND} \
     -Wno-dev \
     -H${DIR_SRC} \
@@ -25,6 +31,7 @@ ${CMAKE_COMMAND} \
     -DCMAKE_C_COMPILER=$CC \
     -DCMAKE_CXX_COMPILER=$CXX \
     -DBUILD_TESTING=OFF \
+     ${try1} \
     -DCMAKE_BUILD_TYPE=Release
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} --target install -- -j${PARALLEL_BUILD} VERBOSE=1

@@ -130,6 +130,10 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     export BUILD_TARGET_OCTOTIGER=
 fi
 
+if [[ -d "/etc/opt/cray/release/" ]]; then
+    unset BUILD_TARGET_GCC
+    unset BUILD_TARGET_OPENMPI
+fi
 ################################################################################
 # Diagnostics
 ################################################################################
@@ -178,8 +182,10 @@ source gcc-config.sh
     ./build-openmpi.sh
 )
 
-if [[ ${OCT_WITH_PARCEL} == ON ]]; then
-    source openmpi-config.sh
+if [[ ${OCT_WITH_PARCEL} == ON  ]]; then    
+   if [[ -d ${INSTALL_ROOT}/openmpi  ]]; then
+	source openmpi-config.sh
+   fi
 fi
 
 [[ -n ${BUILD_TARGET_BOOST+x} ]] && \

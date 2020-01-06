@@ -15,7 +15,7 @@ export GCC_VERSION=8.3.0
 export OPENMPI_VERSION=4.0.0
 
 # HDF5
-export HDF5_VERSION=1.10.4
+export HDF5_VERSION=1.8.12
 
 # Boost
 export BOOST_VERSION=1.68.0
