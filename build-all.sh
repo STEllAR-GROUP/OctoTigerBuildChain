@@ -43,9 +43,14 @@ if [[ "$3" == "without-mpi" ]]; then
     echo "Parcelport disabled"
 elif [[ "$3" == "with-mpi" ]]; then
     export OCT_WITH_PARCEL=ON
+    export OCT_WITH_LIBFABRIC=OFF
+    echo "Parcelport enabled"
+elif [[ "$3" == "with-libfabric" ]]; then
+    export OCT_WITH_LIBFABRIC=ON
+    export OCT_WITH_PARCEL=OFF
     echo "Parcelport enabled"
 else
-    echo 'Parcelport support must be provided and has to be "with-mpi" or "without-mpi"' >&2
+    echo 'Parcelport support must be provided and has to be "with-mpi" or "without-mpi or "with-libfabric""' >&2
     print_usage_abort
 fi
 
