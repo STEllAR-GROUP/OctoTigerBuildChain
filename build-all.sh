@@ -102,9 +102,14 @@ while [[ -n $4 ]]; do
             export BUILD_TARGET_HPX=
             shift
         ;;
-        octotiger)
+        Yoctotiger)
             echo 'Target octotiger will build.'
             export BUILD_TARGET_OCTOTIGER=
+            shift
+        ;;
+        libfabric)
+            echo 'Target libfabric will build.'
+            export BUILD_TARGET_LIBFABRIC=
             shift
         ;;
         *)
@@ -128,6 +133,7 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     export BUILD_TARGET_VC=
     export BUILD_TARGET_HPX=
     export BUILD_TARGET_OCTOTIGER=
+    export BUILD_TARGET_LIBFABRIC=
 fi
 
 if [[ -d "/etc/opt/cray/release/" ]]; then
@@ -222,6 +228,11 @@ fi
 (
     echo "Building HPX"
     ./build-hpx.sh
+)
+[[ -n ${BUILD_TARGET_LIBFABRIC+x} ]] && \
+(
+    echo "Building LIBFABRIC"
+    ./build-libfabric.sh
 )
 ################################################################################
 # Octo-tiger
