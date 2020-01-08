@@ -44,6 +44,9 @@ export PAPI_VERSION=5.5.1
 # CUDA
 export CUDA_SM=sm_61
 
+#Libfabric
+export LIBFABRIC_VERSION=1.9.0
+
 # Max number of parallel jobs
 export PARALLEL_BUILD=8
 #$(grep -c ^processor /proc/cpuinfo)
