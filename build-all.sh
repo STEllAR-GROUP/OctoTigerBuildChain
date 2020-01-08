@@ -7,7 +7,8 @@ print_usage_abort ()
 {
     cat <<EOF >&2
 SYNOPSIS
-    ${0} {Release|RelWithDebInfo|Debug} {with-cuda|without-cuda}
+    ${0} {Release|RelWithDebInfo|Debug} {with-cuda|without-cuda} 
+    {with-mpi,without-mpi,with-libfabric} {with-papi,without-papi} 
     [cmake|gcc|boost|hdf5|silo|hwloc|jemalloc|vc|hpx|octotiger|openmpi ...]
 DESCRIPTION
     Download, configure, build, and install Octo-tiger and its dependencies or
@@ -54,8 +55,21 @@ else
     print_usage_abort
 fi
 
-while [[ -n $4 ]]; do
-    case $4 in
+
+if [[ "$4" == "without-papi" ]]; then
+    export OCT_WITH_PAPI=OFF
+    echo "Parcelport disabled"
+elif [[ "$4" == "with-papi" ]]; then
+    export OCT_WITH_PAPI=ON
+    export BUILD_TARGET_PAPI=
+    echo "Parcelport enabled"
+else
+    echo 'Parcelport support must be provided and has to be "with-mpi" or "without-mpi"' >&2
+    print_usage_abort
+fi
+
+while [[ -n $5 ]]; do
+    case $5 in
         cmake)
             echo 'Target cmake will build.'
             export BUILD_TARGET_CMAKE=
@@ -115,6 +129,9 @@ while [[ -n $4 ]]; do
         libfabric)
             echo 'Target libfabric will build.'
             export BUILD_TARGET_LIBFABRIC=
+        papi)
+            echo 'Target papi will build.'
+            export BUILD_TARGET_PAPI=
             shift
         ;;
         *)
@@ -139,6 +156,7 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     export BUILD_TARGET_HPX=
     export BUILD_TARGET_OCTOTIGER=
     export BUILD_TARGET_LIBFABRIC=
+    export BUILD_TARGET_PAPI=
 fi
 
 if [[ -d "/etc/opt/cray/release/" ]]; then
@@ -228,6 +246,11 @@ fi
 (
     echo "Building Vc"
     ./build-Vc.sh
+)
+[[ -n ${BUILD_TARGET_PAPI+x} ]] && \
+(
+    echo "Building PAPI"
+    ./build-papi.sh
 )
 [[ -n ${BUILD_TARGET_HPX+x} ]] && \
 (
