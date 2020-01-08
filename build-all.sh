@@ -107,7 +107,7 @@ while [[ -n $4 ]]; do
             export BUILD_TARGET_HPX=
             shift
         ;;
-        Yoctotiger)
+        octotiger)
             echo 'Target octotiger will build.'
             export BUILD_TARGET_OCTOTIGER=
             shift
