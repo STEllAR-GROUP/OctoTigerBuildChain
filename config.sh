@@ -38,11 +38,15 @@ export VC_VERSION=1.4.1
 # Octotiger does not currently work with current master/HEAD
 export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
 
+# PAPI
+export PAPI_VERSION=5.5.1
+
 # CUDA
 export CUDA_SM=sm_61
 
 # Max number of parallel jobs
-export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
+export PARALLEL_BUILD=8
+#$(grep -c ^processor /proc/cpuinfo)
 
 ################################################################################
 # Host-specific configuration
