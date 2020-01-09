@@ -58,18 +58,29 @@ fi
 
 if [[ "$4" == "without-papi" ]]; then
     export OCT_WITH_PAPI=OFF
-    echo "Parcelport disabled"
+    echo "Papi disabled"
 elif [[ "$4" == "with-papi" ]]; then
     export OCT_WITH_PAPI=ON
     export BUILD_TARGET_PAPI=
-    echo "Parcelport enabled"
+    echo "Papi enabled"
 else
-    echo 'Parcelport support must be provided and has to be "with-mpi" or "without-mpi"' >&2
+    echo 'Papi support must be provided and has to be "with-papi" or "without-papi"' >&2
     print_usage_abort
 fi
 
-while [[ -n $5 ]]; do
-    case $5 in
+if [[ "$5" == "without-apex" ]]; then
+    export OCT_WITH_APEX=OFF
+    echo "APEX disabled"
+elif [[ "$5" == "with-apex" ]]; then
+    export OCT_WITH_APEX=ON
+    echo "APEX enabled"
+else
+    echo 'APEX support must be provided and has to be "with-apex" or "without-apex"' >&2
+    print_usage_abort
+fi
+
+while [[ -n $6 ]]; do
+    case $6 in
         cmake)
             echo 'Target cmake will build.'
             export BUILD_TARGET_CMAKE=
@@ -129,7 +140,8 @@ while [[ -n $5 ]]; do
         libfabric)
             echo 'Target libfabric will build.'
             export BUILD_TARGET_LIBFABRIC=
-        papi)
+	;;
+	papi)
             echo 'Target papi will build.'
             export BUILD_TARGET_PAPI=
             shift
