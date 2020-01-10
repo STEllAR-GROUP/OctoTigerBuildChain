@@ -58,13 +58,13 @@ fi
 
 if [[ "$4" == "without-papi" ]]; then
     export OCT_WITH_PAPI=OFF
-    echo "Papi disabled"
+    echo "PAPI disabled"
 elif [[ "$4" == "with-papi" ]]; then
     export OCT_WITH_PAPI=ON
     export BUILD_TARGET_PAPI=
-    echo "Papi enabled"
+    echo "PAPI enabled"
 else
-    echo 'Papi support must be provided and has to be "with-papi" or "without-papi"' >&2
+    echo 'PAPI support must be provided and has to be "with-papi" or "without-papi"' >&2
     print_usage_abort
 fi
 
