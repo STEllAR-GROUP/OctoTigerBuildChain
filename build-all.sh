@@ -138,8 +138,11 @@ while [[ -n $6 ]]; do
             shift
         ;;
         libfabric)
-            echo 'Target libfabric will build.'
-            export BUILD_TARGET_LIBFABRIC=
+	    if [[ "$3" == "with-libfabric" ]]; then
+                echo 'Target libfabric will build.'
+                export BUILD_TARGET_LIBFABRIC=
+            fi
+            shift
 	;;
 	papi)
 	    if [[ "$4" == "with-papi" ]]; then
@@ -169,7 +172,9 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     export BUILD_TARGET_VC=
     export BUILD_TARGET_HPX=
     export BUILD_TARGET_OCTOTIGER=
-    export BUILD_TARGET_LIBFABRIC=
+    if [[ "$3" == "with-libfabric" ]]; then
+        export BUILD_TARGET_LIBFABRIC=
+    fi
     if [[ "$4" == "with-papi" ]]; then
         export BUILD_TARGET_PAPI=
     fi
