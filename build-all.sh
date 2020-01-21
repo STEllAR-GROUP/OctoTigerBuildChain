@@ -142,8 +142,10 @@ while [[ -n $6 ]]; do
             export BUILD_TARGET_LIBFABRIC=
 	;;
 	papi)
-            echo 'Target papi will build.'
-            export BUILD_TARGET_PAPI=
+	    if [[ "$4" == "with-papi" ]]; then
+                echo 'Target papi will build.'
+                export BUILD_TARGET_PAPI=
+            fi
             shift
         ;;
         *)
@@ -168,7 +170,9 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     export BUILD_TARGET_HPX=
     export BUILD_TARGET_OCTOTIGER=
     export BUILD_TARGET_LIBFABRIC=
-    export BUILD_TARGET_PAPI=
+    if [[ "$4" == "with-papi" ]]; then
+        export BUILD_TARGET_PAPI=
+    fi
 fi
 
 if [[ -d "/etc/opt/cray/release/" ]]; then
