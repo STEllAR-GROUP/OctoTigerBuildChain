@@ -43,9 +43,9 @@ if [[ ! -d ${DIR_SRC} ]]; then
          #   | tar xz --strip-components=1
         # Legacy command. Clone the entire repository and use master/HEAD
 	cd ..
-        git clone https://github.com/STEllAR-GROUP/hpx.git
+        #git clone https://github.com/STEllAR-GROUP/hpx.git
 	#cd hpx
-	#git checkout 1.3.0
+	git checkout 1.4.0
 	#cd ..
     )
 fi
