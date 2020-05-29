@@ -1,5 +1,5 @@
 # PowerTiger
-Build chain to build octotiger on x86 and ppc64le
+Build chain to build octotiger on x86, cray. and ppc64le
 
 ## Usage
 
