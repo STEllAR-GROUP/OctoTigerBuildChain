@@ -24,7 +24,7 @@ export OPENMPI_VERSION=4.0.0
 export HDF5_VERSION=1.8.12
 
 # Boost
-export BOOST_VERSION=1.68.0
+export BOOST_VERSION=1.74.0
 export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
@@ -42,7 +42,9 @@ export VC_VERSION=1.4.1
 
 # HPX
 # Octotiger does not currently work with current master/HEAD
-export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
+#export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
+# It does in reconstruct_experimental
+export HPX_VERSION=master
 
 # PAPI
 export PAPI_VERSION=5.7.0

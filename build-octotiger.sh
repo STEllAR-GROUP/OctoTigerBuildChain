@@ -11,6 +11,9 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
+    pushd ${DIR_SRC}
+    git checkout reconstruct_experimental
+    popd
 fi
 
 export LD_LIBRARY_PATH=$INSTALL_ROOT/gcc/lib64:$INSTALL_ROOT/silo/lib/:$INSTALL_ROOT/hdf5/lib:$LD_LIBRARY_PATH
@@ -36,7 +39,7 @@ ${CMAKE_COMMAND} \
     -DSilo_INCLUDE_DIR=$INSTALL_ROOT/silo/include \
     -DSilo_LIBRARY=$INSTALL_ROOT/silo/lib/libsiloh5.a \
     -DSilo_DIR=$INSTALL_ROOT/silo \
-    -DCPPuddl_DIR=$INSTALL_ROOT/cppuddle \
+    -DCPPuddle_DIR=$INSTALL_ROOT/cppuddle/build/cppuddle/lib/cmake/CPPuddle \
     -DCMAKE_CUDA_FLAGS="-arch=$CUDA_SM -ccbin $INSTALL_ROOT/gcc/bin -std=c++14" \
     -DOCTOTIGER_WITH_BLAST_TEST=OFF
 
