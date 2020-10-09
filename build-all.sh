@@ -132,6 +132,11 @@ while [[ -n $6 ]]; do
             export BUILD_TARGET_HPX=
             shift
         ;;
+        cppuddle)
+            echo 'Target cppuddle will build.'
+            export BUILD_TARGET_CPPUDDLE=
+            shift
+        ;;
         octotiger)
             echo 'Target octotiger will build.'
             export BUILD_TARGET_OCTOTIGER=
@@ -172,6 +177,7 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     export BUILD_TARGET_VC=
     export BUILD_TARGET_HPX=
     export BUILD_TARGET_OCTOTIGER=
+    export BUILD_TARGET_CPPUDDLE=
     if [[ "$3" == "with-libfabric" ]]; then
         export BUILD_TARGET_LIBFABRIC=
     fi
@@ -277,6 +283,11 @@ fi
 (
     echo "Building HPX"
     ./build-hpx.sh
+)
+[[ -n ${BUILD_TARGET_CPPUDDLE+x} ]] && \
+(
+    echo "Building CPPuddle"
+    ./build-cppuddle.sh
 )
 [[ -n ${BUILD_TARGET_LIBFABRIC+x} ]] && \
 (
