@@ -10,12 +10,14 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 export CMAKE_VERSION=3.13.2
 
 # GCC
-if [[ "$2" == "without-cuda" ]]; then
-    export GCC_VERSION=8.3.0
-else
-    echo "Using older gcc 7.4 for nvcc compatibility"
-    export GCC_VERSION=7.4.0
-fi
+#if [[ "$2" == "without-cuda" ]]; then
+#    export GCC_VERSION=8.3.0
+#else
+#    echo "Using older gcc 7.4 for nvcc compatibility"
+#    export GCC_VERSION=7.4.0
+#fi
+
+export GCC_VERSION=8.3.0
     
 
 export OPENMPI_VERSION=4.0.0
