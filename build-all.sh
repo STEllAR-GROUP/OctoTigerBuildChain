@@ -184,7 +184,9 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     echo 'No targets specified. All targets will build.'
     export BUILD_TARGET_CMAKE=
     export BUILD_TARGET_GCC=
-    export BUILD_TARGET_OPENMPI=
+    if [[ "$3" == "with-mpi" ]]; then
+        export BUILD_TARGET_OPENMPI=
+    fi
     export BUILD_TARGET_BOOST=
     export BUILD_TARGET_HDF5=
     export BUILD_TARGET_SILO=

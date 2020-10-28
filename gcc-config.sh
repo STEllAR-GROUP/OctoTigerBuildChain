@@ -9,6 +9,7 @@ if [[ -d "/etc/opt/cray/release/" ]]; then
 else
 	export CC=${INSTALL_ROOT}/gcc/bin/gcc
 	export CXX=${INSTALL_ROOT}/gcc/bin/g++
+	export NVCC_WRAPPER_DEFAULT_COMPILER=${CXX}
 	export LD_LIBRARY_PATH=${INSTALL_ROOT}/gcc/lib64:${LD_LIBRARY_PATH}
 fi
 
