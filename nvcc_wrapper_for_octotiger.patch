@@ -1,0 +1,53 @@
+diff --git a/bin/nvcc_wrapper b/bin/nvcc_wrapper
+index bc213497..d654f9ac 100755
+--- a/bin/nvcc_wrapper
++++ b/bin/nvcc_wrapper
+@@ -83,6 +83,7 @@ host_only_args=""
+ 
+ # Just run version on host compiler
+ get_host_version=0
++dumpversion=0
+ 
+ # Enable workaround for CUDA 6.5 for pragma ident
+ replace_pragma_ident=0
+@@ -127,6 +128,9 @@ do
+   --host-version)
+     get_host_version=1
+     ;;
++  -dumpversion)
++    dumpversion=1
++    ;;
+   #replace '#pragma ident' with '#ident' this is needed to compile OpenMPI due to a configure script bug and a non standardized behaviour of pragma with macros
+   --replace-pragma-ident)
+     replace_pragma_ident=1
+@@ -387,6 +391,12 @@ if [ $get_host_version -eq 1 ]; then
+   exit
+ fi
+ 
++# dumpversion (host compiler)
++if [ $dumpversion -eq 1 ]; then
++  $host_compiler -dumpversion
++  exit
++fi
++
+ #Remove duplicate object files
+ if [ $remove_duplicate_link_files -eq 1 ]; then
+ for obj in $object_files
+@@ -497,7 +507,7 @@ if [ $host_only -eq 1 ]; then
+   if [ "$NVCC_WRAPPER_SHOW_COMMANDS_BEING_RUN" == "1" ] ; then
+     echo "$host_command"
+   fi
+-  $host_command
++  eval $host_command
+ elif [ -n "$nvcc_depfile_command" ]; then
+   if [ "$NVCC_WRAPPER_SHOW_COMMANDS_BEING_RUN" == "1" ] ; then
+     echo "$nvcc_command && $nvcc_depfile_command"
+@@ -507,7 +517,7 @@ else
+   if [ "$NVCC_WRAPPER_SHOW_COMMANDS_BEING_RUN" == "1" ] ; then
+     echo "$nvcc_command"
+   fi
+-  $nvcc_command
++  eval $nvcc_command
+ fi
+ error_code=$?
+ 
