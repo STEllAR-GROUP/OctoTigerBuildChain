@@ -10,14 +10,14 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 export CMAKE_VERSION=3.13.2
 
 # GCC
-#if [[ "$2" == "without-cuda" ]]; then
-#    export GCC_VERSION=8.3.0
-#else
-#    echo "Using older gcc 7.4 for nvcc compatibility"
-#    export GCC_VERSION=7.4.0
-#fi
+if [[ "$2" == "without-cuda" ]]; then
+    export GCC_VERSION=8.3.0
+else
+    echo "Using older gcc 7.4 for nvcc compatibility"
+    export GCC_VERSION=7.4.0
+fi
 
-export GCC_VERSION=8.3.0
+#export GCC_VERSION=8.3.0
     
 
 export OPENMPI_VERSION=4.0.0
@@ -26,7 +26,7 @@ export OPENMPI_VERSION=4.0.0
 export HDF5_VERSION=1.8.12
 
 # Boost
-export BOOST_VERSION=1.74.0
+export BOOST_VERSION=1.70.0
 export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 

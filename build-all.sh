@@ -8,7 +8,7 @@ print_usage_abort ()
     cat <<EOF >&2
 SYNOPSIS
     ${0} {Release|RelWithDebInfo|Debug} {with-cuda|without-cuda} 
-    {with-mpi,without-mpi,with-libfabric} {with-papi,without-papi} 
+    {with-mpi,without-mpi,with-libfabric} {with-papi,without-papi} {with-apex,without-apex} {with-kokkos,without-kokkos}
     [cmake|gcc|boost|hdf5|silo|hwloc|jemalloc|vc|hpx|octotiger|openmpi ...]
 DESCRIPTION
     Download, configure, build, and install Octo-tiger and its dependencies or
@@ -79,8 +79,19 @@ else
     print_usage_abort
 fi
 
-while [[ -n $6 ]]; do
-    case $6 in
+if [[ "$6" == "without-kokkos" ]]; then
+    export OCT_WITH_KOKKOS=OFF
+    echo "KOKKOS disabled"
+elif [[ "$6" == "with-kokkos" ]]; then
+    export OCT_WITH_KOKKOS=ON
+    echo "KOKKOS enabled"
+else
+    echo 'KOKKOS support must be provided and has to be "with-kokkos" or "without-kokkos"' >&2
+    print_usage_abort
+fi
+
+while [[ -n $7 ]]; do
+    case $7 in
         cmake)
             echo 'Target cmake will build.'
             export BUILD_TARGET_CMAKE=
@@ -130,6 +141,11 @@ while [[ -n $6 ]]; do
         hpx)
             echo 'Target hpx will build.'
             export BUILD_TARGET_HPX=
+            shift
+        ;;
+        kokkos)
+            echo 'Target kokkos will build.'
+            export BUILD_TARGET_KOKKOS=
             shift
         ;;
         cppuddle)
@@ -183,6 +199,12 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     fi
     if [[ "$4" == "with-papi" ]]; then
         export BUILD_TARGET_PAPI=
+    fi
+    if [[ "$5" == "with-apex" ]]; then
+        export BUILD_TARGET_APEX=
+    fi
+    if [[ "$6" == "with-kokkos" ]]; then
+        export BUILD_TARGET_KOKKOS=
     fi
 fi
 
@@ -283,6 +305,13 @@ fi
 (
     echo "Building HPX"
     ./build-hpx.sh
+)
+[[ -n ${BUILD_TARGET_KOKKOS+x} ]] && \
+(
+    echo "Building KOKKOS"
+    ./build-kokkos.sh
+    echo "Building KOKKOS-HPX"
+    ./build-hpx-kokkos.sh
 )
 [[ -n ${BUILD_TARGET_CPPUDDLE+x} ]] && \
 (

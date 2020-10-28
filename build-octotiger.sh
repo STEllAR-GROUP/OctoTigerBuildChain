@@ -2,7 +2,7 @@
 
 set -ex
 
-: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} \
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${OCT_WITH_KOKKOS:?} \
     ${BOOST_ROOT:?} ${LIBHPX:?}
 
 DIR_SRC=${SOURCE_ROOT}/octotiger
@@ -23,25 +23,30 @@ ${CMAKE_COMMAND} \
     -H${DIR_SRC} \
     -B${DIR_BUILD} \
     -DCMAKE_PREFIX_PATH=${INSTALL_ROOT}/hpx \
-    -DCMAKE_CXX_COMPILER=$CXX \
     -DCMAKE_CXX_FLAGS="$CXXFLAGS -fpermissive" \
     -DCMAKE_EXE_LINKER_FLAGS="$LDCXXFLAGS -lz -L$INSTALL_ROOT/hdf5/lib -lhdf5" \
     -DCMAKE_SHARED_LINKER_FLAGS="$LDCXXFLAGS" \
     -DBOOST_ROOT=$INSTALL_ROOT/boost \
     -DOCTOTIGER_WITH_CUDA=$OCT_WITH_CUDA \
+    -DOCTOTIGER_WITH_KOKKOS=$OCT_WITH_KOKKOS \
+    -DOCTOTIGER_WITH_BLAST_TEST=OFF \
+    -DOCTOTIGER_WITH_TESTS=OFF \
+    -DOCTOTIGER_WITH_LEGACY_VC=OFF \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
-    -DOCTOTIGER_WITH_SILO=ON \
     -DBOOST_ROOT=$BOOST_ROOT \
     -DHPX_DIR=$INSTALL_ROOT/hpx/$LIBHPX/cmake/HPX/ \
     -DHDF5_INCLUDE_DIR=$INSTALL_ROOT/hdf5/include \
-    -DHDF5_LIBRARY=$INSTALL_ROOT/hdf5/lib/libhdf5.a \
     -DSilo_INCLUDE_DIR=$INSTALL_ROOT/silo/include \
     -DSilo_LIBRARY=$INSTALL_ROOT/silo/lib/libsiloh5.a \
     -DSilo_DIR=$INSTALL_ROOT/silo \
     -DCPPuddle_DIR=$INSTALL_ROOT/cppuddle/build/cppuddle/lib/cmake/CPPuddle \
     -DCMAKE_CUDA_FLAGS="-arch=$CUDA_SM -ccbin $INSTALL_ROOT/gcc/bin -std=c++14" \
-    -DOCTOTIGER_WITH_BLAST_TEST=OFF
+    -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/lib/cmake/Kokkos \
+    -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/lib/cmake/HPXKokkos \
+    -DCMAKE_CXX_COMPILER="$INSTALL_ROOT/kokkos/install/bin/nvcc_wrapper"
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 
+    #-DCMAKE_CUDA_FLAGS="-arch=$CUDA_SM -ccbin $INSTALL_ROOT/gcc/bin -std=c++14" \
+    #-DCMAKE_CXX_COMPILER=$CXX \
