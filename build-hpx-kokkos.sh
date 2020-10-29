@@ -2,7 +2,7 @@
 
 set -ex
 
-: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${LIBHPX:?} ${BUILD_TYPE:?} \
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${LIB_DIR_NAME:?} ${BUILD_TYPE:?} \
     ${CMAKE_VERSION:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${CUDA_SM:?} \
     ${BOOST_VERSION:?} ${BOOST_BUILD_TYPE:?} \
     ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_VERSION:?} \
@@ -27,8 +27,8 @@ mkdir -p "$DIR_BUILD"
 ${CMAKE_COMMAND} \
 	-H${DIR_SRC} \
 	-B${DIR_BUILD} \
-	-DKokkos_DIR=$INSTALL_ROOT/kokkos/install/lib/cmake/Kokkos/ \
-	-DHPX_DIR=$INSTALL_ROOT/hpx/$LIBHPX/cmake/HPX/ \
+	-DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos/ \
+	-DHPX_DIR=$INSTALL_ROOT/hpx/${LIB_DIR_NAME}/cmake/HPX/ \
        	-DCMAKE_INSTALL_PREFIX=${INSTALL_ROOT}/hpx-kokkos/install
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1

@@ -19,11 +19,10 @@ export LDCXXFLAGS="${LDFLAGS} -std=c++14 "
 case $(uname -i) in
     ppc64le)
         export CXXFLAGS="-fPIC -mcpu=native -mtune=native -ffast-math -std=c++14 "
-        export LIBHPX=lib64
+        export LIB_DIR_NAME=lib64
         ;;
     x86_64)
         export CXXFLAGS="-fPIC -march=native -ffast-math -std=c++14 "
-        export LIBHPX=lib
         ;;
     *)
         echo 'Unknown architecture encountered.' 2>&1

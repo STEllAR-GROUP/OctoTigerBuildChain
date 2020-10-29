@@ -10,14 +10,7 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 export CMAKE_VERSION=3.13.2
 
 # GCC
-if [[ "$2" == "without-cuda" ]]; then
-    export GCC_VERSION=8.3.0
-else
-    echo "Using older gcc 7.4 for nvcc compatibility"
-    export GCC_VERSION=7.4.0
-fi
-
-#export GCC_VERSION=8.3.0
+export GCC_VERSION=8.3.0
     
 
 export OPENMPI_VERSION=4.0.0
@@ -52,7 +45,10 @@ export HPX_VERSION=master
 export PAPI_VERSION=5.7.0
 
 # CUDA
-export CUDA_SM=sm_61
+export CUDA_SM=sm_70
+export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON \ -DKokkos_ARCH_VOLTA70=ON \ "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON \ -DKokkos_ARCH_PASCAL61=ON \ "
 
 #Libfabric
 export LIBFABRIC_VERSION=1.9.0
@@ -60,17 +56,28 @@ export LIBFABRIC_VERSION=1.9.0
 # Max number of parallel jobs
 export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
 
+export LIB_DIR_NAME=lib
+
 ################################################################################
 # Host-specific configuration
 ################################################################################
 case $(hostname) in
+    pcsgs)
+        echo 'Compiling for pcsgs, doing additional setup'
+        export GCC_VERSION=7.4.0
+        ;;
     krypton)
         echo 'Compiling for krypton, doing additional setup'
-        module load cuda-9.2
+        module load cuda/10.2
+        export LIB_DIR_NAME=lib64
         ;;
     rostam*|geev|bahram|reno|tycho|trillian*|marvin*)
         echo 'Compiling for rostam, doing additional setup'
-        module load cuda/9.2.14
+        export LIB_DIR_NAME=lib64
+        module unload cmake
+        module unload hwloc
+        module unload boost
+        module load cuda
         ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'

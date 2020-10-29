@@ -3,7 +3,7 @@
 set -ex
 
 : ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${OCT_WITH_KOKKOS:?} \
-    ${BOOST_ROOT:?} ${LIBHPX:?}
+    ${BOOST_ROOT:?} ${LIB_DIR_NAME:?}
 
 DIR_SRC=${SOURCE_ROOT}/octotiger
 DIR_BUILD=${INSTALL_ROOT}/octotiger/build
@@ -41,9 +41,9 @@ ${CMAKE_COMMAND} \
     -DSilo_LIBRARY=$INSTALL_ROOT/silo/lib/libsiloh5.a \
     -DSilo_DIR=$INSTALL_ROOT/silo \
     -DCPPuddle_DIR=$INSTALL_ROOT/cppuddle/build/cppuddle/lib/cmake/CPPuddle \
-    -DCMAKE_CUDA_FLAGS="-arch=$CUDA_SM -ccbin $INSTALL_ROOT/gcc/bin -std=c++14" \
-    -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/lib/cmake/Kokkos \
-    -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/lib/cmake/HPXKokkos \
+    -DCMAKE_CUDA_FLAGS="-arch=${CUDA_SM} -ccbin ${INSTALL_ROOT}/gcc/bin -std=c++14" \
+    -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos \
+    -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/${LIB_DIR_NAME}/cmake/HPXKokkos \
     -DCMAKE_CXX_COMPILER="$INSTALL_ROOT/kokkos/install/bin/nvcc_wrapper"
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
