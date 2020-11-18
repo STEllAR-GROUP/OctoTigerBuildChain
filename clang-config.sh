@@ -7,23 +7,19 @@ if [[ -d "/etc/opt/cray/release/" ]]; then
 	export XTPE_LINK_TYPE=dynamic
 	echo "WARNING!!! You should switch to the gnu compiler env (module switch PrgEnv-cray/5.2.82 PrgEnv-gnu)!!!!!!!"
 else
-	export CC=gcc
-	export CXX=g++
-  export OCT_CUDA_INTERNAL_COMPILER=""
-  if [ -z "$OCT_USE_CC_COMPILER" ]
-  then
-    export CC=${INSTALL_ROOT}/gcc/bin/gcc
-    export CXX=${INSTALL_ROOT}/gcc/bin/g++
-    export NVCC_WRAPPER_DEFAULT_COMPILER=${CXX}
-    export LD_LIBRARY_PATH=${INSTALL_ROOT}/gcc/lib64:${LD_LIBRARY_PATH}
-    export OCT_CUDA_INTERNAL_COMPILER=" -ccbin ${INSTALL_ROOT}/gcc/bin "
-  fi
 
-  if [[ "${OCT_WITH_KOKKOS}" == "ON" ]]; then 
-    export OCT_DCMAKE_CXX_COMPILER="$INSTALL_ROOT/kokkos/install/bin/nvcc_wrapper"
-  else
-    export OCT_CMAKE_CXX_COMPILER="$CXX"
+	export CC=clang
+	export CXX=clang++
+	export NVCC_WRAPPER_DEFAULT_COMPILER=clang
+  export OCT_CUDA_INTERNAL_COMPILER=""
+  if [ -z "${OCT_USE_CC_COMPILER}" ]
+  then
+    export CC=${INSTALL_ROOT}/clang/clang/bin/clang
+    export CXX=${INSTALL_ROOT}/clang/clang/bin/clang++
+    export NVCC_WRAPPER_DEFAULT_COMPILER=${CXX}
+    export LD_LIBRARY_PATH=${INSTALL_ROOT}/clang/lib64:${LD_LIBRARY_PATH}
   fi
+	export OCT_CMAKE_CXX_COMPILER="$CXX"
 fi
 
 

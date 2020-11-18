@@ -7,7 +7,7 @@ print_usage_abort ()
 {
     cat <<EOF >&2
 SYNOPSIS
-    ${0} {Release|RelWithDebInfo|Debug} {with-cuda|without-cuda} 
+    ${0} {Release|RelWithDebInfo|Debug} {with-gcc|with-clang|with-CC|with-CC-clang} {with-cuda|without-cuda} 
     {with-mpi,without-mpi,with-libfabric} {with-papi,without-papi} {with-apex,without-apex} {with-kokkos,without-kokkos}
     [cmake|gcc|boost|hdf5|silo|hwloc|jemalloc|vc|hpx|octotiger|openmpi ...]
 DESCRIPTION
@@ -28,10 +28,29 @@ else
     print_usage_abort
 fi
 
-if [[ "$2" == "without-cuda" ]]; then
+if [[ "$2" == "with-gcc" ]]; then
+    export OCT_WITH_CUDA=OFF
+    echo "Using self-built gcc "
+elif [[ "$2" == "with-CC" ]]; then
+    echo "Using CC / CXX compiler (whatever it may be)"
+    export OCT_USE_CC_COMPILER=ON
+elif [[ "$2" == "with-CC-clang" ]]; then
+    echo "Using CC / CXX compiler (but expecting it to be some kind of clang)"
+    export OCT_WITH_CLANG=ON
+    export OCT_USE_CC_COMPILER=ON
+elif [[ "$2" == "with-clang" ]]; then
+    echo "Using self-built clang "
+    export OCT_WITH_CLANG=ON
+else
+    echo 'Compiler must be specified with "with-gcc" or "with-clang" or "with-CC" or "with-CC-clang' >&2
+    print_usage_abort
+fi
+export OCT_COMPILER_OPTION="$2"
+
+if [[ "$3" == "without-cuda" ]]; then
     export OCT_WITH_CUDA=OFF
     echo "CUDA Support: Disabled"
-elif [[ "$2" == "with-cuda" ]]; then
+elif [[ "$3" == "with-cuda" ]]; then
     export OCT_WITH_CUDA=ON
     echo "CUDA Support: Enabled"
 else
@@ -39,14 +58,14 @@ else
     print_usage_abort
 fi
 
-if [[ "$3" == "without-mpi" ]]; then
+if [[ "$4" == "without-mpi" ]]; then
     export OCT_WITH_PARCEL=OFF
     echo "Parcelport disabled"
-elif [[ "$3" == "with-mpi" ]]; then
+elif [[ "$4" == "with-mpi" ]]; then
     export OCT_WITH_PARCEL=ON
     export OCT_WITH_LIBFABRIC=OFF
     echo "Parcelport enabled"
-elif [[ "$3" == "with-libfabric" ]]; then
+elif [[ "$4" == "with-libfabric" ]]; then
     export OCT_WITH_LIBFABRIC=ON
     export OCT_WITH_PARCEL=OFF
     echo "Parcelport enabled"
@@ -56,10 +75,10 @@ else
 fi
 
 
-if [[ "$4" == "without-papi" ]]; then
+if [[ "$5" == "without-papi" ]]; then
     export OCT_WITH_PAPI=OFF
     echo "PAPI disabled"
-elif [[ "$4" == "with-papi" ]]; then
+elif [[ "$5" == "with-papi" ]]; then
     export OCT_WITH_PAPI=ON
 #    export BUILD_TARGET_PAPI=
     echo "PAPI enabled"
@@ -68,10 +87,10 @@ else
     print_usage_abort
 fi
 
-if [[ "$5" == "without-apex" ]]; then
+if [[ "$6" == "without-apex" ]]; then
     export OCT_WITH_APEX=OFF
     echo "APEX disabled"
-elif [[ "$5" == "with-apex" ]]; then
+elif [[ "$6" == "with-apex" ]]; then
     export OCT_WITH_APEX=ON
     echo "APEX enabled"
 else
@@ -79,28 +98,47 @@ else
     print_usage_abort
 fi
 
-if [[ "$6" == "without-kokkos" ]]; then
+if [[ "$7" == "without-kokkos" ]]; then
     export OCT_WITH_KOKKOS=OFF
     echo "KOKKOS disabled"
-elif [[ "$6" == "with-kokkos" ]]; then
+elif [[ "$7" == "with-kokkos" ]]; then
     export OCT_WITH_KOKKOS=ON
     echo "KOKKOS enabled"
+    if [[ "${OCT_WITH_CLANG}" == "ON" ]]; then
+        echo 'clang and octotiger-kokkos currently do not work together!' >&2
+        print_usage_abort
+    fi
 else
     echo 'KOKKOS support must be provided and has to be "with-kokkos" or "without-kokkos"' >&2
     print_usage_abort
 fi
 
-while [[ -n $7 ]]; do
-    case $7 in
+while [[ -n $8 ]]; do
+    case $8 in
         cmake)
             echo 'Target cmake will build.'
             export BUILD_TARGET_CMAKE=
             shift
         ;;
         gcc)
-            echo 'Target gcc will build.'
-            export BUILD_TARGET_GCC=
-            shift
+            if [[ "$2" == "with-gcc" ]]; then
+              echo 'Target gcc will build.'
+              export BUILD_TARGET_GCC=
+              shift
+            else  
+              echo 'Error: Trying to build gcc target without using the with-gcc parameter' >&2
+              print_usage_abort
+            fi
+        ;;
+        clang)
+            if [[ "$2" == "with-clang" ]]; then
+              echo 'Target clang will build.'
+              export BUILD_TARGET_CLANG=
+              shift
+            else  
+              echo 'Error: Trying to build clang target without using the with-clang parameter' >&2
+              print_usage_abort
+            fi
         ;;
         openmpi)
             echo 'Target openmpi will build.'
@@ -183,8 +221,12 @@ done
 if [[ -z ${!BUILD_TARGET_@} ]]; then
     echo 'No targets specified. All targets will build.'
     export BUILD_TARGET_CMAKE=
-    export BUILD_TARGET_GCC=
-    if [[ "$3" == "with-mpi" ]]; then
+    if [[ "$2" == "with-gcc" ]]; then
+      export BUILD_TARGET_GCC=
+    elif [[ "$2" == "with-clang" ]]; then
+        export BUILD_TARGET_CLANG=
+    fi
+    if [[ "$4" == "with-mpi" ]]; then
         export BUILD_TARGET_OPENMPI=
     fi
     export BUILD_TARGET_BOOST=
@@ -196,22 +238,23 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     export BUILD_TARGET_HPX=
     export BUILD_TARGET_OCTOTIGER=
     export BUILD_TARGET_CPPUDDLE=
-    if [[ "$3" == "with-libfabric" ]]; then
+    if [[ "$4" == "with-libfabric" ]]; then
         export BUILD_TARGET_LIBFABRIC=
     fi
-    if [[ "$4" == "with-papi" ]]; then
+    if [[ "$5" == "with-papi" ]]; then
         export BUILD_TARGET_PAPI=
     fi
-    if [[ "$5" == "with-apex" ]]; then
+    if [[ "$6" == "with-apex" ]]; then
         export BUILD_TARGET_APEX=
     fi
-    if [[ "$6" == "with-kokkos" ]]; then
+    if [[ "$7" == "with-kokkos" ]]; then
         export BUILD_TARGET_KOKKOS=
     fi
 fi
 
 if [[ -d "/etc/opt/cray/release/" ]]; then
     unset BUILD_TARGET_GCC
+    unset BUILD_TARGET_CLANG
     unset BUILD_TARGET_OPENMPI
 fi
 ################################################################################
@@ -242,6 +285,31 @@ mkdir -p ${SOURCE_ROOT} ${INSTALL_ROOT}
     echo "Building GCC"
     ./build-gcc.sh
 )
+[[ -n ${BUILD_TARGET_CLANG+x} ]] && \
+(
+    echo "Building clang"
+    ./build-clang.sh
+)
+
+# Set Compiler Environment Variables
+if [[ "${OCT_COMPILER_OPTION}" == "with-gcc" ]]; then
+    echo "Using gcc"
+    source gcc-config.sh
+elif [[ "${OCT_COMPILER_OPTION}" == "with-clang" ]]; then
+    echo "Using clang"
+    source clang-config.sh
+elif [[ "${OCT_COMPILER_OPTION}" == "with-CC" ]]; then
+    export OCT_USE_CC_COMPILER=ON
+    source gcc-config.sh
+elif [[ "${OCT_COMPILER_OPTION}" == "with-CC-clang" ]]; then
+    echo "Using clang"
+    export OCT_USE_CC_COMPILER=ON
+    source clang-config.sh
+else
+    echo "Unknown compiler option: $2"
+    exit 1
+fi
+
 
 [[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (
@@ -249,12 +317,11 @@ mkdir -p ${SOURCE_ROOT} ${INSTALL_ROOT}
     ./build-cmake.sh
 )
 export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
+#export CMAKE_COMMAND=cmake
 
 ################################################################################
 # Dependencies
 ################################################################################
-# Set GCC Environment Variables
-source gcc-config.sh
 
 [[ -n ${BUILD_TARGET_OPENMPI+x} ]] && \
 (
