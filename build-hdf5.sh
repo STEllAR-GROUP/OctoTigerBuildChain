@@ -11,7 +11,7 @@ DIR_INSTALL=${INSTALL_ROOT}/hdf5
 FILE_MODULE=${INSTALL_ROOT}/modules/hdf5/${HDF5_VERSION}
 
 if [[ ! -d ${DIR_SRC} ]]; then
-    git clone https://github.com/live-clones/hdf5 ${DIR_SRC}
+    git clone https://github.com/HDFGroup/hdf5 ${DIR_SRC}
     cd ${DIR_SRC}
     git checkout hdf5-${HDF5_VERSION//./_}
     cd -
