@@ -99,11 +99,12 @@ else
 fi
 
 if [[ "$7" == "without-kokkos" ]]; then
+    echo "KOKKOS disabled"
     export OCT_WITH_KOKKOS=OFF
     echo "KOKKOS disabled"
 elif [[ "$7" == "with-kokkos" ]]; then
-    export OCT_WITH_KOKKOS=ON
     echo "KOKKOS enabled"
+    export OCT_WITH_KOKKOS=ON
     if [[ "${OCT_WITH_CLANG}" == "ON" ]]; then
         echo 'clang and octotiger-kokkos currently do not work together!' >&2
         print_usage_abort

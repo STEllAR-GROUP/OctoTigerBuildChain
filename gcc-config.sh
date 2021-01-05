@@ -1,4 +1,4 @@
-: ${INSTALL_ROOT:?'INSTALL_ROOT must be set to the appropriate path'}
+: ${INSTALL_ROOT:?} ${OCT_WITH_KOKKOS:?}
 
 if [[ -d "/etc/opt/cray/release/" ]]; then
 	export CC=cc
@@ -20,7 +20,7 @@ else
   fi
 
   if [[ "${OCT_WITH_KOKKOS}" == "ON" ]]; then 
-    export OCT_DCMAKE_CXX_COMPILER="$INSTALL_ROOT/kokkos/install/bin/nvcc_wrapper"
+    export OCT_CMAKE_CXX_COMPILER="$INSTALL_ROOT/kokkos/install/bin/nvcc_wrapper"
   else
     export OCT_CMAKE_CXX_COMPILER="$CXX"
   fi
