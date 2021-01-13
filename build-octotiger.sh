@@ -13,7 +13,7 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    git checkout reconstruct_experimental
+    git checkout hip21
     popd
 fi
 
