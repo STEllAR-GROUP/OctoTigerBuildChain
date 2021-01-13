@@ -152,7 +152,7 @@ fi
 
 if [[ "${11}" == "without-hpx-cuda-polling" ]]; then
     echo "HPX Kokkos with cuda callbacks"
-    export HPX_KOKKOS_FUTURE_TYPE=callack
+    export HPX_KOKKOS_FUTURE_TYPE=callback
 elif [[ "${11}" == "with-hpx-cuda-polling" ]]; then
     echo "HPX Kokkos with cuda event polling"
     export HPX_KOKKOS_FUTURE_TYPE=event
