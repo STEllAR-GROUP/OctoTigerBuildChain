@@ -7,7 +7,7 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 # Package Configuration
 ################################################################################
 # CMake
-export CMAKE_VERSION=3.13.2
+export CMAKE_VERSION=3.14.2
 
 # GCC
 export GCC_VERSION=8.3.0
@@ -47,10 +47,11 @@ export HPX_VERSION=1.5.1
 export PAPI_VERSION=5.7.0
 
 # CUDA
-export CUDA_SM=sm_70
-export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
-#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON \ -DKokkos_ARCH_VOLTA70=ON \ "
-#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON \ -DKokkos_ARCH_PASCAL61=ON \ "
+#export CUDA_SM=sm_70
+export CUDA_SM=sm_61
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
+export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
 
 #Libfabric
 export LIBFABRIC_VERSION=1.9.0

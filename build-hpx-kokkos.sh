@@ -24,9 +24,12 @@ if [[ ! -d ${DIR_SRC} ]]; then
 fi
 
 mkdir -p "$DIR_BUILD"
+# use either event or callback for the future type
+# octotiger will use this to enable the event polling if required
 ${CMAKE_COMMAND} \
 	-H${DIR_SRC} \
 	-B${DIR_BUILD} \
+  -DHPX_KOKKOS_CUDA_FUTURE_TYPE=${HPX_KOKKOS_FUTURE_TYPE} \
 	-DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos/ \
 	-DHPX_DIR=$INSTALL_ROOT/hpx/${LIB_DIR_NAME}/cmake/HPX/ \
        	-DCMAKE_INSTALL_PREFIX=${INSTALL_ROOT}/hpx-kokkos/install
