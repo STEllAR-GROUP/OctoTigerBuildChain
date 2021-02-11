@@ -5,14 +5,14 @@ set -ex
 : ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${OCT_WITH_KOKKOS:?} \
     ${BOOST_ROOT:?} ${LIB_DIR_NAME:?}
 
-DIR_SRC=${SOURCE_ROOT}/octotiger
-DIR_BUILD=${INSTALL_ROOT}/octotiger/build
+DIR_SRC=${SOURCE_ROOT}/octotiger-kokkos
+DIR_BUILD=${INSTALL_ROOT}/octotiger/build-kokkos
 #DIR_INSTALL=${INSTALL_ROOT}/octotiger
 
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    git checkout reconstruct_experimental
+    git checkout summit_fixes
     popd
 fi
 

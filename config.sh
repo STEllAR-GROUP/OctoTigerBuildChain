@@ -7,7 +7,7 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 # Package Configuration
 ################################################################################
 # CMake
-export CMAKE_VERSION=3.13.2
+export CMAKE_VERSION=3.14.2
 
 # GCC
 export GCC_VERSION=8.3.0

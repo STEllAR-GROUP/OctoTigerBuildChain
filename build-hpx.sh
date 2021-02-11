@@ -46,7 +46,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
         git clone https://github.com/STEllAR-GROUP/hpx.git
 	cd hpx
 	#git checkout 1.4.0
-	git checkout master
+	git checkout a1305aa34dc38065d2a4d3eae42b2a6337c01e97
 	cd ..
     )
 fi

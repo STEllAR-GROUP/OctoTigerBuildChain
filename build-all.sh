@@ -311,6 +311,7 @@ else
     exit 1
 fi
 
+./build-papi.sh
 
 [[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (

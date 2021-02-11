@@ -19,6 +19,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
 	git clone https://github.com/STEllAR-GROUP/hpx-kokkos.git hpx-kokkos
 	cd hpx-kokkos
+	git checkout 926b882ea8b5da34c4415c1f404c0bd5f577f2e5
 	cd ..
     )
 fi
