@@ -9,6 +9,9 @@ print_usage_abort ()
 SYNOPSIS
     ${0} {Release|RelWithDebInfo|Debug} {with-gcc|with-clang|with-CC|with-CC-clang} {with-cuda|without-cuda} 
     {with-mpi,without-mpi,with-libfabric} {with-papi,without-papi} {with-apex,without-apex} {with-kokkos,without-kokkos}
+    {with-simd,without-simd} {with-hpx-backend-multipole,without-hpx-backend-multipole} 
+    {with-hpx-backend-monopole,without-hpx-backend-monopole}
+    {without-hpx-cuda-polling, without-hpx-cuda-polling}
     [cmake|gcc|boost|hdf5|silo|hwloc|jemalloc|vc|hpx|octotiger|openmpi ...]
 DESCRIPTION
     Download, configure, build, and install Octo-tiger and its dependencies or
@@ -114,8 +117,53 @@ else
     print_usage_abort
 fi
 
-while [[ -n $8 ]]; do
-    case $8 in
+if [[ "$8" == "without-simd" ]]; then
+    echo "KOKKOS SIMD disabled"
+    export OCT_WITH_KOKKOS_SCALAR=ON
+elif [[ "$8" == "with-simd" ]]; then
+    echo "KOKKOS SIMD enabled"
+    export OCT_WITH_KOKKOS_SCALAR=OFF
+else
+    echo 'KOKKOS simd flag must be provided and has to be "with-simd" or "without-simd"' >&2
+    print_usage_abort
+fi
+
+if [[ "$9" == "without-hpx-backend-multipole" ]]; then
+    echo "Multipole Kokkos Serial backend enabled"
+    export OCT_WITH_MULTIPOLE_HPX_EXECUTOR=OFF
+elif [[ "$9" == "with-hpx-backend-multipole" ]]; then 
+    echo "Multipole Kokkos HPX backend enabled"
+    export OCT_WITH_MULTIPOLE_HPX_EXECUTOR=ON
+else
+    echo 'Multipole kokkos backend flag must either be "with-hpx-backend-multipole" or "without-hpx-backend-multipole"' >&2
+    print_usage_abort
+fi
+
+if [[ "${10}" == "without-hpx-backend-monopole" ]]; then
+    echo "Monopole Kokkos Serial backend enabled"
+    export OCT_WITH_MONOPOLE_HPX_EXECUTOR=OFF
+elif [[ "${10}" == "with-hpx-backend-monopole" ]]; then
+    echo "Monopole Kokkos HPX backend enabled"
+    export OCT_WITH_MONOPOLE_HPX_EXECUTOR=ON
+else
+    echo 'Multipole kokkos backend flag must either be "with-hpx-backend-monopole" or "without-hpx-backend-monopole"' >&2
+    print_usage_abort
+fi
+
+if [[ "${11}" == "without-hpx-cuda-polling" ]]; then
+    echo "HPX Kokkos with cuda callbacks"
+    export HPX_KOKKOS_FUTURE_TYPE=callback
+elif [[ "${11}" == "with-hpx-cuda-polling" ]]; then
+    echo "HPX Kokkos with cuda event polling"
+    export HPX_KOKKOS_FUTURE_TYPE=event
+else
+    echo 'CUDA polling argument must be either "with-hpx-cuda-polling" or "without-hpx-cuda-polling"' >&2
+    print_usage_abort
+fi
+
+while [[ -n ${12} ]]; do
+    echo " Currently handling build ${12}"
+    case ${12} in
         cmake)
             echo 'Target cmake will build.'
             export BUILD_TARGET_CMAKE=
@@ -213,6 +261,7 @@ while [[ -n $8 ]]; do
         ;;
         *)
             echo 'Unrecognizable argument passesd.' >&2
+            echo "Argument was: ${12}" >&2
             print_usage_abort
         ;;
     esac
