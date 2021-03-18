@@ -19,7 +19,7 @@ else
     export OCT_CUDA_INTERNAL_COMPILER=" -ccbin ${INSTALL_ROOT}/gcc/bin "
   fi
 
-  if [[ "${OCT_WITH_KOKKOS}" == "ON" ]]; then 
+  if [ "${OCT_WITH_KOKKOS}" == "ON" ] && [ "${OCT_WITH_CUDA}" == "ON" ]; then 
     export OCT_CMAKE_CXX_COMPILER="$INSTALL_ROOT/kokkos/install/bin/nvcc_wrapper"
   else
     export OCT_CMAKE_CXX_COMPILER="$CXX"

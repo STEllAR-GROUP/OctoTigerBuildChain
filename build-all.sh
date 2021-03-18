@@ -108,10 +108,6 @@ if [[ "$7" == "without-kokkos" ]]; then
 elif [[ "$7" == "with-kokkos" ]]; then
     echo "KOKKOS enabled"
     export OCT_WITH_KOKKOS=ON
-    if [[ "${OCT_WITH_CLANG}" == "ON" ]]; then
-        echo 'clang and octotiger-kokkos currently do not work together!' >&2
-        print_usage_abort
-    fi
 else
     echo 'KOKKOS support must be provided and has to be "with-kokkos" or "without-kokkos"' >&2
     print_usage_abort
@@ -363,11 +359,12 @@ fi
 
 [[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (
-    echo "Building CMake"
-    ./build-cmake.sh
+    #echo "Building CMake"
+    #./build-cmake.sh
+    spack load cmake
 )
-export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
-#export CMAKE_COMMAND=cmake
+#export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
+export CMAKE_COMMAND=cmake
 
 ################################################################################
 # Dependencies
