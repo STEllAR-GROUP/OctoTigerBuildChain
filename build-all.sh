@@ -345,6 +345,7 @@ elif [[ "${OCT_COMPILER_OPTION}" == "with-clang" ]]; then
     echo "Using clang"
     source clang-config.sh
 elif [[ "${OCT_COMPILER_OPTION}" == "with-CC" ]]; then
+    echo "Using gcc"
     export OCT_USE_CC_COMPILER=ON
     source gcc-config.sh
 elif [[ "${OCT_COMPILER_OPTION}" == "with-CC-clang" ]]; then

@@ -1,15 +1,16 @@
-: ${INSTALL_ROOT:?} ${OCT_WITH_KOKKOS:?}
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${OCT_WITH_KOKKOS:?}
 
 if [[ -d "/etc/opt/cray/release/" ]]; then
-	export CC=cc
-	export CXX=CC
-	export CRAYPE_LINK_TYPE=dynamic
-	export XTPE_LINK_TYPE=dynamic
-	echo "WARNING!!! You should switch to the gnu compiler env (module switch PrgEnv-cray/5.2.82 PrgEnv-gnu)!!!!!!!"
+  export CC=cc
+  export CXX=CC
+  export CRAYPE_LINK_TYPE=dynamic
+  export XTPE_LINK_TYPE=dynamic
+  echo "WARNING!!! You should switch to the gnu compiler env (module switch PrgEnv-cray/5.2.82 PrgEnv-gnu)!!!!!!!"
 else
-	export CC=gcc
-	export CXX=g++
+  export CC=gcc
+  export CXX=g++
   export OCT_CUDA_INTERNAL_COMPILER=""
+  export OCT_CUDA_INTERNAL_COMPILER_INITIAL=""
   if [ -z "$OCT_USE_CC_COMPILER" ]
   then
     export CC=${INSTALL_ROOT}/gcc/bin/gcc
@@ -21,8 +22,10 @@ else
 
   if [ "${OCT_WITH_KOKKOS}" == "ON" ] && [ "${OCT_WITH_CUDA}" == "ON" ]; then 
     export OCT_CMAKE_CXX_COMPILER="$INSTALL_ROOT/kokkos/install/bin/nvcc_wrapper"
+    export OCT_CMAKE_CXX_COMPILER_INITIAL="$SOURCE_ROOT/kokkos/bin/nvcc_wrapper"
   else
     export OCT_CMAKE_CXX_COMPILER="$CXX"
+    export OCT_CMAKE_CXX_COMPILER_INITIAL="$CXX"
   fi
 fi
 

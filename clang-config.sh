@@ -20,6 +20,7 @@ else
     export LD_LIBRARY_PATH=${INSTALL_ROOT}/clang/lib64:${LD_LIBRARY_PATH}
   fi
 	export OCT_CMAKE_CXX_COMPILER="$CXX"
+	export OCT_CMAKE_CXX_COMPILER_INITIAL="$CXX"
 fi
 
 
