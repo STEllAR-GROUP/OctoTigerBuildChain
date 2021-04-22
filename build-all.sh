@@ -161,9 +161,17 @@ else
     print_usage_abort
 fi
 
-while [[ -n ${12} ]]; do
-    echo " Currently handling build ${12}"
-    case ${12} in
+if [[ "${12}" == "without-otf2" ]]; then
+    echo "OTF2 disabled"
+    export HPX_WITH_OTF2=OFF
+elif [[ "${12}" == "with-otf2" ]]; then
+    echo "OTF2 enabled"
+    export HPX_WITH_OTF2=ON
+fi
+
+while [[ -n ${13} ]]; do
+    echo " Currently handling build ${13}"
+    case ${13} in
         cmake)
             echo 'Target cmake will build.'
             export BUILD_TARGET_CMAKE=
@@ -259,6 +267,14 @@ while [[ -n ${12} ]]; do
             fi
             shift
         ;;
+	otf2)
+	    if [[ "$12" == "with-otf2" ]]; then
+                echo 'Target OTF2 will build.'
+                export BUILD_TARGET_OTF2=
+            fi
+	export BUILD_TARGET_OTF2=
+            shift
+        ;;
         *)
             echo 'Unrecognizable argument passesd.' >&2
             echo "Argument was: ${12}" >&2
@@ -299,6 +315,9 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     fi
     if [[ "$7" == "with-kokkos" ]]; then
         export BUILD_TARGET_KOKKOS=
+    fi
+    if [[ "$12" == "with-otf2" ]]; then
+        export BUILD_TARGET_OTF2=
     fi
 fi
 
@@ -359,8 +378,6 @@ else
     echo "Unknown compiler option: $2"
     exit 1
 fi
-
-./build-papi.sh
 
 [[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (
@@ -442,6 +459,11 @@ fi
 (
     echo "Building LIBFABRIC"
     ./build-libfabric.sh
+)
+[[ -n ${BUILD_TARGET_OTF2+x} ]] && \
+(
+    echo "Building LIBFABRIC"
+    ./build-otf2.sh
 )
 ################################################################################
 # Octo-tiger

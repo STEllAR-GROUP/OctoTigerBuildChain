@@ -13,7 +13,7 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build-kokkos
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    git checkout change_kernel_parameters
+    git checkout summit_experimental
     popd
 fi
 
@@ -30,7 +30,7 @@ ${CMAKE_COMMAND} \
     -DBOOST_ROOT=$INSTALL_ROOT/boost \
     -DOCTOTIGER_WITH_CUDA=$OCT_WITH_CUDA \
     -DOCTOTIGER_WITH_KOKKOS=$OCT_WITH_KOKKOS \
-    -DOCTOTIGER_WITH_BLAST_TEST=OFF \
+    -DOCTOTIGER_WITH_BLAST_TEST=ON \
     -DOCTOTIGER_WITH_TESTS=OFF \
     -DOCTOTIGER_WITH_Vc=OFF \
     -DOCTOTIGER_WITH_LEGACY_VC=OFF \
@@ -41,7 +41,7 @@ ${CMAKE_COMMAND} \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
     -DBOOST_ROOT=$BOOST_ROOT \
-    -DHPX_DIR=$INSTALL_ROOT/hpx/$LIBHPX/cmake/HPX/ \
+    -DHPX_DIR=$INSTALL_ROOT/hpx/$LIBHPX64/cmake/HPX/ \
     -DHDF5_INCLUDE_DIR=$INSTALL_ROOT/hdf5/include \
     -DSilo_INCLUDE_DIR=$INSTALL_ROOT/silo/include \
     -DSilo_LIBRARY=$INSTALL_ROOT/silo/lib/libsiloh5.a \
@@ -50,7 +50,8 @@ ${CMAKE_COMMAND} \
     -DCMAKE_CUDA_FLAGS="-arch=${CUDA_SM} ${OCT_CUDA_INTERNAL_COMPILER} -std=c++14" \
     -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos \
     -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/${LIB_DIR_NAME}/cmake/HPXKokkos \
-    -DCMAKE_CXX_COMPILER="${OCT_CMAKE_CXX_COMPILER}"
+    -DCMAKE_CXX_COMPILER="${OCT_CMAKE_CXX_COMPILER}" \
+    -DOCTOTIGER_WITH_GRIDDIM=16
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 
