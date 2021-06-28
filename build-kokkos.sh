@@ -19,7 +19,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
 	git clone https://github.com/kokkos/kokkos kokkos
 	cd kokkos
-	git checkout 1774165304d81ea2db3818b7020f6c71fbefac97
+	#git checkout 1774165304d81ea2db3818b7020f6c71fbefac97
+	git checkout 3.4.00
 	git apply ../../nvcc_wrapper_for_octotiger.patch
 	cd ..
     )

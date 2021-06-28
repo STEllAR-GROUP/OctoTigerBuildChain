@@ -360,9 +360,8 @@ fi
 
 [[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (
-    #echo "Building CMake"
+    echo "Building CMake"
     #./build-cmake.sh
-    spack load cmake
 )
 #export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
 export CMAKE_COMMAND=cmake

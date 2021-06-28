@@ -21,7 +21,7 @@ export OPENMPI_VERSION=4.0.0
 export HDF5_VERSION=1.8.12
 
 # Boost
-export BOOST_VERSION=1.72.0
+export BOOST_VERSION=1.73.0
 export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
@@ -47,12 +47,12 @@ export HPX_VERSION=1.5.1
 export PAPI_VERSION=5.7.0
 
 # CUDA
-#export CUDA_SM=sm_70
-export CUDA_SM=sm_61
+export CUDA_SM=sm_70
+#export CUDA_SM=sm_61
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
-#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
+export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
-export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
 
@@ -77,10 +77,14 @@ case $(hostname) in
         module load cuda/10.2
         export LIB_DIR_NAME=lib64
         ;;
-    rostam*|geev|bahram|reno|tycho|trillian*|marvin*)
-        echo 'Compiling for rostam, doing additional setup'
+    diablo.rostam.cct.lsu.edu)
+        echo 'Compiling for diablo, doing additional setup'
         export LIB_DIR_NAME=lib64
-        module unload cmake
+        ;;
+    geev.rostam.cct.lsu.edu)
+        echo 'Compiling for geev, doing additional setup'
+        export LIB_DIR_NAME=lib64
+        module load cmake
         module unload hwloc
         module unload boost
         module load cuda
