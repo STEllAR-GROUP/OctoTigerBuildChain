@@ -13,7 +13,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/SC-SGS/CPPuddle.git ${DIR_SRC}
 fi
 
-cd ${DIR_STRC}
+cd ${DIR_SRC}
 git pull
 cd -
 
