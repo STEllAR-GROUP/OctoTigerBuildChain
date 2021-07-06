@@ -47,7 +47,7 @@ ${CMAKE_COMMAND} \
     -DSilo_INCLUDE_DIR=$INSTALL_ROOT/silo/include \
     -DSilo_LIBRARY=$INSTALL_ROOT/silo/lib/libsiloh5.a \
     -DSilo_DIR=$INSTALL_ROOT/silo \
-    -DCMAKE_CUDA_FLAGS="-arch=${CUDA_SM} ${OCT_CUDA_INTERNAL_COMPILER} -std=c++14" \
+    -DCMAKE_CUDA_FLAGS="-arch=${CUDA_SM} ${OCT_CUDA_INTERNAL_COMPILER} " \
     -DOCTOTIGER_CUDA_ARCH=${CUDA_SM} \
     -DCPPuddle_DIR=$INSTALL_ROOT/cppuddle/build/cppuddle/lib/cmake/CPPuddle \
     -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos \
