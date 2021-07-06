@@ -11,9 +11,9 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 #DIR_INSTALL=${INSTALL_ROOT}/octotiger
 
 if [[ ! -d ${DIR_SRC} ]]; then
-    git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
+    git clone --recurse-submodules https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    git checkout hip21
+    git checkout develop
     popd
 fi
 
