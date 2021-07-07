@@ -11,9 +11,10 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 #DIR_INSTALL=${INSTALL_ROOT}/octotiger
 
 if [[ ! -d ${DIR_SRC} ]]; then
-    git clone --recurse-submodules https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
+    git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
     git checkout develop
+    git submodule update --init --recursive
     popd
 fi
 
