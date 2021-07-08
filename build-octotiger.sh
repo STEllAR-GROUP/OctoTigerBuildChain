@@ -14,6 +14,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
     git clone --recurse-submodules https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
     git checkout develop
+    cp ../../knl_t_number.patch .
+    git apply knl_t_number.patch
     popd
 fi
 

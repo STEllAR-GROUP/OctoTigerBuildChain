@@ -41,6 +41,7 @@ case $(uname -i) in
         ;;
     x86_64)
         export CXXFLAGS="-fPIC -march=native -ffast-math -std=c++14 "
+        #export CFLAGS=" -Wno-cpp "
         export LIBHPX=lib
         ;;
     *)

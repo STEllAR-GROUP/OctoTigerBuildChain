@@ -447,3 +447,6 @@ fi
     echo "Building Octo-tiger"
     ./build-octotiger.sh
 )
+
+#echo "finished building"
+#exit 0
