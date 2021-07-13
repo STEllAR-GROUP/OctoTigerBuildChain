@@ -33,8 +33,12 @@ fi
 #fi
 (
     cd ${DIR_SRC}
-    ./bootstrap.sh --prefix=${DIR_INSTALL} --with-toolset=gcc
-    ./b2 -j${PARALLEL_BUILD} "${flag1}" ${flag2} --with-atomic --with-filesystem --with-program_options --with-regex --with-system --with-chrono --with-date_time --with-thread ${BOOST_BUILD_TYPE} install
+    if [[ "${OCT_WITH_CLANG}" == "ON" ]]; then
+        ./bootstrap.sh --prefix=${DIR_INSTALL} --with-toolset=clang
+    else
+        ./bootstrap.sh --prefix=${DIR_INSTALL} --with-toolset=gcc
+    fi
+    ./b2 -j${PARALLEL_BUILD} "${flag1}" ${flag2} --with-atomic --with-filesystem --with-program_options --with-regex --with-system --with-chrono --with-date_time --with-thread --with-iostreams ${BOOST_BUILD_TYPE} install
 )
 # Patch Boost 1.69 - HPX 1.2 compatibility issue
 cp ${POWERTIGER_ROOT}/sign.hpp ${DIR_INSTALL}/include/boost/spirit/home/support/detail/

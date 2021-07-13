@@ -7,15 +7,12 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 # Package Configuration
 ################################################################################
 # CMake
-export CMAKE_VERSION=3.13.2
+export CMAKE_VERSION=3.19.5
 
 # GCC
-if [[ "$2" == "without-cuda" ]]; then
-    export GCC_VERSION=8.3.0
-else
-    echo "Using older gcc 7.4 for nvcc compatibility"
-    export GCC_VERSION=7.4.0
-fi
+export GCC_VERSION=9.3.0
+
+export CLANG_VERSION=release_60
     
 
 export OPENMPI_VERSION=4.0.0
@@ -24,7 +21,7 @@ export OPENMPI_VERSION=4.0.0
 export HDF5_VERSION=1.8.12
 
 # Boost
-export BOOST_VERSION=1.68.0
+export BOOST_VERSION=1.73.0
 export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
@@ -42,13 +39,22 @@ export VC_VERSION=1.4.1
 
 # HPX
 # Octotiger does not currently work with current master/HEAD
-export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
+#export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
+# It does in reconstruct_experimental
+export HPX_VERSION=1.5.1
 
 # PAPI
 export PAPI_VERSION=5.7.0
 
 # CUDA
-export CUDA_SM=sm_61
+export CUDA_SM=sm_70
+#export CUDA_SM=sm_61
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
+export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
 
 #Libfabric
 export LIBFABRIC_VERSION=1.9.0
@@ -56,17 +62,32 @@ export LIBFABRIC_VERSION=1.9.0
 # Max number of parallel jobs
 export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
 
+export LIB_DIR_NAME=lib
+
 ################################################################################
 # Host-specific configuration
 ################################################################################
 case $(hostname) in
+    pcsgs)
+        echo 'Compiling for pcsgs, doing additional setup'
+        export GCC_VERSION=7.4.0
+        ;;
     krypton)
         echo 'Compiling for krypton, doing additional setup'
-        module load cuda-9.2
+        module load cuda/10.2
+        export LIB_DIR_NAME=lib64
         ;;
-    rostam*|geev|bahram|reno|tycho|trillian*|marvin*)
-        echo 'Compiling for rostam, doing additional setup'
-        module load cuda/9.2.14
+    diablo.rostam.cct.lsu.edu)
+        echo 'Compiling for diablo, doing additional setup'
+        export LIB_DIR_NAME=lib64
+        ;;
+    geev.rostam.cct.lsu.edu)
+        echo 'Compiling for geev, doing additional setup'
+        export LIB_DIR_NAME=lib64
+        module load cmake
+        module unload hwloc
+        module unload boost
+        module load cuda
         ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'
