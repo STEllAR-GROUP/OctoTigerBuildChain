@@ -14,6 +14,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
     git checkout daint_production_build
+    git submodule update --init --recursive
     popd
 fi
 
