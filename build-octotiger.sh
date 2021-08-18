@@ -4,7 +4,8 @@ set -ex
 
 : ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${OCT_WITH_KOKKOS:?} \
     ${LIB_DIR_NAME:?} ${OCT_WITH_MONOPOLE_HPX_EXECUTOR:?} ${OCT_WITH_MULTIPOLE_HPX_EXECUTOR:?} \
-    ${OCT_WITH_KOKKOS_SCALAR:?}
+    ${OCT_WITH_KOKKOS_SCALAR:?} ${CUDA_SM:?} ${OCT_ARCH_FLAGS:?}
+
 
 DIR_SRC=${SOURCE_ROOT}/octotiger
 DIR_BUILD=${INSTALL_ROOT}/octotiger/build
@@ -51,6 +52,7 @@ ${CMAKE_COMMAND} \
     -DSilo_DIR=$INSTALL_ROOT/silo \
     -DCMAKE_CUDA_FLAGS="-arch=${CUDA_SM} ${OCT_CUDA_INTERNAL_COMPILER} " \
     -DOCTOTIGER_CUDA_ARCH=${CUDA_SM} \
+    -DOCTOTIGER_ARCH_FLAG=${OCT_ARCH_FLAGS} \
     -DCPPuddle_DIR=$INSTALL_ROOT/cppuddle/build/cppuddle/lib/cmake/CPPuddle \
     -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos \
     -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/${LIB_DIR_NAME}/cmake/HPXKokkos
