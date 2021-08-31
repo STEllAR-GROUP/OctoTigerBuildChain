@@ -1,0 +1,88 @@
+diff --git a/core/src/HIP/Kokkos_HIP_Instance.hpp b/core/src/HIP/Kokkos_HIP_Instance.hpp
+index f4f8862..1aa78ca 100644
+--- a/core/src/HIP/Kokkos_HIP_Instance.hpp
++++ b/core/src/HIP/Kokkos_HIP_Instance.hpp
+@@ -101,7 +101,7 @@ class HIPInternal {
+   // kernel launches
+   mutable char *d_driverWorkArray = nullptr;
+   // number of kernel launches that can be in-flight w/o synchronization
+-  const int m_maxDriverCycles = 100;
++  const int m_maxDriverCycles = 1000;
+   // max size of a DriverType [bytes]
+   mutable size_t m_maxDriverTypeSize = 1024 * 10;
+   // the current index in the driverWorkArray
+diff --git a/core/src/HIP/Kokkos_HIP_Space.cpp b/core/src/HIP/Kokkos_HIP_Space.cpp
+index 15ca089..49c4dd1 100644
+--- a/core/src/HIP/Kokkos_HIP_Space.cpp
++++ b/core/src/HIP/Kokkos_HIP_Space.cpp
+@@ -90,6 +90,19 @@ DeepCopy<Kokkos::Experimental::HIPSpace, HostSpace,
+                                               size_t n) {
+   HIP_SAFE_CALL(hipMemcpy(dst, src, n, hipMemcpyDefault));
+ }
++//
++DeepCopy<Kokkos::Experimental::HIPHostPinnedSpace, Kokkos::Experimental::HIPSpace,
++         Kokkos::Experimental::HIP>::DeepCopy(void* dst, const void* src,
++                                              size_t n) {
++  HIP_SAFE_CALL(hipMemcpy(dst, src, n, hipMemcpyDefault));
++}
++
++DeepCopy<Kokkos::Experimental::HIPSpace, Kokkos::Experimental::HIPHostPinnedSpace,
++         Kokkos::Experimental::HIP>::DeepCopy(void* dst, const void* src,
++                                              size_t n) {
++  HIP_SAFE_CALL(hipMemcpy(dst, src, n, hipMemcpyDefault));
++}
++//
+ 
+ DeepCopy<Kokkos::Experimental::HIPSpace, Kokkos::Experimental::HIPSpace,
+          Kokkos::Experimental::HIP>::DeepCopy(const Kokkos::Experimental::HIP&
+@@ -140,6 +153,22 @@ DeepCopy<Kokkos::Experimental::HIPHostPinnedSpace,
+   HIP_SAFE_CALL(
+       hipMemcpyAsync(dst, src, n, hipMemcpyDefault, instance.hip_stream()));
+ }
++//
++DeepCopy<Kokkos::Experimental::HIPHostPinnedSpace,
++         Kokkos::Experimental::HIPSpace, Kokkos::Experimental::HIP>::
++    DeepCopy(const Kokkos::Experimental::HIP& instance, void* dst,
++             const void* src, size_t n) {
++  HIP_SAFE_CALL(
++      hipMemcpyAsync(dst, src, n, hipMemcpyDefault, instance.hip_stream()));
++}
++DeepCopy<Kokkos::Experimental::HIPSpace,
++         Kokkos::Experimental::HIPHostPinnedSpace, Kokkos::Experimental::HIP>::
++    DeepCopy(const Kokkos::Experimental::HIP& instance, void* dst,
++             const void* src, size_t n) {
++  HIP_SAFE_CALL(
++      hipMemcpyAsync(dst, src, n, hipMemcpyDefault, instance.hip_stream()));
++}
++//
+ 
+ DeepCopy<HostSpace, Kokkos::Experimental::HIPHostPinnedSpace,
+          Kokkos::Experimental::HIP>::DeepCopy(const Kokkos::Experimental::HIP&
+diff --git a/core/src/Kokkos_HIP_Space.hpp b/core/src/Kokkos_HIP_Space.hpp
+index 856b3d2..504b332 100644
+--- a/core/src/Kokkos_HIP_Space.hpp
++++ b/core/src/Kokkos_HIP_Space.hpp
+@@ -293,6 +293,23 @@ struct DeepCopy<HostSpace, Kokkos::Experimental::HIPSpace,
+   DeepCopy(const Kokkos::Experimental::HIP&, void* dst, const void* src,
+            size_t);
+ };
++//
++template <>
++struct DeepCopy<Kokkos::Experimental::HIPSpace, Kokkos::Experimental::HIPHostPinnedSpace,
++                Kokkos::Experimental::HIP> {
++  DeepCopy(void* dst, const void* src, size_t);
++  DeepCopy(const Kokkos::Experimental::HIP&, void* dst, const void* src,
++           size_t);
++};
++
++template <>
++struct DeepCopy<Kokkos::Experimental::HIPHostPinnedSpace, Kokkos::Experimental::HIPSpace,
++                Kokkos::Experimental::HIP> {
++  DeepCopy(void* dst, const void* src, size_t);
++  DeepCopy(const Kokkos::Experimental::HIP&, void* dst, const void* src,
++           size_t);
++};
++//
+ 
+ template <class ExecutionSpace>
+ struct DeepCopy<Kokkos::Experimental::HIPSpace, Kokkos::Experimental::HIPSpace,

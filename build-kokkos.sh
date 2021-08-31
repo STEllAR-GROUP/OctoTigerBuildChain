@@ -20,8 +20,9 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git clone https://github.com/kokkos/kokkos kokkos
 	cd kokkos
 	#git checkout 1774165304d81ea2db3818b7020f6c71fbefac97
-	git checkout 3.4.00
+	git checkout 3.4.01
 	git apply ../../nvcc_wrapper_for_octotiger.patch
+	git apply ../../async_copy.patch
 	cd ..
     )
 fi
@@ -33,6 +34,7 @@ ${CMAKE_COMMAND} \
 	-DKokkos_ENABLE_TESTS=OFF \
 	-DKokkos_CXX_STANDARD=14 \
 	-DKokkos_ENABLE_INTERNAL_FENCES=OFF \
+       	-DKokkos_ENABLE_HIP=ON \
        	-DKokkos_ENABLE_CUDA=${OCT_WITH_CUDA} \
 	-DKokkos_ENABLE_CUDA_LAMBDA=${OCT_WITH_CUDA} \
 	-DKokkos_ENABLE_CUDA_CONSTEXPR=${OCT_WITH_CUDA} \
@@ -40,8 +42,8 @@ ${CMAKE_COMMAND} \
        	-DKokkos_ENABLE_HPX=ON \
         -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=ON \
        	-DKokkos_COMPILE_LAUNCHER=OFF \
-       ${KOKKOS_CONFIG} \
 	-DHPX_DIR=$INSTALL_ROOT/hpx/${LIB_DIR_NAME}/cmake/HPX/ \
+       ${KOKKOS_CONFIG} \
        	-DCMAKE_CXX_COMPILER=${OCT_CMAKE_CXX_COMPILER_INITIAL} \
        	-DCMAKE_INSTALL_PREFIX=${INSTALL_ROOT}/kokkos/install
 

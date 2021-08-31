@@ -9,7 +9,8 @@ if [[ -d "/etc/opt/cray/release/" ]]; then
 else
 
 	export CC=clang
-	export CXX=clang++
+	export CXX=hipcc
+	#export CXX=clang++
 	export NVCC_WRAPPER_DEFAULT_COMPILER=clang
   export OCT_CUDA_INTERNAL_COMPILER=""
   if [ -z "${OCT_USE_CC_COMPILER}" ]
@@ -38,6 +39,7 @@ case $(uname -i) in
         export CXXFLAGS="-fPIC -march=native -ffast-math -std=c++14 "
 	export OCT_ARCH_FLAGS="-march=native"
         export LIBHPX=lib
+        export LIB_DIR_NAME=lib
         ;;
     *)
         echo 'Unknown architecture encountered.' 2>&1

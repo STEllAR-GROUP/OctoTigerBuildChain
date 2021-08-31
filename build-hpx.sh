@@ -46,7 +46,6 @@ if [[ ! -d ${DIR_SRC} ]]; then
         git clone https://github.com/STEllAR-GROUP/hpx.git
 	cd hpx
 	git checkout 1.6.0
-	#git checkout master
 	cd ..
     )
 fi
@@ -60,6 +59,7 @@ ${CMAKE_COMMAND} \
     -DCMAKE_EXE_LINKER_FLAGS="${LDCXXFLAGS}" \
     -DCMAKE_SHARED_LINKER_FLAGS="${LDCXXFLAGS}" \
     -DHPX_WITH_CUDA=${OCT_WITH_CUDA} \
+    -DHPX_WITH_HIP=ON \
     -DHPX_WITH_CUDA_CLANG=OFF \
     -DHPX_WITH_CXX14=ON \
     -DHPX_WITH_PAPI=${OCT_WITH_PAPI} \
@@ -67,7 +67,6 @@ ${CMAKE_COMMAND} \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
     -DHPX_WITH_THREAD_IDLE_RATES=ON \
     -DHPX_WITH_DISABLED_SIGNAL_EXCEPTION_HANDLERS=ON \
-    -DHWLOC_ROOT=${INSTALL_ROOT}/hwloc/ \
     -DHPX_WITH_MALLOC=JEMALLOC \
     -DJEMALLOC_ROOT=${INSTALL_ROOT}/jemalloc \
     -DBOOST_ROOT=${INSTALL_ROOT}/boost \
