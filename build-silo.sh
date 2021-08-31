@@ -26,6 +26,7 @@ fi
     #CXX=clang++ CC=clang ./configure --prefix=${DIR_INSTALL} --with-hdf5=$INSTALL_ROOT/hdf5/include,$INSTALL_ROOT/hdf5/lib --enable-optimization
 
     #CXX=clang++ CC=clang make -j${PARALLEL_BUILD} install
+    sed -i 's/if test "x$ac_cv_func_H5open" = x""yes; then/if true; then LIBS=" -ldl $LIBS"/' configure
     ./configure --prefix=${DIR_INSTALL} --with-hdf5=$INSTALL_ROOT/hdf5/include,$INSTALL_ROOT/hdf5/lib --enable-optimization
 
     make -j${PARALLEL_BUILD} install
