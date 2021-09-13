@@ -14,8 +14,7 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    git checkout master
-    git submodule update --init --recursive
+    git checkout 0b4d30b28ddb213db8c377ad21369809aad79947
     popd
 fi
 
