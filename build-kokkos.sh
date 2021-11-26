@@ -17,11 +17,12 @@ if [[ ! -d ${DIR_SRC} ]]; then
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
 	cd ..
-	git clone https://github.com/kokkos/kokkos kokkos
+	#git clone https://github.com/kokkos/kokkos kokkos
+	git clone https://github.com/msimberg/kokkos.git
 	cd kokkos
 	#git checkout 1774165304d81ea2db3818b7020f6c71fbefac97
-	git checkout 3.4.00
-	git apply ../../nvcc_wrapper_for_octotiger.patch
+	git checkout hpx-update-deprecations
+	git apply ../../nvcc_wrapper_eval.patch
 	cd ..
     )
 fi
