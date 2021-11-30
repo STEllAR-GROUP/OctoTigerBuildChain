@@ -108,10 +108,6 @@ if [[ "$7" == "without-kokkos" ]]; then
 elif [[ "$7" == "with-kokkos" ]]; then
     echo "KOKKOS enabled"
     export OCT_WITH_KOKKOS=ON
-    if [[ "${OCT_WITH_CLANG}" == "ON" ]]; then
-        echo 'clang and octotiger-kokkos currently do not work together!' >&2
-        print_usage_abort
-    fi
 else
     echo 'KOKKOS support must be provided and has to be "with-kokkos" or "without-kokkos"' >&2
     print_usage_abort
@@ -368,6 +364,7 @@ elif [[ "${OCT_COMPILER_OPTION}" == "with-clang" ]]; then
     echo "Using clang"
     source clang-config.sh
 elif [[ "${OCT_COMPILER_OPTION}" == "with-CC" ]]; then
+    echo "Using gcc"
     export OCT_USE_CC_COMPILER=ON
     source gcc-config.sh
 elif [[ "${OCT_COMPILER_OPTION}" == "with-CC-clang" ]]; then
@@ -382,10 +379,10 @@ fi
 [[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (
     echo "Building CMake"
-    ./build-cmake.sh
+    #./build-cmake.sh
 )
-export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
-#export CMAKE_COMMAND=cmake
+#export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
+export CMAKE_COMMAND=cmake
 
 ################################################################################
 # Dependencies
