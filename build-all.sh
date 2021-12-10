@@ -11,7 +11,8 @@ SYNOPSIS
     {with-mpi,without-mpi,with-libfabric} {with-papi,without-papi} {with-apex,without-apex} {with-kokkos,without-kokkos}
     {with-simd,without-simd} {with-hpx-backend-multipole,without-hpx-backend-multipole} 
     {with-hpx-backend-monopole,without-hpx-backend-monopole}
-    {without-hpx-cuda-polling, without-hpx-cuda-polling}
+    {with-hpx-cuda-polling, without-hpx-cuda-polling}
+    {with-otf2, without-otf2}
     [cmake|gcc|boost|hdf5|silo|hwloc|jemalloc|vc|hpx|octotiger|openmpi ...]
 DESCRIPTION
     Download, configure, build, and install Octo-tiger and its dependencies or
