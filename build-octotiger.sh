@@ -7,8 +7,8 @@ set -ex
     ${OCT_WITH_KOKKOS_SCALAR:?} ${CUDA_SM:?} ${OCT_ARCH_FLAGS:?}
 
 
-DIR_SRC=${SOURCE_ROOT}/octotiger-kokkos
-DIR_BUILD=${INSTALL_ROOT}/octotiger/build-kokkos
+DIR_SRC=${SOURCE_ROOT}/octotiger
+DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 #DIR_INSTALL=${INSTALL_ROOT}/octotiger
 
 if [[ ! -d ${DIR_SRC} ]]; then
