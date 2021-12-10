@@ -163,6 +163,9 @@ if [[ "${12}" == "without-otf2" ]]; then
 elif [[ "${12}" == "with-otf2" ]]; then
     echo "OTF2 enabled"
     export HPX_WITH_OTF2=ON
+else
+    echo 'OTF2 support should either be with-otf2 or without-otf2' >&2
+    print_usage_abort
 fi
 
 while [[ -n ${13} ]]; do
