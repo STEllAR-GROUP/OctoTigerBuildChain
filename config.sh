@@ -46,6 +46,8 @@ export HPX_VERSION=1.5.1
 # PAPI
 export PAPI_VERSION=5.7.0
 
+export OTF2_VERSION=2.2
+
 # CUDA
 export CUDA_SM=sm_70
 #export CUDA_SM=sm_61
@@ -56,11 +58,12 @@ export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
 
+
 #Libfabric
 export LIBFABRIC_VERSION=1.9.0
 
 # Max number of parallel jobs
-export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
+export PARALLEL_BUILD=8  #$(grep -c ^processor /proc/cpuinfo)
 
 export LIB_DIR_NAME=lib
 

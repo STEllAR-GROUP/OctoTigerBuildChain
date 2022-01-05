@@ -11,7 +11,8 @@ SYNOPSIS
     {with-mpi,without-mpi,with-libfabric} {with-papi,without-papi} {with-apex,without-apex} {with-kokkos,without-kokkos}
     {with-simd,without-simd} {with-hpx-backend-multipole,without-hpx-backend-multipole} 
     {with-hpx-backend-monopole,without-hpx-backend-monopole}
-    {without-hpx-cuda-polling, without-hpx-cuda-polling}
+    {with-hpx-cuda-polling, without-hpx-cuda-polling}
+    {with-otf2, without-otf2}
     [cmake|gcc|boost|hdf5|silo|hwloc|jemalloc|vc|hpx|octotiger|openmpi ...]
 DESCRIPTION
     Download, configure, build, and install Octo-tiger and its dependencies or
@@ -157,9 +158,20 @@ else
     print_usage_abort
 fi
 
-while [[ -n ${12} ]]; do
-    echo " Currently handling build ${12}"
-    case ${12} in
+if [[ "${12}" == "without-otf2" ]]; then
+    echo "OTF2 disabled"
+    export HPX_WITH_OTF2=OFF
+elif [[ "${12}" == "with-otf2" ]]; then
+    echo "OTF2 enabled"
+    export HPX_WITH_OTF2=ON
+else
+    echo 'OTF2 support should either be with-otf2 or without-otf2' >&2
+    print_usage_abort
+fi
+
+while [[ -n ${13} ]]; do
+    echo " Currently handling build ${13}"
+    case ${13} in
         cmake)
             echo 'Target cmake will build.'
             export BUILD_TARGET_CMAKE=
@@ -255,6 +267,14 @@ while [[ -n ${12} ]]; do
             fi
             shift
         ;;
+	otf2)
+	    if [[ "$12" == "with-otf2" ]]; then
+                echo 'Target OTF2 will build.'
+                export BUILD_TARGET_OTF2=
+            fi
+	export BUILD_TARGET_OTF2=
+            shift
+        ;;
         *)
             echo 'Unrecognizable argument passesd.' >&2
             echo "Argument was: ${12}" >&2
@@ -295,6 +315,9 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     fi
     if [[ "$7" == "with-kokkos" ]]; then
         export BUILD_TARGET_KOKKOS=
+    fi
+    if [[ "$12" == "with-otf2" ]]; then
+        export BUILD_TARGET_OTF2=
     fi
 fi
 
@@ -356,7 +379,6 @@ else
     echo "Unknown compiler option: $2"
     exit 1
 fi
-
 
 [[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (
@@ -438,6 +460,11 @@ fi
 (
     echo "Building LIBFABRIC"
     ./build-libfabric.sh
+)
+[[ -n ${BUILD_TARGET_OTF2+x} ]] && \
+(
+    echo "Building LIBFABRIC"
+    ./build-otf2.sh
 )
 ################################################################################
 # Octo-tiger
