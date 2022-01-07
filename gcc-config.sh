@@ -45,6 +45,10 @@ case $(uname -i) in
 	export OCT_ARCH_FLAGS="-march=native"
         export LIBHPX=lib
         ;;
+    aarch64)
+        export CXXFLAGS="-fPIC -mcpu=native -ffast-math -std=c++14 "
+        export LIBHPX=lib
+        ;;
     *)
         echo 'Unknown architecture encountered.' 2>&1
         exit 1

@@ -8,8 +8,8 @@ if [[ -d "/etc/opt/cray/release/" ]]; then
 	echo "WARNING!!! You should switch to the gnu compiler env (module switch PrgEnv-cray/5.2.82 PrgEnv-gnu)!!!!!!!"
 else
 
-	export CC=clang
-	export CXX=clang++
+	export CC=armclang
+	export CXX=armclang++
 	export NVCC_WRAPPER_DEFAULT_COMPILER=clang
   export OCT_CUDA_INTERNAL_COMPILER=""
   if [ -z "${OCT_USE_CC_COMPILER}" ]
@@ -37,6 +37,10 @@ case $(uname -i) in
     x86_64)
         export CXXFLAGS="-fPIC -march=native -ffast-math -std=c++14 "
 	export OCT_ARCH_FLAGS="-march=native"
+        export LIBHPX=lib
+        ;;
+    aarch64)
+        export CXXFLAGS="-fPIC -mcpu=native -ffast-math -std=c++14 "
         export LIBHPX=lib
         ;;
     *)
