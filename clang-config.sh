@@ -7,10 +7,9 @@ if [[ -d "/etc/opt/cray/release/" ]]; then
 	export XTPE_LINK_TYPE=dynamic
 	echo "WARNING!!! You should switch to the gnu compiler env (module switch PrgEnv-cray/5.2.82 PrgEnv-gnu)!!!!!!!"
 else
-
-	export CC=armclang
-	export CXX=armclang++
-	export NVCC_WRAPPER_DEFAULT_COMPILER=clang
+  export CC=armclang
+  export CXX=armclang++
+  export NVCC_WRAPPER_DEFAULT_COMPILER=armclang
   export OCT_CUDA_INTERNAL_COMPILER=""
   if [ -z "${OCT_USE_CC_COMPILER}" ]
   then
@@ -19,8 +18,8 @@ else
     export NVCC_WRAPPER_DEFAULT_COMPILER=${CXX}
     export LD_LIBRARY_PATH=${INSTALL_ROOT}/clang/lib64:${LD_LIBRARY_PATH}
   fi
-	export OCT_CMAKE_CXX_COMPILER="$CXX"
-	export OCT_CMAKE_CXX_COMPILER_INITIAL="$CXX"
+  export OCT_CMAKE_CXX_COMPILER="$CXX"
+  export OCT_CMAKE_CXX_COMPILER_INITIAL="$CXX"
 fi
 
 
