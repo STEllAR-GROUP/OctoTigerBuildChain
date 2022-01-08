@@ -16,10 +16,10 @@ if [[ ! -d ${DIR_SRC} ]]; then
     (
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
-        wget  ${DOWNLOAD_URL}
-       	tar -xf silo-${SILO_VERSION}-bsd.tgz
+        wget  ${DOWNLOAD_URL} 
+	tar -xf silo-${SILO_VERSION}-bsd.tgz
 	mv silo-${SILO_VERSION}-bsd/* .
-	rm -rf  silo-${SILO_VERSION}-bsd	
+	rm -rf  silo-${SILO_VERSION}-bsd
     )
 fi
 
@@ -27,7 +27,7 @@ fi
     cd ${DIR_SRC}
     #autoreconf -ifv
     sed -i 's/-lhdf5/$hdf5_lib\/libhdf5.a -ldl/g' configure
-    ./configure --prefix=${DIR_INSTALL} --with-hdf5=$INSTALL_ROOT/hdf5/include,$INSTALL_ROOT/hdf5/lib --enable-optimization
+    ./configure --prefix=${DIR_INSTALL} --with-hdf5=$INSTALL_ROOT/hdf5/include,$INSTALL_ROOT/hdf5/lib --enable-optimization --build=aarch64-unknown-linux-gnu
 
     make -j${PARALLEL_BUILD} install
 )

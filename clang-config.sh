@@ -39,8 +39,10 @@ case $(uname -i) in
         export LIBHPX=lib
         ;;
     aarch64)
-        export CXXFLAGS="-fPIC -mcpu=native -ffast-math -std=c++14 "
-        export LIBHPX=lib
+        export CXXFLAGS="-fPIC -march=armv8.2-a+sve -ffast-math -std=c++14 "
+	export OCT_ARCH_FLAGS="-march=armv8.2-a+sve "
+        export LIB_DIR_NAME=lib64
+        export LIBHPX=lib64
         ;;
     *)
         echo 'Unknown architecture encountered.' 2>&1
