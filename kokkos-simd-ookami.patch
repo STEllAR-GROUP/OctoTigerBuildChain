@@ -1,0 +1,36 @@
+diff --git a/vector_size.hpp b/vector_size.hpp
+index 1f6cf40..7ddacd3 100644
+--- a/vector_size.hpp
++++ b/vector_size.hpp
+@@ -102,8 +102,11 @@ class simd_mask<double, simd_abi::vector_size<N>> {
+   SIMD_ALWAYS_INLINE inline simd_mask() = default;
+   SIMD_ALWAYS_INLINE inline static constexpr int size() { return N / sizeof(long long); }
+   SIMD_ALWAYS_INLINE inline simd_mask(bool value)
+-    :m_value(static_cast<long long>(value))
+-  {}
++  // TODO This should work better with the correct cast - current workaround copies...
++  //   :m_value(static_cast<long long>(value))
++  {
++  SIMD_PRAGMA for (int i = 0; i < 8; ++i) m_value[i] = value;
++  }
+   SIMD_ALWAYS_INLINE inline simd_mask(native_type value)
+     :m_value(value)
+   {}
+@@ -146,7 +149,7 @@ class simd<T, simd_abi::vector_size<N>> {
+   SIMD_ALWAYS_INLINE inline simd() = default;
+   SIMD_ALWAYS_INLINE inline static constexpr int size() { return N / sizeof(T); }
+   SIMD_ALWAYS_INLINE inline simd(T value) { for(int i=0; i<size(); i++) reinterpret_cast<T*>(&m_value)[i] = value; }
+-  explicit SIMD_ALWAYS_INLINE inline simd(const native_type& value):m_value(value) {}
++  explicit inline simd(const native_type& value):m_value(value) {}
+   SIMD_ALWAYS_INLINE inline
+   simd(storage_type const& value) {
+     copy_from(value.data(), element_aligned_tag());
+@@ -182,7 +185,7 @@ class simd<T, simd_abi::vector_size<N>> {
+     SIMD_PRAGMA for (int i = 0; i < size(); ++i) reinterpret_cast<T*>(&m_value)[i] = ptr[i];
+   }
+   SIMD_ALWAYS_INLINE void copy_to(T* ptr, element_aligned_tag) const {
+-    SIMD_PRAGMA for (int i = 0; i < size(); ++i) ptr[i] = reinterpret_cast<T*>(&m_value)[i];
++    SIMD_PRAGMA for (int i = 0; i < size(); ++i) ptr[i] = reinterpret_cast<const T*>(&m_value)[i];
+   }
+   SIMD_ALWAYS_INLINE constexpr T operator[](int i) const { return m_value[i]; }
+   SIMD_ALWAYS_INLINE native_type const& get() const { return m_value; }

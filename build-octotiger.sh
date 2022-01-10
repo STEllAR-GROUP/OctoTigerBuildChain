@@ -41,7 +41,7 @@ ${CMAKE_COMMAND} \
     -DOCTOTIGER_WITH_MAX_NUMBER_FIELDS=15 \
     -DOCTOTIGER_WITH_MONOPOLE_HOST_HPX_EXECUTOR=${OCT_WITH_MONOPOLE_HPX_EXECUTOR} \
     -DOCTOTIGER_WITH_MULTIPOLE_HOST_HPX_EXECUTOR=${OCT_WITH_MULTIPOLE_HPX_EXECUTOR} \
-    -DOCTOTIGER_WITH_FORCE_SCALAR_KOKKOS_SIMD=${OCT_WITH_KOKKOS_SCALAR} \
+    -DOCTOTIGER_SIMD_EXTENSION=AUTO \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
     -DBOOST_ROOT=$BOOST_ROOT \
@@ -51,14 +51,26 @@ ${CMAKE_COMMAND} \
     -DSilo_LIBRARY=$INSTALL_ROOT/silo/lib/libsiloh5.a \
     -DSilo_DIR=$INSTALL_ROOT/silo \
     -DCMAKE_CUDA_FLAGS="-arch=${CUDA_SM} ${OCT_CUDA_INTERNAL_COMPILER} " \
+    -DOCTOTIGER_WITH_FAST_FP_CONTRACT=ON \
     -DOCTOTIGER_CUDA_ARCH=${CUDA_SM} \
     -DOCTOTIGER_ARCH_FLAG=${OCT_ARCH_FLAGS} \
     -DCPPuddle_DIR=$INSTALL_ROOT/cppuddle/build/cppuddle/lib/cmake/CPPuddle \
     -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos \
     -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/${LIB_DIR_NAME}/cmake/HPXKokkos
 
+# SVE patch
+cd build/octotiger/build/_deps/kokkossimd-src
+if [[ $(git diff --stat) != '' ]]; then
+  echo 'Kokkos simd directory is dirty -> SVE patch already applied'
+else
+  echo 'Kokkos simd directory is clean -> we need to apply the SVE patch'
+  git apply ../../../../../kokkos-simd-ookami.patch
+fi
+cd -
+
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 
+    #-DOCTOTIGER_WITH_FORCE_SCALAR_KOKKOS_SIMD=${OCT_WITH_KOKKOS_SCALAR} \
     #-DCMAKE_CXX_COMPILER="${OCT_CMAKE_CXX_COMPILER}" 
     #-DCMAKE_CUDA_FLAGS="-arch=$CUDA_SM -ccbin $INSTALL_ROOT/gcc/bin -std=c++14" \
     #-DCMAKE_CXX_COMPILER=$CXX \
