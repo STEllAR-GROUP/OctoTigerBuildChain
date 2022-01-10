@@ -83,11 +83,13 @@ case $(hostname) in
     diablo*)
         echo 'Compiling for diablo, doing additional setup'
         export LIB_DIR_NAME=lib64
+        export CUDA_SM=sm_70
         export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_VOLTA70=ON "
         ;;
     toranj*)
         echo 'Compiling for toranj, doing additional setup'
         export LIB_DIR_NAME=lib64
+        export CUDA_SM=sm_80
         export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
         ;;
     *argon-tesla1*)
