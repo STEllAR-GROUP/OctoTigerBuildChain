@@ -80,17 +80,15 @@ case $(hostname) in
         module load cuda/10.2
         export LIB_DIR_NAME=lib64
         ;;
-    diablo.rostam.cct.lsu.edu)
+    diablo*)
         echo 'Compiling for diablo, doing additional setup'
         export LIB_DIR_NAME=lib64
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_VOLTA70=ON "
         ;;
-    geev.rostam.cct.lsu.edu)
-        echo 'Compiling for geev, doing additional setup'
+    toranj*)
+        echo 'Compiling for toranj, doing additional setup'
         export LIB_DIR_NAME=lib64
-        module load cmake
-        module unload hwloc
-        module unload boost
-        module load cuda
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
         ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'
