@@ -12,6 +12,7 @@ DIR_SRC=${SOURCE_ROOT}/hpx-kokkos
 DIR_BUILD=${INSTALL_ROOT}/hpx-kokkos/build
 DIR_INSTALL=${INSTALL_ROOT}/hpx-kokkos
 
+rm -rf "${DIR_SRC}"
 if [[ ! -d ${DIR_SRC} ]]; then
     (
         mkdir -p ${DIR_SRC}
@@ -21,7 +22,6 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd hpx-kokkos
 	git checkout 926b882ea8b5da34c4415c1f404c0bd5f577f2e5
 	cd ..
-    )
 fi
 
 mkdir -p "$DIR_BUILD"

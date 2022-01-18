@@ -2,7 +2,7 @@
 
 set -ex
 
-: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${LIBHPX:?} ${BUILD_TYPE:?} \
+: ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${LIB_DIR_NAME:?} ${GCC_VERSION:?} ${BUILD_TYPE:?} \
     ${CMAKE_VERSION:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${CUDA_SM:?} \
     ${BOOST_VERSION:?} ${BOOST_BUILD_TYPE:?} \
     ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_VERSION:?} \
@@ -45,10 +45,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
         git clone https://github.com/STEllAR-GROUP/hpx.git
 	cd hpx
-	#git checkout 1.4.0
 	git checkout a1305aa34dc38065d2a4d3eae42b2a6337c01e97
 	cd ..
-    )
 fi
 
 ${CMAKE_COMMAND} \
@@ -60,6 +58,7 @@ ${CMAKE_COMMAND} \
     -DCMAKE_EXE_LINKER_FLAGS="${LDCXXFLAGS}" \
     -DCMAKE_SHARED_LINKER_FLAGS="${LDCXXFLAGS}" \
     -DHPX_WITH_CUDA=${OCT_WITH_CUDA} \
+    -DHPX_WITH_CUDA_CLANG=OFF \
     -DHPX_WITH_CXX14=ON \
     -DHPX_WITH_PAPI=${OCT_WITH_PAPI} \
     -DPAPI_ROOT=${INSTALL_ROOT}/papi/ \
@@ -68,15 +67,15 @@ ${CMAKE_COMMAND} \
     -DHPX_WITH_DISABLED_SIGNAL_EXCEPTION_HANDLERS=ON \
     -DHWLOC_ROOT=${INSTALL_ROOT}/hwloc/ \
     -DHPX_WITH_MALLOC=JEMALLOC \
-    -DJEMALLOC_ROOT=${INSTALL_ROOT}/jemalloc/ \
-    -DBOOST_ROOT=${BOOST_ROOT} \
+    -DJEMALLOC_ROOT=${INSTALL_ROOT}/jemalloc \
+    -DBOOST_ROOT=${INSTALL_ROOT}/boost \
     -DLIBFABRIC_ROOT=$INSTALL_ROOT/libfabric \
     -DHPX_WITH_CUDA_ARCH=${CUDA_SM} \
-    -DHPX_WITH_NETWORKING=ON \
+    -DHPX_WITH_NETWORKING=OFF \
     -DHPX_WITH_MORE_THAN_64_THREADS=ON \
     -DHPX_WITH_MAX_CPU_COUNT=256 \
     -DHPX_WITH_EXAMPLES=OFF \
-    -DHPX_WITH_TESTS=ON \
+    -DHPX_WITH_TESTS=OFF \
     -DHPX_WITH_PARCELPORT_MPI=${OCT_WITH_PARCEL} \
     -DHPX_WITH_PARCELPORT_LIBFABRIC=${OCT_WITH_LIBFABRIC} \
     -DHPX_PARCELPORT_LIBFABRIC_PROVIDER=gni \
@@ -129,7 +128,7 @@ prepend-path    CPATH              \$root/include
 prepend-path    PATH               \$root/bin
 prepend-path    LD_LIBRARY_PATH    \$root/lib
 prepend-path    LIBRARY_PATH       \$root/lib
-setenv          HPX_DIR            \$root/${LIBHPX}/cmake/HPX
+setenv          HPX_DIR            \$root/${LIB_DIR_NAME}/cmake/HPX
 setenv          HPX_VERSION        ${HPX_VERSION}
 EOF
 

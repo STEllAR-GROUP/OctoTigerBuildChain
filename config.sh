@@ -7,10 +7,11 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 # Package Configuration
 ################################################################################
 # CMake
-export CMAKE_VERSION=3.19.0
+export CMAKE_VERSION=3.19.5
+
 
 # GCC
-export GCC_VERSION=8.3.0
+export GCC_VERSION=9.3.0
 
 export CLANG_VERSION=release_60
     
@@ -21,7 +22,7 @@ export OPENMPI_VERSION=4.0.0
 export HDF5_VERSION=1.8.12
 
 # Boost
-export BOOST_VERSION=1.70.0
+export BOOST_VERSION=1.73.0
 export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
@@ -51,9 +52,12 @@ export OTF2_VERSION=2.2
 # CUDA
 export CUDA_SM=sm_70
 #export CUDA_SM=sm_61
-export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
-#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
+export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
 
 #Libfabric
 export LIBFABRIC_VERSION=1.9.0
@@ -76,13 +80,17 @@ case $(hostname) in
         module load cuda/10.2
         export LIB_DIR_NAME=lib64
         ;;
-    rostam*|geev|bahram|reno|tycho|trillian*|marvin*)
-        echo 'Compiling for rostam, doing additional setup'
+    diablo*)
+        echo 'Compiling for diablo, doing additional setup'
         export LIB_DIR_NAME=lib64
-        module unload cmake
-        module unload hwloc
-        module unload boost
-        module load cuda
+        export CUDA_SM=sm_70
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_VOLTA70=ON "
+        ;;
+    toranj*)
+        echo 'Compiling for toranj, doing additional setup'
+        export LIB_DIR_NAME=lib64
+        export CUDA_SM=sm_80
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
         ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'
