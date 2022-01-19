@@ -86,6 +86,12 @@ case $(hostname) in
         export CUDA_SM=sm_70
         export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_VOLTA70=ON "
         ;;
+    geev*)
+        echo 'Compiling for geev, doing additional setup'
+        export LIB_DIR_NAME=lib64
+        export CUDA_SM=sm_70
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
+        ;;
     toranj*)
         echo 'Compiling for toranj, doing additional setup'
         export LIB_DIR_NAME=lib64
