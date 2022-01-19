@@ -20,9 +20,10 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git clone https://github.com/kokkos/kokkos kokkos
 	cd kokkos
 	#git checkout 1774165304d81ea2db3818b7020f6c71fbefac97
-	git checkout 3.4.01
-	git apply ../../nvcc_wrapper_for_octotiger.patch
-	git apply ../../async_copy.patch
+	# Checkout commit that adds hpx 1.7.1 support
+	git checkout d1e00352fd6262fd8d08225eb7086793432db35f
+	#git apply ../../nvcc_wrapper_for_octotiger.patch
+	#git apply ../../async_copy.patch
 	cd ..
     )
 fi
