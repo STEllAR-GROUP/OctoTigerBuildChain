@@ -75,6 +75,11 @@ case $(hostname) in
         echo 'Compiling for pcsgs, doing additional setup'
         export GCC_VERSION=7.4.0
         ;;
+    pcsgs09)
+        echo 'Compiling for pcsgs09, doing additional setup'
+	export LIB_DIR_NAME=lib
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VEGA906=ON "
+        ;;
     krypton)
         echo 'Compiling for krypton, doing additional setup'
         module load cuda/10.2
