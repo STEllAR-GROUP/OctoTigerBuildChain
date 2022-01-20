@@ -46,6 +46,8 @@ export HPX_VERSION=1.5.1
 # PAPI
 export PAPI_VERSION=5.7.0
 
+export OTF2_VERSION=2.2
+
 # CUDA
 export CUDA_SM=sm_70
 #export CUDA_SM=sm_61
@@ -56,11 +58,12 @@ export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VEGA908=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
 
+
 #Libfabric
 export LIBFABRIC_VERSION=1.9.0
 
 # Max number of parallel jobs
-export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
+export PARALLEL_BUILD=8  #$(grep -c ^processor /proc/cpuinfo)
 
 export LIB_DIR_NAME=lib
 
@@ -77,17 +80,23 @@ case $(hostname) in
         module load cuda/10.2
         export LIB_DIR_NAME=lib64
         ;;
-    diablo.rostam.cct.lsu.edu)
+    diablo*)
         echo 'Compiling for diablo, doing additional setup'
         export LIB_DIR_NAME=lib64
+        export CUDA_SM=sm_70
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_VOLTA70=ON "
         ;;
-    geev.rostam.cct.lsu.edu)
+    geev*)
         echo 'Compiling for geev, doing additional setup'
         export LIB_DIR_NAME=lib64
-        module load cmake
-        module unload hwloc
-        module unload boost
-        module load cuda
+        export CUDA_SM=sm_70
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
+        ;;
+    toranj*)
+        echo 'Compiling for toranj, doing additional setup'
+        export LIB_DIR_NAME=lib64
+        export CUDA_SM=sm_80
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
         ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'
