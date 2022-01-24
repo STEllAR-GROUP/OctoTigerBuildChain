@@ -91,7 +91,12 @@ case $(hostname) in
         export LIB_DIR_NAME=lib64
         export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  "
         ;;
-    medusa*)
+    rostam*)
+        echo 'Compiling for rostam login, doing additional setup'
+        export LIB_DIR_NAME=lib64
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  "
+        ;;
+    marvin*)
         echo 'Compiling for rostam login, doing additional setup'
         export LIB_DIR_NAME=lib64
         export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  "
