@@ -86,6 +86,16 @@ case $(hostname) in
         export CUDA_SM=sm_70
         export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_VOLTA70=ON "
         ;;
+    medusa*)
+        echo 'Compiling for medusa, doing additional setup'
+        export LIB_DIR_NAME=lib64
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  "
+        ;;
+    medusa*)
+        echo 'Compiling for rostam login, doing additional setup'
+        export LIB_DIR_NAME=lib64
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  "
+        ;;
     geev*)
         echo 'Compiling for geev, doing additional setup'
         export LIB_DIR_NAME=lib64
