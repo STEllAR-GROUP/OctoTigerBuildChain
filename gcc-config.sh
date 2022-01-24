@@ -7,8 +7,8 @@ if [[ -d "/etc/opt/cray/release/" ]]; then
   export XTPE_LINK_TYPE=dynamic
   echo "WARNING!!! You should switch to the gnu compiler env (module switch PrgEnv-cray/5.2.82 PrgEnv-gnu)!!!!!!!"
 else
-  export CC=gcc
-  export CXX=g++
+  #export CC=gcc
+  #export CXX=g++
   export OCT_CUDA_INTERNAL_COMPILER=""
   export OCT_CUDA_INTERNAL_COMPILER_INITIAL=""
   if [ -z "$OCT_USE_CC_COMPILER" ]
