@@ -78,29 +78,34 @@ case $(hostname) in
     pcsgs)
         echo 'Compiling for pcsgs, doing additional setup'
         export GCC_VERSION=7.4.0
+        export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
         ;;
     krypton)
         echo 'Compiling for krypton, doing additional setup'
         module load cuda/10.2
         export LIB_DIR_NAME=lib64
+        export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
         ;;
     diablo*)
         echo 'Compiling for diablo, doing additional setup'
         export LIB_DIR_NAME=lib64
         export CUDA_SM=sm_70
         export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_VOLTA70=ON "
+        export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
         ;;
     geev*)
         echo 'Compiling for geev, doing additional setup'
         export LIB_DIR_NAME=lib64
         export CUDA_SM=sm_70
         export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
+        export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
         ;;
     toranj*)
         echo 'Compiling for toranj, doing additional setup'
         export LIB_DIR_NAME=lib64
         export CUDA_SM=sm_80
         export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
+        export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
         ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'
