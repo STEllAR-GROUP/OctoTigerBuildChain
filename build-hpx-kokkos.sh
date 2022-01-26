@@ -5,7 +5,7 @@ set -ex
 : ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${LIB_DIR_NAME:?} ${BUILD_TYPE:?} \
     ${CMAKE_VERSION:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${CUDA_SM:?} \
     ${BOOST_VERSION:?} ${BOOST_BUILD_TYPE:?} \
-    ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_VERSION:?} \
+    ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_KOKKOS_VERSION:?} \
     ${OCT_WITH_PARCEL:?}
 
 DIR_SRC=${SOURCE_ROOT}/hpx-kokkos
@@ -20,7 +20,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
 	git clone https://github.com/STEllAR-GROUP/hpx-kokkos.git hpx-kokkos
 	cd hpx-kokkos
-	git checkout ce63b0630c739a4df899749ed67baa867862f3fc
+	#git checkout ce63b0630c739a4df899749ed67baa867862f3fc
+	git checkout ${HPX_KOKKOS_VERSION}
 	cd ..
     )
 fi

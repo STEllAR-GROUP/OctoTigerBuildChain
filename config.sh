@@ -41,7 +41,9 @@ export VC_VERSION=1.4.1
 # Octotiger does not currently work with current master/HEAD
 #export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
 # It does in reconstruct_experimental
-export HPX_VERSION=1.5.1
+export HPX_VERSION=1.7.1
+export KOKKOS_VERSION=d1e00352fd6262fd8d08225eb7086793432db35f
+export HPX_KOKKOS_VERSION=master
 
 # PAPI
 export PAPI_VERSION=5.7.0
@@ -49,12 +51,14 @@ export PAPI_VERSION=5.7.0
 export OTF2_VERSION=2.2
 
 # CUDA
-export CUDA_SM=sm_70
+#export CUDA_SM=sm_86
+export CUDA_SM=sm_80
 #export CUDA_SM=sm_61
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
-export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
-#export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE86=ON "
+export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
 

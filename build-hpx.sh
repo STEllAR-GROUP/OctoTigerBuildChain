@@ -45,8 +45,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
         git clone https://github.com/STEllAR-GROUP/hpx.git
 	cd hpx
-	git checkout 1.6.0
-	#git checkout master
+	git checkout ${HPX_VERSION}
 	cd ..
     )
 fi
@@ -62,6 +61,7 @@ ${CMAKE_COMMAND} \
     -DHPX_WITH_CUDA=${OCT_WITH_CUDA} \
     -DHPX_WITH_CUDA_CLANG=OFF \
     -DHPX_WITH_CXX14=ON \
+    -DHPX_WITH_FETCH_ASIO=ON\
     -DHPX_WITH_PAPI=${OCT_WITH_PAPI} \
     -DPAPI_ROOT=${INSTALL_ROOT}/papi/ \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
