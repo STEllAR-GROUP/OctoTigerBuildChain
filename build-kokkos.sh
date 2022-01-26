@@ -5,7 +5,7 @@ set -ex
 : ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${LIB_DIR_NAME:?} ${BUILD_TYPE:?} \
     ${CMAKE_VERSION:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${CUDA_SM:?} \
     ${BOOST_VERSION:?} ${BOOST_BUILD_TYPE:?} \
-    ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_VERSION:?} \
+    ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_VERSION:?} ${KOKKOS_VERSION:?} \
     ${OCT_WITH_PARCEL:?} ${KOKKOS_CONFIG:?} ${OCT_CMAKE_CXX_COMPILER_INITIAL:?}
 
 DIR_SRC=${SOURCE_ROOT}/kokkos
@@ -20,7 +20,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git clone https://github.com/kokkos/kokkos kokkos
 	cd kokkos
 	# Checkout commit that adds hpx 1.7.1 support
-	git checkout d1e00352fd6262fd8d08225eb7086793432db35f
+	git checkout ${KOKKOS_VERSION}
 	git apply ../../nvcc_wrapper_eval.patch
 	cd ..
     )
