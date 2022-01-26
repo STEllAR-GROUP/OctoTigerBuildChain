@@ -4,24 +4,28 @@ set -ex
 
 : ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${HDF5_VERSION:?} ${SILO_VERSION:?}
 
-DIR_SRC=${SOURCE_ROOT}/silo
+DIR_SRC=${SOURCE_ROOT}/silo-4.10.2-bsd
 #DIR_BUILD=${INSTALL_ROOT}/silo/build
 DIR_INSTALL=${INSTALL_ROOT}/silo
 FILE_MODULE=${INSTALL_ROOT}/modules/silo/${SILO_VERSION}
 
-DOWNLOAD_URL="http://phys.lsu.edu/~dmarcel/silo-${SILO_VERSION}.tar.gz"
+DOWNLOAD_URL="https://wci.llnl.gov/sites/wci/files/2021-01/silo-${SILO_VERSION}-bsd.tgz"
+
 
 if [[ ! -d ${DIR_SRC} ]]; then
     (
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
-        wget -O- ${DOWNLOAD_URL} | tar xz --strip-components=1
+        wget  ${DOWNLOAD_URL}
+       	tar -xf silo-${SILO_VERSION}-bsd.tgz
+	mv silo-${SILO_VERSION}-bsd/* .
+	rm -rf  silo-${SILO_VERSION}-bsd	
     )
 fi
 
 (
     cd ${DIR_SRC}
-    autoreconf -ifv
+    #autoreconf -ifv
     sed -i 's/-lhdf5/$hdf5_lib\/libhdf5.a -ldl/g' configure
     ./configure --prefix=${DIR_INSTALL} --with-hdf5=$INSTALL_ROOT/hdf5/include,$INSTALL_ROOT/hdf5/lib --enable-optimization
     sed -i.bak -e '866d;867d' src/silo/Makefile
