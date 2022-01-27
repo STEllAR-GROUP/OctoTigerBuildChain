@@ -243,9 +243,12 @@ while [[ -n ${13} ]]; do
             shift
         ;;
         kokkos)
-            if [[ "$7" == "with-kokkos" ]]; then
+            if [[ "${OCT_WITH_KOKKOS}" == "ON" ]]; then
                 echo 'Target kokkos will build.'
                 export BUILD_TARGET_KOKKOS=
+            else
+                echo 'WARNING: Target kokkos will skipped due to parameter without-kokkos.'
+
 	          fi
             shift
         ;;
@@ -391,8 +394,8 @@ fi
     echo "Building CMake"
     #./build-cmake.sh
 )
-#export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
-export CMAKE_COMMAND=cmake
+export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
+#export CMAKE_COMMAND=cmake
 
 ################################################################################
 # Dependencies
