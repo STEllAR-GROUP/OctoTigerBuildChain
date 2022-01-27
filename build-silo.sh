@@ -28,7 +28,8 @@ fi
     cd ${DIR_SRC}
     #autoreconf -ifv
     sed -i 's/-lhdf5/$hdf5_lib\/libhdf5.a -ldl/g' configure
-    ./configure --prefix=${DIR_INSTALL} --with-hdf5=$INSTALL_ROOT/hdf5/include,$INSTALL_ROOT/hdf5/lib --enable-optimization --build=power9-unknown-linux-gnu
+    ./configure --prefix=${DIR_INSTALL} --with-hdf5=$INSTALL_ROOT/hdf5/include,$INSTALL_ROOT/hdf5/lib --enable-optimization
+    sed -i.bak -e '866d;867d' src/silo/Makefile
 
     make -j${PARALLEL_BUILD} install
 )
