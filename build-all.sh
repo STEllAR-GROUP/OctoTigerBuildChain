@@ -243,8 +243,10 @@ while [[ -n ${13} ]]; do
             shift
         ;;
         kokkos)
-            echo 'Target kokkos will build.'
-            export BUILD_TARGET_KOKKOS=
+            if [[ "$7" == "with-kokkos" ]]; then
+                echo 'Target kokkos will build.'
+                export BUILD_TARGET_KOKKOS=
+	          fi
             shift
         ;;
         cppuddle)
