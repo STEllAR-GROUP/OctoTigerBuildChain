@@ -41,36 +41,37 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git clone --depth 1 --branch boost-${BOOST_VERSION} https://github.com/boostorg/boost boost
 
 	cd boost
+	git submodule update --init --recursive
 	# checkout required tools
-	git submodule update --init --recursive tools/build/
-	git submodule update --init --recursive tools/boost_install/
+	#git submodule update --init --recursive tools/build/
+	#git submodule update --init --recursive tools/boost_install/
 	# checkout basic lib submodules
-	git submodule update --init --recursive libs/headers/
-	git submodule update --init --recursive libs/core/
-	git submodule update --init --recursive libs/type_traits/
-	git submodule update --init --recursive libs/static_assert/
-	git submodule update --init --recursive libs/assert/
-	git submodule update --init --recursive libs/iterator/
-	git submodule update --init --recursive libs/array/
-	git submodule update --init --recursive libs/config/
-	git submodule update --init --recursive libs/io/
-	git submodule update --init --recursive libs/any/
-	git submodule update --init --recursive libs/mpl/
-	git submodule update --init --recursive libs/preprocessor/
-	git submodule update --init --recursive libs/detail/
-	git submodule update --init --recursive libs/functional/
-	git submodule update --init --recursive libs/type_index/
+	#git submodule update --init --recursive libs/headers/
+	#git submodule update --init --recursive libs/core/
+	#git submodule update --init --recursive libs/type_traits/
+	#git submodule update --init --recursive libs/static_assert/
+	#git submodule update --init --recursive libs/assert/
+	#git submodule update --init --recursive libs/iterator/
+	#git submodule update --init --recursive libs/array/
+	#git submodule update --init --recursive libs/config/
+	#git submodule update --init --recursive libs/io/
+	#git submodule update --init --recursive libs/any/
+	#git submodule update --init --recursive libs/mpl/
+	#git submodule update --init --recursive libs/preprocessor/
+	#git submodule update --init --recursive libs/detail/
+	#git submodule update --init --recursive libs/functional/
+	#git submodule update --init --recursive libs/type_index/
 	# checkout actual compoments that we want
-	git submodule update --init --recursive libs/thread/
-	git submodule update --init --recursive libs/iostreams/
-	git submodule update --init --recursive libs/date_time/
-	git submodule update --init --recursive libs/chrono/
-	git submodule update --init --recursive libs/system/
-	git submodule update --init --recursive libs/regex/
-	git submodule update --init --recursive libs/program_options/
-	git submodule update --init --recursive libs/filesystem/
-	git submodule update --init --recursive libs/atomic/
-	git submodule update --init --recursive libs/spirit/
+	#git submodule update --init --recursive libs/thread/
+	#git submodule update --init --recursive libs/iostreams/
+	#git submodule update --init --recursive libs/date_time/
+	#git submodule update --init --recursive libs/chrono/
+	#git submodule update --init --recursive libs/system/
+	#git submodule update --init --recursive libs/regex/
+	#git submodule update --init --recursive libs/program_options/
+	#git submodule update --init --recursive libs/filesystem/
+	#git submodule update --init --recursive libs/atomic/
+	#git submodule update --init --recursive libs/spirit/
 	# Adapt as needed for other stuff
 
         echo "using gcc : : $CXX ; " >tools/build/src/user-config.jam
