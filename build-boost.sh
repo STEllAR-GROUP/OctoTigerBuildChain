@@ -47,6 +47,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	# checkout basic lib submodules
 	git submodule update --init --recursive libs/headers/
 	git submodule update --init --recursive libs/core/
+	git submodule update --init --recursive libs/type_traits/
 	git submodule update --init --recursive libs/config/
 	git submodule update --init --recursive libs/io/
 	# checkout actual compoments that we want
