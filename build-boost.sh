@@ -58,6 +58,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git submodule update --init --recursive libs/mpl/
 	git submodule update --init --recursive libs/preprocessor/
 	git submodule update --init --recursive libs/detail/
+	git submodule update --init --recursive libs/functional/
 	# checkout actual compoments that we want
 	git submodule update --init --recursive libs/thread/
 	git submodule update --init --recursive libs/iostreams/
