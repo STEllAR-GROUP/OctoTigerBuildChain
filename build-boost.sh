@@ -42,23 +42,23 @@ if [[ ! -d ${DIR_SRC} ]]; then
 
 	cd boost
 	# checkout required tools
-	git submodule update --init --recursive --depth=1 tools/build/
-	git submodule update --init --recursive --depth=1 tools/boost_install/
+	git submodule update --init --recursive tools/build/
+	git submodule update --init --recursive tools/boost_install/
 	# checkout basic lib submodules
-	git submodule update --init --recursive --depth=1 libs/headers/
-	git submodule update --init --recursive --depth=1 libs/config/
-	git submodule update --init --recursive --depth=1 libs/io/
+	git submodule update --init --recursive libs/headers/
+	git submodule update --init --recursive libs/config/
+	git submodule update --init --recursive libs/io/
 	# checkout actual compoments that we want
-	git submodule update --init --recursive --depth=1 libs/thread/
-	git submodule update --init --recursive --depth=1 libs/iostreams/
-	git submodule update --init --recursive --depth=1 libs/date_time/
-	git submodule update --init --recursive --depth=1 libs/chrono/
-	git submodule update --init --recursive --depth=1 libs/system/
-	git submodule update --init --recursive --depth=1 libs/regex/
-	git submodule update --init --recursive --depth=1 libs/program_options/
-	git submodule update --init --recursive --depth=1 libs/filesystem/
-	git submodule update --init --recursive --depth=1 libs/atomic/
-	git submodule update --init --recursive --depth=1 libs/spirit/
+	git submodule update --init --recursive libs/thread/
+	git submodule update --init --recursive libs/iostreams/
+	git submodule update --init --recursive libs/date_time/
+	git submodule update --init --recursive libs/chrono/
+	git submodule update --init --recursive libs/system/
+	git submodule update --init --recursive libs/regex/
+	git submodule update --init --recursive libs/program_options/
+	git submodule update --init --recursive libs/filesystem/
+	git submodule update --init --recursive libs/atomic/
+	git submodule update --init --recursive libs/spirit/
 	# Adapt as needed for other stuff
 
         echo "using gcc : : $CXX ; " >tools/build/src/user-config.jam
