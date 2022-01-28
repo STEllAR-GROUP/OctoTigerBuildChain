@@ -13,7 +13,7 @@ cd "${SOURCE_ROOT}"
 if [ ! -d llvm-project ] ; then
     git clone https://github.com/llvm/llvm-project
     cd llvm-project
-    git checkout llvmorg-11.1.0
+    git checkout ${CLANG_VERSION}
     cd ..
 fi
 
