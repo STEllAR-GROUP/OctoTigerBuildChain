@@ -10,9 +10,9 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 export CMAKE_VERSION=3.19.5
 
 # GCC
-export GCC_VERSION=9.3.0
+export GCC_VERSION=10.3.0
 
-export CLANG_VERSION=release_60
+export CLANG_VERSION=release/12.x
     
 
 export OPENMPI_VERSION=4.0.0
@@ -21,7 +21,7 @@ export OPENMPI_VERSION=4.0.0
 export HDF5_VERSION=1.8.12
 
 # Boost
-export BOOST_VERSION=1.78.0
+export BOOST_VERSION=1.75.0
 export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
