@@ -50,6 +50,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git submodule update --init --recursive libs/type_traits/
 	git submodule update --init --recursive libs/static_assert/
 	git submodule update --init --recursive libs/assert/
+	git submodule update --init --recursive libs/iterator/
 	git submodule update --init --recursive libs/config/
 	git submodule update --init --recursive libs/io/
 	# checkout actual compoments that we want
