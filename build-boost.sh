@@ -45,6 +45,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git submodule update --init --recursive --depth=1 tools/build/
 	git submodule update --init --recursive --depth=1 tools/boost_install/
 	# checkout basic lib submodules
+	git submodule update --init --recursive --depth=1 libs/core/
 	git submodule update --init --recursive --depth=1 libs/headers/
 	git submodule update --init --recursive --depth=1 libs/config/
 	git submodule update --init --recursive --depth=1 libs/io/
