@@ -51,7 +51,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git submodule update --init --recursive libs/static_assert/
 	git submodule update --init --recursive libs/assert/
 	git submodule update --init --recursive libs/iterator/
-	git submodule update --init --recursive libs/scoped_array/
+	git submodule update --init --recursive libs/array/
 	git submodule update --init --recursive libs/config/
 	git submodule update --init --recursive libs/io/
 	# checkout actual compoments that we want
