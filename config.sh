@@ -26,7 +26,7 @@ export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
 # jemalloc
-export JEMALLOC_VERSION=5.1.0
+export JEMALLOC_VERSION=5.2.1
 
 # hwloc
 export HWLOC_VERSION=1.11.12
