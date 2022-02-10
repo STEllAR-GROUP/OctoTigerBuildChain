@@ -14,7 +14,8 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    git checkout ookami_arm_fixes
+    #git checkout ookami_arm_fixes
+    git checkout  d33c144e0905cce8dcbd3a1acdfb447f72a3dc2c
     git submodule update --init --recursive
     popd
 fi
