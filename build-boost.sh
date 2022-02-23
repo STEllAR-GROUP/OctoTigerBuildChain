@@ -42,7 +42,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 
 	cd boost
 	# Just checkout everything
-	git submodule update --init --recursive --depth=1
+	git submodule update --init --recursive --depth=1 -j 8
 
 	# # checkout required tools
 	# git submodule update --init --recursive --depth=1 tools/build/
