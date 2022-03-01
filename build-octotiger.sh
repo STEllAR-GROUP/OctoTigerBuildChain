@@ -14,7 +14,7 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    git checkout master
+    git checkout std-simd-pr-testing2
     git submodule update --init --recursive
     popd
 fi
@@ -42,6 +42,7 @@ ${CMAKE_COMMAND} \
     -DOCTOTIGER_WITH_MONOPOLE_HOST_HPX_EXECUTOR=${OCT_WITH_MONOPOLE_HPX_EXECUTOR} \
     -DOCTOTIGER_WITH_MULTIPOLE_HOST_HPX_EXECUTOR=${OCT_WITH_MULTIPOLE_HPX_EXECUTOR} \
     -DOCTOTIGER_WITH_FORCE_SCALAR_KOKKOS_SIMD=${OCT_WITH_KOKKOS_SCALAR} \
+    -DOCTOTIGER_WITH_STD_EXPERIMENTAL_SIMD=OFF \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
     -DBOOST_ROOT=$BOOST_ROOT \
