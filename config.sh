@@ -58,9 +58,8 @@ export CUDA_SM=sm_80
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE86=ON "
-export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
-#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
+export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
 
 
 #Libfabric
@@ -104,6 +103,12 @@ case $(hostname) in
         export CUDA_SM=sm_70
         export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
         export PARALLEL_BUILD=16
+        ;;
+    medusa*)
+        echo 'Compiling for medusa, doing additional setup'
+        export LIB_DIR_NAME=lib64
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON "
+        export PARALLEL_BUILD=20
         ;;
     toranj*)
         echo 'Compiling for toranj, doing additional setup'
