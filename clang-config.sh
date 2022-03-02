@@ -33,7 +33,7 @@ case $(uname -i) in
         export LIBHPX=lib64
         ;;
     x86_64)
-        export CXXFLAGS="-fPIC -march=native -ffast-math -std=c++14 "
+        export CXXFLAGS="-craympich-mt -fPIC -march=native -ffast-math -std=c++14 "
         export LIBHPX=lib
         ;;
     *)

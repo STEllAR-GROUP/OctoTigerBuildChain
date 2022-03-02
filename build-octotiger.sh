@@ -13,7 +13,7 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build-kokkos
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    git checkout summit_experimental
+    git checkout port-to-hpx-1.7
     popd
 fi
 
@@ -24,13 +24,13 @@ ${CMAKE_COMMAND} \
     -H${DIR_SRC} \
     -B${DIR_BUILD} \
     -DCMAKE_PREFIX_PATH=${INSTALL_ROOT}/hpx \
-    -DCMAKE_CXX_FLAGS="$CXXFLAGS -fpermissive" \
+    -DCMAKE_CXX_FLAGS="$CXXFLAGS -fpermissive -I/opt/nvidia/hpc_sdk/Linux_x86_64/21.9/math_libs/11.4/include/ " \
     -DCMAKE_EXE_LINKER_FLAGS="$LDCXXFLAGS -lz -L$INSTALL_ROOT/hdf5/lib -lhdf5" \
     -DCMAKE_SHARED_LINKER_FLAGS="$LDCXXFLAGS" \
     -DBOOST_ROOT=$INSTALL_ROOT/boost \
     -DOCTOTIGER_WITH_CUDA=$OCT_WITH_CUDA \
     -DOCTOTIGER_WITH_KOKKOS=$OCT_WITH_KOKKOS \
-    -DOCTOTIGER_WITH_BLAST_TEST=ON \
+    -DOCTOTIGER_WITH_BLAST_TEST=OFF \
     -DOCTOTIGER_WITH_TESTS=OFF \
     -DOCTOTIGER_WITH_Vc=OFF \
     -DOCTOTIGER_WITH_LEGACY_VC=OFF \
@@ -39,7 +39,7 @@ ${CMAKE_COMMAND} \
     -DOCTOTIGER_WITH_MULTIPOLE_HOST_HPX_EXECUTOR=${OCT_WITH_MULTIPOLE_HPX_EXECUTOR} \
     -DOCTOTIGER_WITH_FORCE_SCALAR_KOKKOS_SIMD=${OCT_WITH_KOKKOS_SCALAR} \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
-    -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
+    -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc/ \
     -DBOOST_ROOT=$BOOST_ROOT \
     -DHPX_DIR=$INSTALL_ROOT/hpx/$LIBHPX64/cmake/HPX/ \
     -DHDF5_INCLUDE_DIR=$INSTALL_ROOT/hdf5/include \
@@ -48,10 +48,13 @@ ${CMAKE_COMMAND} \
     -DSilo_DIR=$INSTALL_ROOT/silo \
     -DCPPuddle_DIR=$INSTALL_ROOT/cppuddle/build/cppuddle/lib/cmake/CPPuddle \
     -DCMAKE_CUDA_FLAGS="-arch=${CUDA_SM} ${OCT_CUDA_INTERNAL_COMPILER} -std=c++14" \
-    -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos \
-    -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/${LIB_DIR_NAME}/cmake/HPXKokkos \
+    -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}64/cmake/Kokkos \
+    -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/${LIB_DIR_NAME}64/cmake/HPXKokkos \
     -DCMAKE_CXX_COMPILER="${OCT_CMAKE_CXX_COMPILER}" \
-    -DOCTOTIGER_WITH_GRIDDIM=16
+    -DOCTOTIGER_WITH_GRIDDIM=8 \
+    -DHPX_IGNORE_COMPILER_COMPATIBILITY=ON \
+    -DOCTOTIGER_FORCE_SCALAR_KOKKOS_SIMD=ON \
+    -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 

@@ -1,14 +1,18 @@
 : ${INSTALL_ROOT:?} ${OCT_WITH_KOKKOS:?}
 
-if [[ -d "/etc/opt/cray/release/" ]]; then
+if [[ -d "/etc/opt/cray/pe/" ]]; then
 	export CC=cc
 	export CXX=CC
+	#export NVCC_WRAPPER_DEFAULT_COMPILER=${INSTALL_ROOT}/gcc/bin/
+	#export OCT_CUDA_INTERNAL_COMPILER=" -ccbin ${INSTALL_ROOT}/gcc/bin/ "
+	#export OCT_CMAKE_CXX_COMPILER="$INSTALL_ROOT/kokkos/install/bin/nvcc_wrapper"
+        export OCT_CMAKE_CXX_COMPILER_INITIAL="$SOURCE_ROOT/kokkos/bin/nvcc_wrapper"
 	export CRAYPE_LINK_TYPE=dynamic
 	export XTPE_LINK_TYPE=dynamic
 	echo "WARNING!!! You should switch to the gnu compiler env (module switch PrgEnv-cray/5.2.82 PrgEnv-gnu)!!!!!!!"
 else
-	export CC=gcc
-	export CXX=g++
+	export CC=cc
+	export CXX=CC
   export OCT_CUDA_INTERNAL_COMPILER=""
   if [ -z "$OCT_USE_CC_COMPILER" ]
   then
@@ -37,7 +41,7 @@ case $(uname -i) in
         export LIBHPX=lib64
         ;;
     x86_64)
-        export CXXFLAGS="-fPIC -march=native -ffast-math -std=c++14 "
+        export CXXFLAGS=" -fPIC -march=native -ffast-math -std=c++14  "
         export LIBHPX=lib
         ;;
     *)

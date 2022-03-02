@@ -19,7 +19,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
 	git clone https://github.com/STEllAR-GROUP/hpx-kokkos.git hpx-kokkos
 	cd hpx-kokkos
-	git checkout 926b882ea8b5da34c4415c1f404c0bd5f577f2e5
+	git checkout master
 	cd ..
     )
 fi
@@ -32,9 +32,10 @@ ${CMAKE_COMMAND} \
 	-B${DIR_BUILD} \
 	-DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
   -DHPX_KOKKOS_CUDA_FUTURE_TYPE=${HPX_KOKKOS_FUTURE_TYPE} \
-	-DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos/ \
-	-DHPX_DIR=$INSTALL_ROOT/hpx/${LIB_DIR_NAME}/cmake/HPX/ \
-       	-DCMAKE_INSTALL_PREFIX=${INSTALL_ROOT}/hpx-kokkos/install
+	-DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}64/cmake/Kokkos/ \
+	-DHPX_DIR=$INSTALL_ROOT/hpx/${LIB_DIR_NAME}64/cmake/HPX/ \
+       	-DCMAKE_INSTALL_PREFIX=${INSTALL_ROOT}/hpx-kokkos/install \
+	-DHPX_IGNORE_COMPILER_COMPATIBILITY=ON
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 ${CMAKE_COMMAND} --build ${DIR_BUILD} --target install

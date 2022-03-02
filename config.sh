@@ -7,10 +7,10 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 # Package Configuration
 ################################################################################
 # CMake
-export CMAKE_VERSION=3.14.2
+export CMAKE_VERSION=3.19.0
 
 # GCC
-export GCC_VERSION=8.3.0
+export GCC_VERSION=9.3.0
 
 export CLANG_VERSION=release_60
     
@@ -21,7 +21,7 @@ export OPENMPI_VERSION=4.0.0
 export HDF5_VERSION=1.8.12
 
 # Boost
-export BOOST_VERSION=1.70.0
+export BOOST_VERSION=1.77.0
 export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
@@ -49,10 +49,10 @@ export PAPI_VERSION=5.7.0
 export OTF2_VERSION=2.2
 
 # CUDA
-export CUDA_SM=sm_70
+export CUDA_SM=sm_80
 #export CUDA_SM=sm_61
-export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
-#export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
+#export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
+export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
 
 #Libfabric
