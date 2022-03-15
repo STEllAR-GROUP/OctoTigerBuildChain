@@ -14,7 +14,7 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    git checkout master
+    git checkout integrate_work_aggregation
     git submodule update --init --recursive
     popd
 fi
@@ -34,7 +34,7 @@ ${CMAKE_COMMAND} \
     -DCMAKE_CUDA_COMPILE_SEPARABLE_COMPILATION=ON \
     -DOCTOTIGER_WITH_CUDA=$OCT_WITH_CUDA \
     -DOCTOTIGER_WITH_KOKKOS=$OCT_WITH_KOKKOS \
-    -DOCTOTIGER_WITH_BLAST_TEST=ON \
+    -DOCTOTIGER_WITH_BLAST_TEST=OFF \
     -DOCTOTIGER_WITH_TESTS=ON \
     -DOCTOTIGER_WITH_Vc=ON \
     -DOCTOTIGER_WITH_LEGACY_VC=OFF \
