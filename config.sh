@@ -21,7 +21,7 @@ export OPENMPI_VERSION=4.0.0
 export HDF5_VERSION=1.8.12
 
 # Boost
-export BOOST_VERSION=1.73.0
+export BOOST_VERSION=1.78.0
 export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
@@ -51,20 +51,21 @@ export OTF2_VERSION=2.2
 # CUDA
 export CUDA_SM=sm_70
 #export CUDA_SM=sm_61
-export KOKKOS_CONFIG=" -DKokkos_ARCH_A64FX=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_POWER9=ON -DKokkos_ARCH_VOLTA70=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VOLTA70=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
+export KOKKOS_CONFIG=""
 
 
 #Libfabric
 export LIBFABRIC_VERSION=1.9.0
 
 # Max number of parallel jobs
-export PARALLEL_BUILD=8  #$(grep -c ^processor /proc/cpuinfo)
+#export PARALLEL_BUILD=8  #$(grep -c ^processor /proc/cpuinfo)
+export PARALLEL_BUILD=$(grep -c ^processor /proc/cpuinfo)
 
 export LIB_DIR_NAME=lib
 

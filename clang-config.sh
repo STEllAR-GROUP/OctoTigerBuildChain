@@ -28,19 +28,19 @@ export LDCXXFLAGS="${LDFLAGS} -std=c++14 "
 
 case $(uname -i) in
     ppc64le)
-        export CXXFLAGS="-fPIC -mcpu=native -mtune=native -ffast-math -std=c++14 "
+        export CXXFLAGS="-fPIC -mcpu=native -mtune=native -ffast-math -std=c++17 "
 	export OCT_ARCH_FLAGS="-mcpu=native,-mtune=native"
         export LIB_DIR_NAME=lib64
         export LIBHPX=lib64
         ;;
     x86_64)
-        export CXXFLAGS="-fPIC -march=native -ffast-math -std=c++14 "
+        export CXXFLAGS="-fPIC -march=native -ffast-math -std=c++17 "
 	export OCT_ARCH_FLAGS="-march=native"
         export LIBHPX=lib
         ;;
     aarch64)
-        export CXXFLAGS="-fPIC -march=armv8.2-a+sve -ffast-math -std=c++14 "
-	export OCT_ARCH_FLAGS="-march=armv8.2-a+sve "
+        export CXXFLAGS="-fPIC -mcpu=a64fx -msve-vector-bits=512 -armpl  -ffast-math -std=c++17 "
+	export OCT_ARCH_FLAGS="-mcpu=a64fx "
         export LIB_DIR_NAME=lib64
         export LIBHPX=lib64
         ;;
