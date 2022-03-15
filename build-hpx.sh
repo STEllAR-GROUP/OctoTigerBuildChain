@@ -55,6 +55,7 @@ ${CMAKE_COMMAND} \
     -B${DIR_BUILD} \
     -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL} \
     -DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
     -DCMAKE_CXX_FLAGS="${CXXFLAGS}" \
     -DCMAKE_EXE_LINKER_FLAGS="${LDCXXFLAGS}" \
     -DCMAKE_SHARED_LINKER_FLAGS="${LDCXXFLAGS}" \
@@ -104,6 +105,7 @@ ${CMAKE_COMMAND} \
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 ${CMAKE_COMMAND} --build ${DIR_BUILD} --target install
+cp ${DIR_BUILD}/compile_commands.json ${DIR_SRC}/compile_commands.json
 
 mkdir -p $(dirname ${FILE_MODULE})
 cat >${FILE_MODULE} <<EOF

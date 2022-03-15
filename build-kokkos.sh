@@ -31,6 +31,7 @@ ${CMAKE_COMMAND} \
 	-B${DIR_BUILD} \
 	-DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
 	-DKokkos_ENABLE_TESTS=OFF \
+	-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
 	-DKokkos_CXX_STANDARD=17 \
 	-DKokkos_ENABLE_INTERNAL_FENCES=OFF \
        	-DKokkos_ENABLE_CUDA=${OCT_WITH_CUDA} \
@@ -47,6 +48,7 @@ ${CMAKE_COMMAND} \
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 ${CMAKE_COMMAND} --build ${DIR_BUILD} --target install
+cp ${DIR_BUILD}/compile_commands.json ${DIR_SRC}/compile_commands.json
 
 #	-DCMAKE_CXX_FLAGS="-isystem ${INSTALL_ROOT}/hpx/include" \
 #	-DKokkos_ARCH_HSW=ON \

@@ -22,11 +22,13 @@ ${CMAKE_COMMAND} \
     -Wno-dev \
     -H${DIR_SRC} \
     -B${DIR_BUILD} \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
     -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL} \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_TESTING=OFF
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} --target install -- -j${PARALLEL_BUILD} VERBOSE=1
+cp ${DIR_BUILD}/compile_commands.json ${DIR_SRC}/compile_commands.json
 
 mkdir -p $(dirname ${FILE_MODULE})
 cat >${FILE_MODULE} <<EOF
