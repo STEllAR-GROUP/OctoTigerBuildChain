@@ -41,25 +41,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git clone --depth 1 --branch boost-${BOOST_VERSION} https://github.com/boostorg/boost boost
 
 	cd boost
+	 git submodule update --init --recursive --depth=1 -j 8
 	# checkout required tools
-	git submodule update --init --recursive --depth=1 tools/build/
-	git submodule update --init --recursive --depth=1 tools/boost_install/
-	# checkout basic lib submodules
-	git submodule update --init --recursive --depth=1 libs/headers/
-	git submodule update --init --recursive --depth=1 libs/config/
-	git submodule update --init --recursive --depth=1 libs/io/
-	# checkout actual compoments that we want
-	git submodule update --init --recursive --depth=1 libs/thread/
-	git submodule update --init --recursive --depth=1 libs/iostreams/
-	git submodule update --init --recursive --depth=1 libs/date_time/
-	git submodule update --init --recursive --depth=1 libs/chrono/
-	git submodule update --init --recursive --depth=1 libs/system/
-	git submodule update --init --recursive --depth=1 libs/regex/
-	git submodule update --init --recursive --depth=1 libs/program_options/
-	git submodule update --init --recursive --depth=1 libs/filesystem/
-	git submodule update --init --recursive --depth=1 libs/atomic/
-	git submodule update --init --recursive --depth=1 libs/spirit/
-	# Adapt as needed for other stuff
 
         echo "using gcc : : $CXX ; " >tools/build/src/user-config.jam
     )
