@@ -12,6 +12,7 @@ DIR_SRC=${SOURCE_ROOT}/hpx-kokkos
 DIR_BUILD=${INSTALL_ROOT}/hpx-kokkos/build
 DIR_INSTALL=${INSTALL_ROOT}/hpx-kokkos
 
+rm -rf "${DIR_SRC}"
 if [[ ! -d ${DIR_SRC} ]]; then
     (
         mkdir -p ${DIR_SRC}
@@ -21,8 +22,6 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd hpx-kokkos
 	#git checkout ce63b0630c739a4df899749ed67baa867862f3fc
 	git checkout ${HPX_KOKKOS_VERSION}
-	cp ../../add_future.patch .
-	git apply add_future.patch
 	cd ..
     )
 fi
