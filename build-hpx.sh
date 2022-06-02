@@ -45,7 +45,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
         git clone https://github.com/STEllAR-GROUP/hpx.git
 	cd hpx
-	git checkout 1.7.1
+	git checkout 04824da3e8db8c9e2b2ca3d51ca6f1971aebc40c
 	cd ..
     )
 fi
@@ -93,6 +93,10 @@ ${CMAKE_COMMAND} \
     -DHPX_PARCELPORT_LIBFABRIC_WITH_LOGGING:BOOL=OFF \
     -DHPX_PARCELPORT_LIBFABRIC_WITH_PERFORMANCE_COUNTERS:BOOL=OFF \
     -DHPX_WITH_APEX=${OCT_WITH_APEX} \
+    -DAPEX_WITH_HIP=TRUE \
+    -DROCM_ROOT=/opt/rocm-4.3.1 \
+    -DROCTRACER_ROOT=/opt/rocm-4.3.1/roctracer \
+    -DROCPROFILER_ROOT=/opt/rocm-4.3.1/rocprofiler \
     -DAPEX_WITH_ACTIVEHARMONY=FALSE \
     -DAPEX_WITH_OTF2=${HPX_WITH_OTF2} \
     -DOTF2_ROOT=$INSTALL_ROOT/otf2/ \
