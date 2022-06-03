@@ -361,10 +361,10 @@ fi
 [[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (
     echo "Building CMake"
-    #./build-cmake.sh
+    ./build-cmake.sh
 )
-#export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
-export CMAKE_COMMAND=cmake
+export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
+#export CMAKE_COMMAND=cmake
 
 ################################################################################
 # Dependencies
