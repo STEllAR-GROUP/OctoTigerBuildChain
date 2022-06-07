@@ -1,0 +1,22 @@
+diff --git a/bin/nvcc_wrapper b/bin/nvcc_wrapper
+index 2437cf5d3..7ee679200 100755
+--- a/bin/nvcc_wrapper
++++ b/bin/nvcc_wrapper
+@@ -554,7 +554,7 @@ if [ $host_only -eq 1 ]; then
+   if [ "$NVCC_WRAPPER_SHOW_COMMANDS_BEING_RUN" == "1" ] ; then
+     echo "$host_command"
+   fi
+-  $host_command
++  eval $host_command
+ elif [ -n "$nvcc_depfile_command" ]; then
+   if [ "$NVCC_WRAPPER_SHOW_COMMANDS_BEING_RUN" == "1" ] ; then
+     echo "TMPDIR=${temp_dir} $nvcc_command && TMPDIR=${temp_dir} $nvcc_depfile_command"
+@@ -564,7 +564,7 @@ else
+   if [ "$NVCC_WRAPPER_SHOW_COMMANDS_BEING_RUN" == "1" ] ; then
+     echo "TMPDIR=${temp_dir} $nvcc_command"
+   fi
+-  TMPDIR=${temp_dir} $nvcc_command
++  TMPDIR=${temp_dir} eval $nvcc_command
+ fi
+ error_code=$?
+ 

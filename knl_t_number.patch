@@ -1,0 +1,59 @@
+diff --git a/test_problems/blast/CMakeLists.txt b/test_problems/blast/CMakeLists.txt
+index 5fbf37e2..0db48e88 100644
+--- a/test_problems/blast/CMakeLists.txt
++++ b/test_problems/blast/CMakeLists.txt
+@@ -55,7 +55,7 @@ endif()
+   
+ function(test_blast_scenario test_name test_log_file kernel_parameters)
+   add_test(NAME ${test_name}
+-    COMMAND sh -c "${PROJECT_BINARY_DIR}/octotiger --config_file=${PROJECT_SOURCE_DIR}/test_problems/blast/blast.ini ${kernel_parameters} > ${test_log_file}")
++    COMMAND sh -c "${PROJECT_BINARY_DIR}/octotiger -t64 --config_file=${PROJECT_SOURCE_DIR}/test_problems/blast/blast.ini ${kernel_parameters} > ${test_log_file}")
+   set_tests_properties(${test_name} PROPERTIES
+     FIXTURES_SETUP ${test_name})
+ 
+@@ -148,4 +148,4 @@ if(OCTOTIGER_WITH_KOKKOS)
+   if(OCTOTIGER_WITH_CUDA)
+     test_blast_scenario(test_problems.gpu.blast_kokkos blast_kokkos_cuda_log.txt " --cuda_number_gpus=1 --cuda_streams_per_gpu=32 --cuda_buffer_capacity=1024 --hydro_device_kernel_type=KOKKOS_CUDA --hydro_host_kernel_type=KOKKOS")
+   endif()
+-endif()
+\ No newline at end of file
++endif()
+diff --git a/test_problems/rotating_star/CMakeLists.txt b/test_problems/rotating_star/CMakeLists.txt
+index 8ad2974f..e40185d1 100644
+--- a/test_problems/rotating_star/CMakeLists.txt
++++ b/test_problems/rotating_star/CMakeLists.txt
+@@ -60,7 +60,7 @@ set_tests_properties(test_problems.rotating_star.init PROPERTIES
+ 
+ function(test_rotating_star_scenario test_name test_log_file kernel_parameters)
+   add_test(NAME ${test_name}
+-    COMMAND sh -c "${PROJECT_BINARY_DIR}/octotiger --config_file=${PROJECT_SOURCE_DIR}/test_problems/rotating_star/rotating_star.ini ${kernel_parameters} > ${test_log_file}")
++    COMMAND sh -c "${PROJECT_BINARY_DIR}/octotiger -t64 --config_file=${PROJECT_SOURCE_DIR}/test_problems/rotating_star/rotating_star.ini ${kernel_parameters} > ${test_log_file}")
+   set_tests_properties(${test_name} PROPERTIES
+     FIXTURES_SETUP ${test_name}
+     FIXTURES_REQUIRED test_problems.rotating_star.init)
+diff --git a/test_problems/sod/CMakeLists.txt b/test_problems/sod/CMakeLists.txt
+index 6eec5e1e..9c2a7707 100644
+--- a/test_problems/sod/CMakeLists.txt
++++ b/test_problems/sod/CMakeLists.txt
+@@ -48,7 +48,7 @@ endif()
+ 
+ function(test_sod_scenario test_name test_log_file kernel_parameters)
+   add_test(NAME ${test_name}
+-    COMMAND sh -c "${PROJECT_BINARY_DIR}/octotiger --config_file=${PROJECT_SOURCE_DIR}/test_problems/sod/sod.ini ${kernel_parameters} > ${test_log_file}")
++    COMMAND sh -c "${PROJECT_BINARY_DIR}/octotiger -t64 --config_file=${PROJECT_SOURCE_DIR}/test_problems/sod/sod.ini ${kernel_parameters} > ${test_log_file}")
+   set_tests_properties(${test_name} PROPERTIES
+     FIXTURES_SETUP ${test_name})
+ 
+diff --git a/test_problems/sphere/CMakeLists.txt b/test_problems/sphere/CMakeLists.txt
+index ec57a366..03c21970 100644
+--- a/test_problems/sphere/CMakeLists.txt
++++ b/test_problems/sphere/CMakeLists.txt
+@@ -54,7 +54,7 @@ endif()
+ 
+ function(test_sphere_scenario test_name test_log_file kernel_parameters)
+   add_test(NAME ${test_name}
+-    COMMAND sh -c "${PROJECT_BINARY_DIR}/octotiger --config_file=${PROJECT_SOURCE_DIR}/test_problems/sphere/sphere.ini ${kernel_parameters} > ${test_log_file}")
++    COMMAND sh -c "${PROJECT_BINARY_DIR}/octotiger -t64 --config_file=${PROJECT_SOURCE_DIR}/test_problems/sphere/sphere.ini ${kernel_parameters} > ${test_log_file}")
+   set_tests_properties(${test_name} PROPERTIES
+     FIXTURES_SETUP ${test_name})
+ 

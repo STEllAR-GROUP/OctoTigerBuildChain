@@ -361,11 +361,10 @@ fi
 [[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (
     echo "Building CMake"
-    #./build-cmake.sh
-    #spack load cmake
+    ./build-cmake.sh
 )
-#export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
-export CMAKE_COMMAND=cmake
+export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
+#export CMAKE_COMMAND=cmake
 
 ################################################################################
 # Dependencies
@@ -448,3 +447,6 @@ fi
     echo "Building Octo-tiger"
     ./build-octotiger.sh
 )
+
+#echo "finished building"
+#exit 0
