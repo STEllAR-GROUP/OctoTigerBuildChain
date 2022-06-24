@@ -21,7 +21,7 @@ export OPENMPI_VERSION=4.0.0
 export HDF5_VERSION=1.8.12
 
 # Boost
-export BOOST_VERSION=1.75.0
+export BOOST_VERSION=1.79.0
 export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
