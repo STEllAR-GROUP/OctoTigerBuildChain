@@ -5,11 +5,7 @@ set -ex
 : ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${LIB_DIR_NAME:?} ${BUILD_TYPE:?} \
     ${CMAKE_VERSION:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${CUDA_SM:?} \
     ${BOOST_VERSION:?} ${BOOST_BUILD_TYPE:?} \
-<<<<<<< HEAD
     ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_KOKKOS_VERSION:?} \
-=======
-    ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} \
->>>>>>> jenkins-kamand
     ${OCT_WITH_PARCEL:?}
 
 DIR_SRC=${SOURCE_ROOT}/hpx-kokkos
