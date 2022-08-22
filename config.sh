@@ -57,7 +57,7 @@ export CUDA_SM=sm_70
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
-export KOKKOS_CONFIG=""
+export KOKKOS_CONFIG="-DKokkos_ARCH_A64FX=ON"
 
 
 #Libfabric

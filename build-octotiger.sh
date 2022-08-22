@@ -14,8 +14,8 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    #git checkout ookami_arm_fixes
-    git checkout  d33c144e0905cce8dcbd3a1acdfb447f72a3dc2c
+    git checkout reconstruct_simd_optimization
+    #git checkout  d33c144e0905cce8dcbd3a1acdfb447f72a3dc2c
     git submodule update --init --recursive
     popd
 fi
@@ -42,8 +42,9 @@ ${CMAKE_COMMAND} \
     -DOCTOTIGER_WITH_MAX_NUMBER_FIELDS=15 \
     -DOCTOTIGER_WITH_MONOPOLE_HOST_HPX_EXECUTOR=${OCT_WITH_MONOPOLE_HPX_EXECUTOR} \
     -DOCTOTIGER_WITH_MULTIPOLE_HOST_HPX_EXECUTOR=${OCT_WITH_MULTIPOLE_HPX_EXECUTOR} \
-    -DOCTOTIGER_SIMD_EXTENSION=SVE \
-    -DOCTOTIGER_WITH_STD_EXPERIMENTAL_SIMD=ON \
+    -DOCTOTIGER_KOKKOS_SIMD_LIBRARY=STD \
+    -DOCTOTIGER_KOKKOS_SIMD_EXTENSION=SVE \
+    -DOCTOTIGER_WITH_CXX20=ON \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
     -DBOOST_ROOT=$BOOST_ROOT \
@@ -55,20 +56,20 @@ ${CMAKE_COMMAND} \
     -DCMAKE_CUDA_FLAGS="-arch=${CUDA_SM} ${OCT_CUDA_INTERNAL_COMPILER} " \
     -DOCTOTIGER_WITH_FAST_FP_CONTRACT=ON \
     -DOCTOTIGER_CUDA_ARCH=${CUDA_SM} \
-    -DOCTOTIGER_ARCH_FLAG=" ${OCT_ARCH_FLAGS} -msve-vector-bits=512 -armpl "\
+    -DOCTOTIGER_ARCH_FLAG=" ${OCT_ARCH_FLAGS} -msve-vector-bits=512 "\
     -DCPPuddle_DIR=$INSTALL_ROOT/cppuddle/build/cppuddle/lib/cmake/CPPuddle \
     -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos \
     -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/${LIB_DIR_NAME}/cmake/HPXKokkos
 
 # SVE patch
-cd build/octotiger/build/_deps/kokkossimd-src
-if [[ $(git diff --stat) != '' ]]; then
-  echo 'Kokkos simd directory is dirty -> SVE patch already applied'
-else
-  echo 'Kokkos simd directory is clean -> we need to apply the SVE patch'
-  git apply ../../../../../kokkos-simd-ookami.patch
-fi
-cd -
+#cd build/octotiger/build/_deps/kokkossimd-src
+#if [[ $(git diff --stat) != '' ]]; then
+#  echo 'Kokkos simd directory is dirty -> SVE patch already applied'
+#else
+#  echo 'Kokkos simd directory is clean -> we need to apply the SVE patch'
+#  git apply ../../../../../kokkos-simd-ookami.patch
+#fi
+#cd -
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 

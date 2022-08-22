@@ -48,8 +48,8 @@ case $(uname -i) in
         export LIBHPX=lib
         ;;
     aarch64)
-        export CXXFLAGS="-fPIC -mcpu=a64fx -msve-vector-bits=512 -ffast-math -std=c++17 "
-	export OCT_ARCH_FLAGS="-mcpu=a64fx"
+        export CXXFLAGS="-fPIC  -mcpu=a64fx -march=armv8.2-a+sve -ffast-math -std=c++17 "
+	export OCT_ARCH_FLAGS=" -mcpu=a64fx  -march=armv8.2-a+sve"
         #export CXXFLAGS="-fPIC -ffast-math -std=c++14 "
 	#export OCT_ARCH_FLAGS=""
         export LIB_DIR_NAME=lib64
