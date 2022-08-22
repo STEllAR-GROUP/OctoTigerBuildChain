@@ -15,7 +15,7 @@ export GCC_VERSION=10.3.0
 export CLANG_VERSION=release/12.x
     
 
-export OPENMPI_VERSION=4.0.0
+export OPENMPI_VERSION=4.1.4
 
 # HDF5
 export HDF5_VERSION=1.8.12
@@ -59,16 +59,16 @@ export CUDA_SM=sm_80
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE86=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
-export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
+export KOKKOS_CONFIG=" -DKokkos_ARCH_ZEN2=ON "
 
 
 #Libfabric
 export LIBFABRIC_VERSION=1.9.0
 
 # Max number of parallel jobs
-export PARALLEL_BUILD=8  #$(grep -c ^processor /proc/cpuinfo)
+export PARALLEL_BUILD=64  #$(grep -c ^processor /proc/cpuinfo)
 
-export LIB_DIR_NAME=lib
+export LIB_DIR_NAME=lib64
 
 ################################################################################
 # Host-specific configuration
@@ -114,8 +114,8 @@ case $(hostname) in
         echo 'Compiling for toranj, doing additional setup'
         export LIB_DIR_NAME=lib64
         export CUDA_SM=sm_80
-        export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
-        export PARALLEL_BUILD=20
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_ICX=ON  -DKokkos_ARCH_AMPERE80=ON "
+        export PARALLEL_BUILD=64
         ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'

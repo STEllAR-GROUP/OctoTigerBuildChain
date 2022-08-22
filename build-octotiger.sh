@@ -14,7 +14,7 @@ DIR_BUILD=${INSTALL_ROOT}/octotiger/build
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
-    git checkout master
+    git checkout reconstruct_simd_optimization
     git submodule update --init --recursive
     popd
 fi
@@ -42,8 +42,8 @@ ${CMAKE_COMMAND} \
     -DOCTOTIGER_WITH_MAX_NUMBER_FIELDS=15 \
     -DOCTOTIGER_WITH_MONOPOLE_HOST_HPX_EXECUTOR=${OCT_WITH_MONOPOLE_HPX_EXECUTOR} \
     -DOCTOTIGER_WITH_MULTIPOLE_HOST_HPX_EXECUTOR=${OCT_WITH_MULTIPOLE_HPX_EXECUTOR} \
-    -DOCTOTIGER_WITH_FORCE_SCALAR_KOKKOS_SIMD=${OCT_WITH_KOKKOS_SCALAR} \
-    -DOCTOTIGER_WITH_STD_EXPERIMENTAL_SIMD=OFF \
+    -DOCTOTIGER_KOKKOS_SIMD_LIBRARY=KOKKOS \
+    -DOCTOTIGER_KOKKOS_SIMD_EXTENSION=AVX \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
     -DBOOST_ROOT=$BOOST_ROOT \

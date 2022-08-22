@@ -22,6 +22,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	# Checkout commit that adds hpx 1.7.1 support
 	git checkout ${KOKKOS_VERSION}
 	git apply ../../nvcc_wrapper_eval.patch
+	git apply ../../kokkos-single-task.patch
 	cd ..
     )
 fi
@@ -39,7 +40,7 @@ ${CMAKE_COMMAND} \
 	-DKokkos_ENABLE_CUDA_CONSTEXPR=${OCT_WITH_CUDA} \
        	-DKokkos_ENABLE_SERIAL=ON \
        	-DKokkos_ENABLE_HPX=ON \
-        -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=ON \
+        -DKokkos_ENABLE_HPX_ASYNC_DISPATCH=OFF \
        	-DKokkos_COMPILE_LAUNCHER=OFF \
        ${KOKKOS_CONFIG} \
 	-DHPX_DIR=$INSTALL_ROOT/hpx/${LIB_DIR_NAME}/cmake/HPX/ \
