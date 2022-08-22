@@ -41,9 +41,9 @@ export VC_VERSION=1.4.1
 # Octotiger does not currently work with current master/HEAD
 #export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
 # It does in reconstruct_experimental
-export HPX_VERSION=1.7.1
-export KOKKOS_VERSION=d1e00352fd6262fd8d08225eb7086793432db35f
-export HPX_KOKKOS_VERSION=0.2.0
+export HPX_VERSION=1.8.0
+export KOKKOS_VERSION=2640cf70de338618a7e4fe10590b06bc1c239f4c
+export HPX_KOKKOS_VERSION=20a44967c742f5a7670b4dff9658d9973bf849f2
 
 # PAPI
 export PAPI_VERSION=5.7.0
@@ -114,8 +114,8 @@ case $(hostname) in
         echo 'Compiling for toranj, doing additional setup'
         export LIB_DIR_NAME=lib64
         export CUDA_SM=sm_80
-        export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
-        export PARALLEL_BUILD=20
+        export KOKKOS_CONFIG=" -DKokkos_ARCH_ICX=ON  -DKokkos_ARCH_AMPERE80=ON "
+        export PARALLEL_BUILD=64
         ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'
