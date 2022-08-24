@@ -22,6 +22,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	# Checkout commit that adds hpx 1.7.1 support
 	git checkout ${KOKKOS_VERSION}
 	git apply ../../nvcc_wrapper_eval.patch
+	#git apply ../../mutex_kokkos.patch
 	cd ..
     )
 fi

@@ -37,13 +37,23 @@ export SILO_VERSION=4.10.2
 # Vc
 export VC_VERSION=1.4.1
 
-export HPX_VERSION=1.7.1
-export KOKKOS_VERSION=d1e00352fd6262fd8d08225eb7086793432db35f
-export HPX_KOKKOS_VERSION=release-0.2.X
+# HPX
+# Octotiger does not currently work with current master/HEAD
+#export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
+# It does in reconstruct_experimental
 
-#export HPX_VERSION=master
-#export KOKKOS_VERSION=develop
+#export HPX_VERSION=04824da3e8db8c9e2b2ca3d51ca6f1971aebc40c
+#export KOKKOS_VERSION=ba0caeeb1aecaaef16b6894d7b9ba5593b899492
 #export HPX_KOKKOS_VERSION=master
+
+export HPX_VERSION=1.8.0
+export KOKKOS_VERSION=3.6.00
+export HPX_KOKKOS_VERSION=master
+
+#export HPX_VERSION=1.7.1
+#export KOKKOS_VERSION=d1e00352fd6262fd8d08225eb7086793432db35f
+#export HPX_KOKKOS_VERSION=0.2.0
+>>>>>>> 4af8e1689355491b2e6803ce009cdf46e419f9e2
 
 # PAPI
 export PAPI_VERSION=5.7.0
