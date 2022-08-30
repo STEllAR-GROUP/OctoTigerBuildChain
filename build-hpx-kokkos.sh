@@ -20,6 +20,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git clone https://github.com/STEllAR-GROUP/hpx-kokkos.git hpx-kokkos
 	cd hpx-kokkos
 	git checkout master
+	cp ../../sync.patch .
+	git apply sync.patch
 	cd ..
     )
 fi
