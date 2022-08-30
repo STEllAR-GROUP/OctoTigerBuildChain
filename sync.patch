@@ -1,0 +1,27 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 2e80911..93fbf91 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -16,9 +16,6 @@ set(HPX_KOKKOS_VERSION_STRING "${HPX_KOKKOS_VERSION_MAJOR}.${HPX_KOKKOS_VERSION_
+ find_package(HPX 1.8.0 REQUIRED)
+ find_package(Kokkos 3.6.00 REQUIRED)
+ 
+-# Check that Kokkos and HPX options are consistent.
+-kokkos_check(DEVICES HPX OPTIONS HPX_ASYNC_DISPATCH)
+-
+ if(Kokkos_ENABLE_CUDA)
+   kokkos_check(OPTIONS CUDA_LAMBDA CUDA_LAMBDA)
+   if(NOT HPX_WITH_CUDA)
+diff --git a/src/hpx/kokkos/make_instance.hpp b/src/hpx/kokkos/make_instance.hpp
+index cb32ecd..726639e 100644
+--- a/src/hpx/kokkos/make_instance.hpp
++++ b/src/hpx/kokkos/make_instance.hpp
+@@ -54,7 +54,7 @@ make_independent_execution_space_instance<Kokkos::Experimental::HIP>() {
+ template <>
+ inline Kokkos::Experimental::HPX
+ make_independent_execution_space_instance<Kokkos::Experimental::HPX>() {
+-  return {Kokkos::Experimental::HPX::instance_mode::independent};
++  return {};
+ }
+ #endif
+ } // namespace detail
