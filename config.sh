@@ -21,7 +21,7 @@ export OPENMPI_VERSION=4.0.0
 export HDF5_VERSION=1.8.12
 
 # Boost
-export BOOST_VERSION=1.79.0
+export BOOST_VERSION=1.78.0
 export BOOST_ROOT=${INSTALL_ROOT}/boost
 export BOOST_BUILD_TYPE=$(echo ${BUILD_TYPE/%WithDebInfo/ease} | tr '[:upper:]' '[:lower:]')
 
@@ -43,8 +43,8 @@ export VC_VERSION=1.4.1
 # It does in reconstruct_experimental
 
 export HPX_VERSION=1.8.0
-export KOKKOS_VERSION=develop
-export HPX_KOKKOS_VERSION=master
+export KOKKOS_VERSION=3.6.01
+export HPX_KOKKOS_VERSION=20a44967c742f5a7670b4dff9658d9973bf849f2
 
 #export HPX_VERSION=1.7.1
 #export KOKKOS_VERSION=d1e00352fd6262fd8d08225eb7086793432db35f
