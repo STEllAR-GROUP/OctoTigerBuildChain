@@ -71,7 +71,7 @@ export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VEGA908=ON "
 export LIBFABRIC_VERSION=1.9.0
 
 # Max number of parallel jobs
-export PARALLEL_BUILD=8  #$(grep -c ^processor /proc/cpuinfo)
+export PARALLEL_BUILD=64  #$(grep -c ^processor /proc/cpuinfo)
 
 export LIB_DIR_NAME=lib
 
