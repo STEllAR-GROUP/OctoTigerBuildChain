@@ -284,6 +284,10 @@ while [[ -n ${13} ]]; do
 	export BUILD_TARGET_OTF2=
             shift
         ;;
+	failing)
+            #export BUILD_TARGET_FAILING=
+            shift
+        ;;
         *)
             echo 'Unrecognizable argument passesd.' >&2
             echo "Argument was: ${12}" >&2
@@ -313,6 +317,7 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
     export BUILD_TARGET_HPX=
     export BUILD_TARGET_OCTOTIGER=
     export BUILD_TARGET_CPPUDDLE=
+    export BUILD_TARGET_FAILING=
     if [[ "$4" == "with-libfabric" ]]; then
         export BUILD_TARGET_LIBFABRIC=
     fi
@@ -392,10 +397,10 @@ fi
 [[ -n ${BUILD_TARGET_CMAKE+x} ]] && \
 (
     echo "Building CMake"
-    #./build-cmake.sh
+    ./build-cmake.sh
 )
-#export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
-export CMAKE_COMMAND=cmake
+export CMAKE_COMMAND=${INSTALL_ROOT}/cmake/bin/cmake
+#export CMAKE_COMMAND=cmake
 
 ################################################################################
 # Dependencies
@@ -474,6 +479,10 @@ fi
 (
     echo "Building LIBFABRIC"
     ./build-otf2.sh
+)
+[[ -n ${BUILD_TARGET_FAILING+x} ]] && \
+(
+    #./build-failing.sh
 )
 ################################################################################
 # Octo-tiger
