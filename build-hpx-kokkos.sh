@@ -17,12 +17,11 @@ if [[ ! -d ${DIR_SRC} ]]; then
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
 	cd ..
-	git clone https://github.com/STEllAR-GROUP/hpx-kokkos.git hpx-kokkos
+	#git clone https://github.com/STEllAR-GROUP/hpx-kokkos.git hpx-kokkos
+	git clone https://github.com/G-071/hpx-kokkos hpx-kokkos
 	cd hpx-kokkos
 	#git checkout ce63b0630c739a4df899749ed67baa867862f3fc
 	git checkout ${HPX_KOKKOS_VERSION}
-	cp ../../add_future.patch .
-	git apply add_future.patch
 	cd ..
     )
 fi
@@ -37,6 +36,7 @@ ${CMAKE_COMMAND} \
   -DHPX_KOKKOS_CUDA_FUTURE_TYPE=${HPX_KOKKOS_FUTURE_TYPE} \
 	-DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos/ \
 	-DHPX_DIR=$INSTALL_ROOT/hpx/${LIB_DIR_NAME}/cmake/HPX/ \
+	-DHPX_KOKKOS_ENABLE_TESTS=ON -DHPX_KOKKOS_ENABLE_BENCHMARKS=ON \
        	-DCMAKE_INSTALL_PREFIX=${INSTALL_ROOT}/hpx-kokkos/install
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1

@@ -31,6 +31,7 @@ ${CMAKE_COMMAND} \
     -DCMAKE_C_COMPILER=$CC \
     -DCMAKE_CXX_COMPILER=$CXX \
     -DBUILD_TESTING=OFF \
+    -D__STDC_WANT_LIB_EXT2__=1 \
      ${try1} \
     -DCMAKE_BUILD_TYPE=Release
 

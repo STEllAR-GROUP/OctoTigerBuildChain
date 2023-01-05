@@ -8,8 +8,8 @@ if [[ -d "/etc/opt/cray/release/" ]]; then
 	echo "WARNING!!! You should switch to the gnu compiler env (module switch PrgEnv-cray/5.2.82 PrgEnv-gnu)!!!!!!!"
 else
 
-	export CC=clang
-	export CXX=clang++
+	export CC=/home/daissgr/workshop/SYCL-executor/llvm-build/bin/clang
+	export CXX=/home/daissgr/workshop/SYCL-executor/llvm-build/bin/clang++
 	export NVCC_WRAPPER_DEFAULT_COMPILER=clang
   export OCT_CUDA_INTERNAL_COMPILER=""
   if [ -z "${OCT_USE_CC_COMPILER}" ]
@@ -36,6 +36,10 @@ case $(uname -i) in
         ;;
     x86_64)
         export CXXFLAGS="-fPIC -march=native -ffast-math -std=c++17 "
+	# without this define hdf5 would not find vasprintf with this clang build
+	# not exactly sure why it does not find it in the first place
+	# but adding this define was suggested in https://stackoverflow.com/questions/67157429/warning-implicit-declaration-of-function-vasprintf
+        export CFLAGS="-fPIC -march=native -D__STDC_WANT_LIB_EXT2__=1 "
 	export OCT_ARCH_FLAGS="-march=native"
         export LIBHPX=lib
         ;;

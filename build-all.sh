@@ -7,7 +7,7 @@ print_usage_abort ()
 {
     cat <<EOF >&2
 SYNOPSIS
-    ${0} {Release|RelWithDebInfo|Debug} {with-gcc|with-clang|with-CC|with-CC-clang} {with-cuda|without-cuda} 
+    ${0} {Release|RelWithDebInfo|Debug} {with-gcc|with-clang|with-CC|with-CC-clang|with-llvm-sycl} {with-cuda|without-cuda} 
     {with-mpi,without-mpi,with-libfabric} {with-papi,without-papi} {with-apex,without-apex} {with-kokkos,without-kokkos}
     {with-simd,without-simd} {with-hpx-backend-multipole,without-hpx-backend-multipole} 
     {with-hpx-backend-monopole,without-hpx-backend-monopole}
@@ -45,6 +45,11 @@ elif [[ "$2" == "with-CC-clang" ]]; then
 elif [[ "$2" == "with-clang" ]]; then
     echo "Using self-built clang "
     export OCT_WITH_CLANG=ON
+elif [[ "$2" == "with-llvm-sycl" ]]; then
+    echo "Using sycl compiler"
+    export OCT_WITH_CLANG=ON
+    export OCT_USE_CC_COMPILER=ON
+    export OCT_WITH_SYCL=ON
 else
     echo 'Compiler must be specified with "with-gcc" or "with-clang" or "with-CC" or "with-CC-clang' >&2
     print_usage_abort
@@ -200,6 +205,15 @@ while [[ -n ${13} ]]; do
               echo 'Error: Trying to build clang target without using the with-clang parameter' >&2
               print_usage_abort
             fi
+        llvm_sycl)
+            if [[ "$2" == "with-llvm-sycl" ]]; then
+              echo 'Target llvm-sycl will build.'
+              export BUILD_TARGET_LLVM_SYCL=
+              shift
+            else  
+              echo 'Error: Trying to build clang target without using the with-llvm-sycl parameter' >&2
+              print_usage_abort
+            fi
         ;;
         openmpi)
             echo 'Target openmpi will build.'
@@ -300,6 +314,8 @@ if [[ -z ${!BUILD_TARGET_@} ]]; then
       export BUILD_TARGET_GCC=
     elif [[ "$2" == "with-clang" ]]; then
         export BUILD_TARGET_CLANG=
+    elif [[ "$2" == "with-llvm-sycl" ]]; then
+        export BUILD_TARGET_LLVM_SYCL=
     fi
     if [[ "$4" == "with-mpi" ]]; then
         export BUILD_TARGET_OPENMPI=
@@ -368,6 +384,11 @@ mkdir -p ${SOURCE_ROOT} ${INSTALL_ROOT}
     echo "Building clang"
     ./build-clang.sh
 )
+[[ -n ${BUILD_TARGET_LLVM_SYCL+x} ]] && \
+(
+    echo "Building llvm sycl"
+    ./build-llvm-sycl.sh
+)
 
 # Set Compiler Environment Variables
 if [[ "${OCT_COMPILER_OPTION}" == "with-gcc" ]]; then
@@ -384,6 +405,10 @@ elif [[ "${OCT_COMPILER_OPTION}" == "with-CC-clang" ]]; then
     echo "Using clang"
     export OCT_USE_CC_COMPILER=ON
     source clang-config.sh
+elif [[ "${OCT_COMPILER_OPTION}" == "with-llvm-sycl" ]]; then
+    echo "Using llvm sycl"
+    export OCT_USE_CC_COMPILER=ON
+    source llvm-sycl-config.sh
 else
     echo "Unknown compiler option: $2"
     exit 1

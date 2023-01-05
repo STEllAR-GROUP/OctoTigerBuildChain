@@ -23,7 +23,7 @@ fi
     mkdir -p ${DIR_BUILD}
     cd ${DIR_BUILD}
     ${DIR_SRC}/configure --prefix=${DIR_INSTALL} --disable-opencl 
-    make -j ${PARALLEL_BUILD}
+    make -j ${PARALLEL_BUILD} VERBOSE=1
     make install
 )
 
