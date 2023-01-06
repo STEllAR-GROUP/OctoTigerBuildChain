@@ -11,7 +11,9 @@ mkdir -p ${DIR_BUILD}
 
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/SC-SGS/CPPuddle.git ${DIR_SRC}
+    cd ${DIR_SRC}
     git checkout add_sycl
+    cd ..
 fi
 
 cd ${DIR_SRC}

@@ -205,6 +205,7 @@ while [[ -n ${13} ]]; do
               echo 'Error: Trying to build clang target without using the with-clang parameter' >&2
               print_usage_abort
             fi
+        ;;
         llvm_sycl)
             if [[ "$2" == "with-llvm-sycl" ]]; then
               echo 'Target llvm-sycl will build.'
