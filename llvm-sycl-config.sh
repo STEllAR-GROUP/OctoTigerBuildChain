@@ -21,7 +21,7 @@ if [ "${LLVM_SYCL_BACKEND}" = "cuda" ]; then
 elif [ "${LLVM_SYCL_BACKEND}" = "hip" ]; then
     echo "Using hip sycl"
     echo "Do not forget to set correct Kokkos device ARCH for this"
-    export SYCL_DEVICE_SELECTION_STRING="-fsycl-targets=amdgcn-amd-amdhsa" 
+    export SYCL_DEVICE_SELECTION_STRING='-fsycl-targets=amdgcn-amd-amdhsa -Xsycl-target-backend --offload-arch=gfx908' 
     #TODO add device arch?
 elif [ "${LLVM_SYCL_BACKEND}" = "intel" ]; then
     echo "Using intel sycl"

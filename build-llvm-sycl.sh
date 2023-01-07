@@ -25,7 +25,7 @@ if [ "${LLVM_SYCL_BACKEND}" = "cuda" ]; then
     sycl_backend_string="--cuda"
 elif [ "${LLVM_SYCL_BACKEND}" = "hip" ]; then
     echo "Building for hip sycl"
-    sycl_backend_string="--hip ----hip-platform AMD"
+    sycl_backend_string="--hip --hip-platform AMD"
 elif [ "${LLVM_SYCL_BACKEND}" = "intel" ]; then
     echo "Using default intel gpu backend"
     echo "Make sure to have level zero driver installed..."
