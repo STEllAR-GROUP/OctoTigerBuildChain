@@ -17,7 +17,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
 	cd ..
-	git clone https://github.com/kokkos/kokkos kokkos
+	#git clone https://github.com/kokkos/kokkos kokkos
+	git clone https://github.com/msimberg/kokkos.git kokkos
 	cd kokkos
 	# Checkout commit that adds hpx 1.7.1 support
 	git checkout ${KOKKOS_VERSION}
@@ -32,7 +33,7 @@ ${CMAKE_COMMAND} \
 	-DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
 	-DKokkos_ENABLE_TESTS=OFF \
 	-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-	-DKokkos_CXX_STANDARD=17 \
+	-DCMAKE_CXX_STANDARD=17 \
 	-DKokkos_ENABLE_INTERNAL_FENCES=OFF \
 	-DKokkos_ENABLE_UNSUPPORTED_ARCHS=ON \
        	-DKokkos_ENABLE_CUDA=${OCT_WITH_CUDA} \

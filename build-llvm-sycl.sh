@@ -9,7 +9,7 @@ DIR_BUILD=${INSTALL_ROOT}/llvm-sycl-build/build
 
 
 cd "${SOURCE_ROOT}"
-if [ ! -d llvm-project ] ; then
+if [ ! -d llvm ] ; then
     git clone https://github.com/intel/llvm -b sycl
     cd llvm
     git checkout ${LLVM_SYCL_VERSION}
