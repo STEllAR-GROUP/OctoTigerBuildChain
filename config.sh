@@ -42,7 +42,7 @@ export VC_VERSION=1.4.1
 #export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
 # It does in reconstruct_experimental
 export HPX_VERSION=add_sycl_executor
-export KOKKOS_VERSION=3.7.00
+export KOKKOS_VERSION=hpx-sender-receiver
 export HPX_KOKKOS_VERSION=add_sycl_support
 export LLVM_SYCL_VERSION=44c6437684d64aba82d5a3de0e4bbe21d2b1f7ce
 export LLVM_SYCL_BACKEND=cuda
@@ -61,14 +61,16 @@ export CUDA_SM=sm_75
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE86=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
-export KOKKOS_CONFIG=" -DKokkos_ARCH_ICX=ON  -DKokkos_ARCH_TURING75=ON "
+export KOKKOS_CONFIG=" -DKokkos_ARCH_ICX=ON  -DKokkos_ARCH_AMPERE80=ON "
 
 
 #Libfabric
 export LIBFABRIC_VERSION=1.9.0
 
-# Max number of parallel jobs
-export PARALLEL_BUILD=8  #$(grep -c ^processor /proc/cpuinfo)
+# Max number of parallel jobs -- capped at 64 because otherwise some systems run out of memory
+max_build_jobs=$(( 64 < $(grep -c ^processor /proc/cpuinfo) ? 64 : $(grep -c ^processor /proc/cpuinfo) ))
+echo "Building with ${max_build_jobs} threads..."
+export PARALLEL_BUILD=${max_build_jobs}
 
 export LIB_DIR_NAME=lib
 
@@ -117,7 +119,6 @@ case $(hostname) in
         export LIB_DIR_NAME=lib64
         export CUDA_SM=sm_80
         export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_AMPERE80=ON "
-        export PARALLEL_BUILD=20
         ;;
     *argon-tesla1*)
         echo 'Compiling for argon-tesla1, doing additional setup'

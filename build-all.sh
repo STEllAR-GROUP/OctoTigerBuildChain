@@ -49,7 +49,6 @@ elif [[ "$2" == "with-llvm-sycl" ]]; then
     echo "Using sycl compiler"
     export OCT_WITH_CLANG=ON
     export OCT_USE_CC_COMPILER=ON
-    export OCT_WITH_SYCL=ON
 else
     echo 'Compiler must be specified with "with-gcc" or "with-clang" or "with-CC" or "with-CC-clang' >&2
     print_usage_abort
@@ -58,9 +57,15 @@ export OCT_COMPILER_OPTION="$2"
 
 if [[ "$3" == "without-cuda" ]]; then
     export OCT_WITH_CUDA=OFF
+    export OCT_WITH_SYCL=OFF
     echo "CUDA Support: Disabled"
 elif [[ "$3" == "with-cuda" ]]; then
     export OCT_WITH_CUDA=ON
+    export OCT_WITH_SYCL=OFF
+    echo "CUDA Support: Enabled"
+elif [[ "$3" == "with-sycl" ]]; then
+    export OCT_WITH_CUDA=OFF
+    export OCT_WITH_SYCL=ON
     echo "CUDA Support: Enabled"
 else
     echo 'CUDA support must be specified and has to be "with-cuda" or "without-cuda"' >&2

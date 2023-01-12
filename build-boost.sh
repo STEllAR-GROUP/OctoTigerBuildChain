@@ -65,7 +65,6 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	# git submodule update --init --recursive --depth=1 libs/spirit/
 	# # Adapt as needed for other stuff
 
-        echo "using gcc : : $CXX ; " >tools/build/src/user-config.jam
     )
 fi
 #if [[ -d "boost_${BOOST_VERSION//./_}" ]]; then
@@ -74,8 +73,10 @@ fi
 (
     cd ${DIR_SRC}
     if [[ "${OCT_WITH_CLANG}" == "ON" ]]; then
+        #echo "using clang : 12 : $CXX ; " >tools/build/src/user-config.jam
         ./bootstrap.sh --prefix=${DIR_INSTALL} --with-toolset=clang
     else
+        #echo "using gcc : 11 : $CXX ; " >tools/build/src/user-config.jam
         ./bootstrap.sh --prefix=${DIR_INSTALL} --with-toolset=gcc
     fi
     ./b2 -j${PARALLEL_BUILD} "${flag1}" ${flag2} --with-atomic --with-filesystem --with-program_options --with-regex --with-system --with-chrono --with-date_time --with-thread --with-iostreams ${BOOST_BUILD_TYPE} install
