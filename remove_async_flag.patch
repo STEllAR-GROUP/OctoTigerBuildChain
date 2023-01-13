@@ -1,0 +1,27 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0b2d3cd..661619a 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -17,7 +17,7 @@ find_package(HPX 1.8.1 REQUIRED)
+ find_package(Kokkos 3.6.00 REQUIRED)
+ 
+ # Check that Kokkos and HPX options are consistent.
+-kokkos_check(DEVICES HPX OPTIONS HPX_ASYNC_DISPATCH)
++#kokkos_check(DEVICES HPX OPTIONS HPX_ASYNC_DISPATCH)
+ 
+ if(Kokkos_ENABLE_CUDA)
+   kokkos_check(OPTIONS CUDA_LAMBDA CUDA_LAMBDA)
+diff --git a/src/hpx/kokkos/future.hpp b/src/hpx/kokkos/future.hpp
+index 19a8e77..c463203 100644
+--- a/src/hpx/kokkos/future.hpp
++++ b/src/hpx/kokkos/future.hpp
+@@ -90,8 +90,7 @@ template <> struct get_future<Kokkos::Experimental::SYCL> {
+ };
+ #endif
+ 
+-#if defined(KOKKOS_ENABLE_HPX) && KOKKOS_VERSION >= 30000 &&                   \
+-    defined(KOKKOS_ENABLE_HPX_ASYNC_DISPATCH)
++#if defined(KOKKOS_ENABLE_HPX) && KOKKOS_VERSION >= 30000 
+ template <> struct get_future<Kokkos::Experimental::HPX> {
+   template <typename E> static hpx::shared_future<void> call(E &&inst) {
+     HPX_KOKKOS_DETAIL_LOG("getting future from HPX instance %x",
