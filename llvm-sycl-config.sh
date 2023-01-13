@@ -39,11 +39,11 @@ case $(uname -i) in
         export LIBHPX=lib64
         ;;
     x86_64)
-        export CXXFLAGS="-fPIC -march=native -ffast-math -std=c++17 "
+        export CXXFLAGS=" ${LLVM_SYCL_GCC_TOOLSET} -fPIC -march=native -ffast-math -std=c++17 "
 	# without this define hdf5 would not find vasprintf with this clang build
 	# not exactly sure why it does not find it in the first place
 	# but adding this define was suggested in https://stackoverflow.com/questions/67157429/warning-implicit-declaration-of-function-vasprintf
-        export CFLAGS="-fPIC -march=native -D__STDC_WANT_LIB_EXT2__=1 "
+        export CFLAGS=" ${LLVM_SYCL_GCC_TOOLSET} -fPIC -march=native -D__STDC_WANT_LIB_EXT2__=1 "
 	export OCT_ARCH_FLAGS="-march=native"
         export LIBHPX=lib
         ;;

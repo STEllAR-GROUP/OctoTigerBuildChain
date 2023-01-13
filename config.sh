@@ -46,6 +46,7 @@ export KOKKOS_VERSION=hpx-sender-receiver
 export HPX_KOKKOS_VERSION=add_sycl_support
 export LLVM_SYCL_VERSION=44c6437684d64aba82d5a3de0e4bbe21d2b1f7ce
 export LLVM_SYCL_BACKEND=cuda
+export LLVM_SYCL_GCC_TOOLSET=" --gcc-install-dir=/opt/rh/gcc-toolset-11/root/usr/lib/gcc/x86_64-redhat-linux/11 "
 
 # PAPI
 export PAPI_VERSION=5.7.0
