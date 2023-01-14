@@ -1,5 +1,5 @@
 diff --git a/bin/nvcc_wrapper b/bin/nvcc_wrapper
-index e1a208813..aacfdc3dd 100755
+index b717908bd..a6700c728 100755
 --- a/bin/nvcc_wrapper
 +++ b/bin/nvcc_wrapper
 @@ -625,7 +625,7 @@ if [ $host_only -eq 1 ]; then
@@ -21,28 +21,29 @@ index e1a208813..aacfdc3dd 100755
  error_code=$?
  
 diff --git a/core/src/SYCL/Kokkos_SYCL_DeepCopy.hpp b/core/src/SYCL/Kokkos_SYCL_DeepCopy.hpp
-index 160f60684..b5d12c3c9 100644
+index 62b7977fc..fbdeca2ff 100644
 --- a/core/src/SYCL/Kokkos_SYCL_DeepCopy.hpp
 +++ b/core/src/SYCL/Kokkos_SYCL_DeepCopy.hpp
-@@ -63,8 +63,9 @@ struct ZeroMemset<Kokkos::Experimental::SYCL, DT, DP...> {
+@@ -35,8 +35,10 @@ struct ZeroMemset<Kokkos::Experimental::SYCL, DT, DP...> {
      auto event = exec_space.impl_internal_space_instance()->m_queue->memset(
          dst.data(), 0,
          dst.size() * sizeof(typename View<DT, DP...>::value_type));
 -    exec_space.impl_internal_space_instance()
 -        ->m_queue->ext_oneapi_submit_barrier(std::vector<sycl::event>{event});
-+    if (!(exec_space.impl_internal_space_instance()->m_queue->is_in_order()))
++    if (!(exec_space.impl_internal_space_instance()->m_queue->is_in_order())) {
 +      exec_space.impl_internal_space_instance()
 +          ->m_queue->ext_oneapi_submit_barrier(std::vector<sycl::event>{event});
++    }
    }
  
    ZeroMemset(const View<DT, DP...>& dst,
 diff --git a/core/src/SYCL/Kokkos_SYCL_Parallel_Range.hpp b/core/src/SYCL/Kokkos_SYCL_Parallel_Range.hpp
-index cf292f957..e915a41b9 100644
+index 73475f92a..d9bd593ef 100644
 --- a/core/src/SYCL/Kokkos_SYCL_Parallel_Range.hpp
 +++ b/core/src/SYCL/Kokkos_SYCL_Parallel_Range.hpp
-@@ -97,7 +97,8 @@ class Kokkos::Impl::ParallelFor<FunctorType, Kokkos::RangePolicy<Traits...>,
-       cgh.parallel_for<FunctorWrapperRangePolicyParallelFor<Functor, Policy>>(
-           range, f);
+@@ -106,7 +106,8 @@ class Kokkos::Impl::ParallelFor<FunctorType, Kokkos::RangePolicy<Traits...>,
+                                                                          f);
+       }
      });
 -    q.ext_oneapi_submit_barrier(std::vector<sycl::event>{parallel_for_event});
 +    if (!q.is_in_order())
@@ -50,7 +51,7 @@ index cf292f957..e915a41b9 100644
  
      return parallel_for_event;
    }
-@@ -257,7 +258,8 @@ class Kokkos::Impl::ParallelFor<FunctorType, Kokkos::MDRangePolicy<Traits...>,
+@@ -265,7 +266,8 @@ class Kokkos::Impl::ParallelFor<FunctorType, Kokkos::MDRangePolicy<Traits...>,
              .exec_range();
        });
      });
@@ -61,150 +62,161 @@ index cf292f957..e915a41b9 100644
      return parallel_for_event;
    }
 diff --git a/core/src/SYCL/Kokkos_SYCL_Parallel_Reduce.hpp b/core/src/SYCL/Kokkos_SYCL_Parallel_Reduce.hpp
-index e980a82a5..3ff200745 100644
+index c7959c1c1..05b08889f 100644
 --- a/core/src/SYCL/Kokkos_SYCL_Parallel_Reduce.hpp
 +++ b/core/src/SYCL/Kokkos_SYCL_Parallel_Reduce.hpp
-@@ -313,8 +313,9 @@ class ParallelReduce<FunctorType, Kokkos::RangePolicy<Traits...>, ReducerType,
+@@ -279,8 +279,10 @@ class ParallelReduce<FunctorType, Kokkos::RangePolicy<Traits...>, ReducerType,
                                 results_ptr.get());
          });
        });
 -      q.ext_oneapi_submit_barrier(
 -          std::vector<sycl::event>{parallel_reduce_event});
-+      if (!(q.is_in_order()))
++      if (!q.is_in_order()) {
 +        q.ext_oneapi_submit_barrier(
 +            std::vector<sycl::event>{parallel_reduce_event});
++      }
        last_reduction_event = parallel_reduce_event;
      }
  
-@@ -443,8 +444,9 @@ class ParallelReduce<FunctorType, Kokkos::RangePolicy<Traits...>, ReducerType,
-               }
-             });
+@@ -467,8 +469,10 @@ class ParallelReduce<FunctorType, Kokkos::RangePolicy<Traits...>, ReducerType,
+             reduction_lambda);
        });
--      last_reduction_event       = q.ext_oneapi_submit_barrier(
+ 
+-      last_reduction_event = q.ext_oneapi_submit_barrier(
 -          std::vector<sycl::event>{parallel_reduce_event});
-+      if (!(q.is_in_order()))
-+        last_reduction_event       = q.ext_oneapi_submit_barrier(
++      if (!q.is_in_order()) {
++        last_reduction_event = q.ext_oneapi_submit_barrier(
 +            std::vector<sycl::event>{parallel_reduce_event});
++      }
      }
  
      // At this point, the reduced value is written to the entry in results_ptr
-@@ -629,8 +631,9 @@ class ParallelReduce<FunctorType, Kokkos::MDRangePolicy<Traits...>, ReducerType,
+@@ -653,8 +657,10 @@ class ParallelReduce<FunctorType, Kokkos::MDRangePolicy<Traits...>, ReducerType,
                                 results_ptr.get());
          });
        });
 -      q.ext_oneapi_submit_barrier(
 -          std::vector<sycl::event>{parallel_reduce_event});
-+      if (!(q.is_in_order()))
++      if (!q.is_in_order()) {
 +        q.ext_oneapi_submit_barrier(
 +            std::vector<sycl::event>{parallel_reduce_event});
++      }
        last_reduction_event = parallel_reduce_event;
      }
  
-@@ -766,8 +769,9 @@ class ParallelReduce<FunctorType, Kokkos::MDRangePolicy<Traits...>, ReducerType,
+@@ -790,8 +796,10 @@ class ParallelReduce<FunctorType, Kokkos::MDRangePolicy<Traits...>, ReducerType,
            }
          });
        });
 -      last_reduction_event       = q.ext_oneapi_submit_barrier(
 -          std::vector<sycl::event>{parallel_reduce_event});
-+      if (!(q.is_in_order()))
++      if (!q.is_in_order()) {
 +        last_reduction_event       = q.ext_oneapi_submit_barrier(
 +            std::vector<sycl::event>{parallel_reduce_event});
++      }
      }
  
      // At this point, the reduced value is written to the entry in results_ptr
 diff --git a/core/src/SYCL/Kokkos_SYCL_Parallel_Scan.hpp b/core/src/SYCL/Kokkos_SYCL_Parallel_Scan.hpp
-index e2afc9783..cfd6cc892 100644
+index cf651ced9..7eba7687a 100644
 --- a/core/src/SYCL/Kokkos_SYCL_Parallel_Scan.hpp
 +++ b/core/src/SYCL/Kokkos_SYCL_Parallel_Scan.hpp
-@@ -195,7 +195,8 @@ class ParallelScanSYCLBase {
+@@ -169,7 +169,9 @@ class ParallelScanSYCLBase {
              if (global_id < size) global_mem[global_id] = local_value;
            });
      });
 -    q.ext_oneapi_submit_barrier(std::vector<sycl::event>{local_scans});
-+    if (!(q.is_in_order()))
++    if (!q.is_in_order()) {
 +      q.ext_oneapi_submit_barrier(std::vector<sycl::event>{local_scans});
++    }
  
      if (n_wgroups > 1) {
        scan_internal(q, functor_wrapper, group_results, n_wgroups);
-@@ -211,8 +212,9 @@ class ParallelScanSYCLBase {
+@@ -185,8 +187,10 @@ class ParallelScanSYCLBase {
                                     &group_results[item.get_group_linear_id()]);
              });
        });
 -      q.ext_oneapi_submit_barrier(
 -          std::vector<sycl::event>{update_with_group_results});
-+      if (!(q.is_in_order()))
++      if (!q.is_in_order()) {
 +        q.ext_oneapi_submit_barrier(
 +            std::vector<sycl::event>{update_with_group_results});
++      }
      }
    }
  
-@@ -246,8 +248,9 @@ class ParallelScanSYCLBase {
+@@ -220,8 +224,10 @@ class ParallelScanSYCLBase {
          global_mem[id] = update;
        });
      });
 -    q.ext_oneapi_submit_barrier(
 -        std::vector<sycl::event>{initialize_global_memory});
-+    if (!(q.is_in_order()))
++    if (!q.is_in_order()) {
 +      q.ext_oneapi_submit_barrier(
 +          std::vector<sycl::event>{initialize_global_memory});
++    }
  
      // Perform the actual exclusive scan
      scan_internal(q, functor_wrapper, m_scratch_space, len);
-@@ -266,8 +269,9 @@ class ParallelScanSYCLBase {
-         global_mem[global_id] = update;
+@@ -246,8 +252,10 @@ class ParallelScanSYCLBase {
+           *result_ptr = update;
        });
      });
 -    q.ext_oneapi_submit_barrier(
 -        std::vector<sycl::event>{update_global_results});
-+    if (!(q.is_in_order()))
++    if (!q.is_in_order()) {
 +      q.ext_oneapi_submit_barrier(
 +          std::vector<sycl::event>{update_global_results});
++    }
      return update_global_results;
    }
  
 diff --git a/core/src/SYCL/Kokkos_SYCL_Parallel_Team.hpp b/core/src/SYCL/Kokkos_SYCL_Parallel_Team.hpp
-index 5ac7d8af3..68387fffd 100644
+index 601580b2d..d169f9b13 100644
 --- a/core/src/SYCL/Kokkos_SYCL_Parallel_Team.hpp
 +++ b/core/src/SYCL/Kokkos_SYCL_Parallel_Team.hpp
-@@ -475,7 +475,8 @@ class ParallelFor<FunctorType, Kokkos::TeamPolicy<Properties...>,
+@@ -446,7 +446,9 @@ class ParallelFor<FunctorType, Kokkos::TeamPolicy<Properties...>,
                sycl::range<2>(m_team_size, final_vector_size)),
            lambda);
      });
 -    q.ext_oneapi_submit_barrier(std::vector<sycl::event>{parallel_for_event});
-+    if (!q.is_in_order())
++    if (!q.is_in_order()) {
 +      q.ext_oneapi_submit_barrier(std::vector<sycl::event>{parallel_for_event});
++    }
      return parallel_for_event;
    }
  
-@@ -660,8 +661,9 @@ class ParallelReduce<FunctorType, Kokkos::TeamPolicy<Properties...>,
+@@ -631,8 +633,10 @@ class ParallelReduce<FunctorType, Kokkos::TeamPolicy<Properties...>,
                                     &results_ptr[0]);
              });
        });
 -      q.ext_oneapi_submit_barrier(
 -          std::vector<sycl::event>{parallel_reduce_event});
-+    if (!q.is_in_order())
++      if (!q.is_in_order()) {
 +        q.ext_oneapi_submit_barrier(
 +            std::vector<sycl::event>{parallel_reduce_event});
++      }
        last_reduction_event = parallel_reduce_event;
      } else {
        // Otherwise, (if the total range has more than one element) we perform a
-@@ -854,8 +856,9 @@ class ParallelReduce<FunctorType, Kokkos::TeamPolicy<Properties...>,
+@@ -825,8 +829,10 @@ class ParallelReduce<FunctorType, Kokkos::TeamPolicy<Properties...>,
                  sycl::range<2>(m_team_size, m_vector_size)),
              reduction_lambda);
        });
 -      last_reduction_event       = q.ext_oneapi_submit_barrier(
 -          std::vector<sycl::event>{parallel_reduce_event});
-+    if (!q.is_in_order())
++      if (!q.is_in_order()) {
 +        last_reduction_event       = q.ext_oneapi_submit_barrier(
 +            std::vector<sycl::event>{parallel_reduce_event});
++      }
      }
  
      // At this point, the reduced value is written to the entry in results_ptr
 diff --git a/core/src/SYCL/Kokkos_SYCL_Space.cpp b/core/src/SYCL/Kokkos_SYCL_Space.cpp
-index 07ca907fa..257410cd8 100644
+index 6151b3eaa..05a7025f8 100644
 --- a/core/src/SYCL/Kokkos_SYCL_Space.cpp
 +++ b/core/src/SYCL/Kokkos_SYCL_Space.cpp
-@@ -71,9 +71,14 @@ void DeepCopyAsyncSYCL(const Kokkos::Experimental::SYCL& instance, void* dst,
+@@ -43,9 +43,13 @@ void DeepCopyAsyncSYCL(const Kokkos::Experimental::SYCL& instance, void* dst,
    // to actually fence the execution space to make sure the memcpy is properly
    // enqueued when using out-of-order queues.
    sycl::queue& q = *instance.impl_internal_space_instance()->m_queue;
@@ -214,7 +226,6 @@ index 07ca907fa..257410cd8 100644
 +  }
    auto event = q.memcpy(dst, src, n);
 -  q.ext_oneapi_submit_barrier(std::vector<sycl::event>{event});
-+
 +  if (!q.is_in_order()) {
 +    q.ext_oneapi_submit_barrier(std::vector<sycl::event>{event});
 +  }
