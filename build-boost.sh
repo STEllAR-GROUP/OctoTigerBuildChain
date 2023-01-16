@@ -73,7 +73,12 @@ fi
 (
     cd ${DIR_SRC}
     if [[ "${OCT_WITH_CLANG}" == "ON" ]]; then
+
+	if [[ "${CXX}" == "hipcc" ]]; then
+	echo "using clang : 14 : clang++ ; " >tools/build/src/user-config.jam
+        else
 	echo "using clang : $( ${CXX} --version | grep version | awk '{ print $3 }') : ${CXX} ; " >tools/build/src/user-config.jam
+        fi
         ./bootstrap.sh --prefix=${DIR_INSTALL} --with-toolset=clang
     else
         #echo "using gcc : 11 : $CXX ; " >tools/build/src/user-config.jam

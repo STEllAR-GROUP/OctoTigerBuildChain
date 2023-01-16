@@ -45,7 +45,7 @@ export HPX_VERSION=add_sycl_executor
 export KOKKOS_VERSION=hpx-sender-receiver
 export HPX_KOKKOS_VERSION=add_sycl_support
 export LLVM_SYCL_VERSION=44c6437684d64aba82d5a3de0e4bbe21d2b1f7ce
-export LLVM_SYCL_BACKEND=cuda
+export LLVM_SYCL_BACKEND=hip
 export LLVM_SYCL_GCC_TOOLSET=" --gcc-install-dir=/opt/rh/gcc-toolset-11/root/usr/lib/gcc/x86_64-redhat-linux/11 "
 
 # PAPI
@@ -62,7 +62,7 @@ export CUDA_SM=sm_75
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_PASCAL61=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE86=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
-export KOKKOS_CONFIG=" -DKokkos_ARCH_ICX=ON  -DKokkos_ARCH_AMPERE80=ON "
+export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_VEGA908=ON "
 
 
 #Libfabric
@@ -73,7 +73,7 @@ max_build_jobs=$(( 64 < $(grep -c ^processor /proc/cpuinfo) ? 64 : $(grep -c ^pr
 echo "Building with ${max_build_jobs} threads..."
 export PARALLEL_BUILD=${max_build_jobs}
 
-export LIB_DIR_NAME=lib
+export LIB_DIR_NAME=lib64
 
 ################################################################################
 # Host-specific configuration

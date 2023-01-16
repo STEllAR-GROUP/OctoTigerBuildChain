@@ -9,7 +9,7 @@ if [[ -d "/etc/opt/cray/release/" ]]; then
 else
 
 	export CC=clang
-	export CXX=clang++
+	export CXX=hipcc
 	export NVCC_WRAPPER_DEFAULT_COMPILER=clang++
   export OCT_CUDA_INTERNAL_COMPILER=""
   if [ -z "${OCT_USE_CC_COMPILER}" ]

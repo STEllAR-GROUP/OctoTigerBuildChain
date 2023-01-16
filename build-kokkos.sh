@@ -23,6 +23,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	# Checkout commit that adds hpx 1.7.1 support
 	git checkout ${KOKKOS_VERSION}
 	git apply ../../nvcc_wrapper_eval.patch
+	git apply ../../kokkos_hip_arch.patch
 	cd ..
     )
 fi
@@ -36,7 +37,8 @@ ${CMAKE_COMMAND} \
 	-DCMAKE_CXX_STANDARD=17 \
 	-DKokkos_ENABLE_INTERNAL_FENCES=OFF \
 	-DKokkos_ENABLE_UNSUPPORTED_ARCHS=ON \
-       	-DKokkos_ENABLE_CUDA=${OCT_WITH_CUDA} \
+       	-DKokkos_ENABLE_HIP=${OCT_WITH_CUDA} \
+       	-DKokkos_ENABLE_CUDA=OFF \
 	-DKokkos_ENABLE_CUDA_LAMBDA=${OCT_WITH_CUDA} \
 	-DKokkos_ENABLE_CUDA_CONSTEXPR=${OCT_WITH_CUDA} \
        	-DKokkos_ENABLE_SERIAL=ON \
