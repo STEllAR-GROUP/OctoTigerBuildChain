@@ -23,8 +23,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	#git checkout ce63b0630c739a4df899749ed67baa867862f3fc
 	git checkout ${HPX_KOKKOS_VERSION}
 	#TODO Remove after hpx-kokkos PR is merged
-	cp ../../remove_async_flag.patch .
-	git apply remove_async_flag.patch
+	#cp ../../remove_async_flag.patch .
+	#git apply remove_async_flag.patch
 	cd ..
     )
 fi
