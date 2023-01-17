@@ -43,7 +43,7 @@ index 11a5412..5a69b47 100644
  } // namespace kokkos
  } // namespace hpx
 diff --git a/src/hpx/kokkos/future.hpp b/src/hpx/kokkos/future.hpp
-index 19a8e77..0358653 100644
+index b0d83d8..1b97753 100644
 --- a/src/hpx/kokkos/future.hpp
 +++ b/src/hpx/kokkos/future.hpp
 @@ -80,15 +80,15 @@ template <> struct get_future<Kokkos::Experimental::HIP> {
@@ -69,5 +69,5 @@ index 19a8e77..0358653 100644
 +/* }; */
 +/* #endif */
  
- #if defined(KOKKOS_ENABLE_HPX) && KOKKOS_VERSION >= 30000 &&                   \
-     defined(KOKKOS_ENABLE_HPX_ASYNC_DISPATCH)
+ #if defined(KOKKOS_ENABLE_HPX) && KOKKOS_VERSION >= 30000
+ template <> struct get_future<Kokkos::Experimental::HPX> {
