@@ -1,73 +1,35 @@
 diff --git a/src/hpx/kokkos/deep_copy.hpp b/src/hpx/kokkos/deep_copy.hpp
-index 11a5412..5a69b47 100644
+index 11a5412..6ddaeab 100644
 --- a/src/hpx/kokkos/deep_copy.hpp
 +++ b/src/hpx/kokkos/deep_copy.hpp
-@@ -23,22 +23,22 @@ hpx::shared_future<void> deep_copy_async(ExecutionSpace &&space,
-   return detail::get_future<typename std::decay<ExecutionSpace>::type>::call(
-       std::forward<ExecutionSpace>(space));
- }
--#if defined(KOKKOS_ENABLE_SYCL)
--/// deep_copy_async specialization for SYCL spaces. It comes with the advantage of not having
--/// to create our own sycl::event in get_future - instead it uses the copy event directly by
--/// circumventing kokkos::deep_copy and running sycl:memcpy itself. This reduces the 
--/// overhead.
--template<typename TargetSpace, typename SourceSpace>
--hpx::shared_future<void> deep_copy_async(Kokkos::Experimental::SYCL &&instance,
--    TargetSpace &&t, SourceSpace &&s) {
--  assert(t.size() == s.size());
--  assert(q.is_in_order());
--  static_assert(std::is_same<typename std::decay<TargetSpace>::type::data_type,
--      typename std::decay<SourceSpace>::type::data_type>::value);
--  auto& q = *instance.impl_internal_space_instance()->m_queue;
--  auto event = q.memcpy(t.data(), s.data(), t.size() * sizeof(typename std::decay<TargetSpace>::type::data_type));
+@@ -37,7 +37,12 @@ hpx::shared_future<void> deep_copy_async(Kokkos::Experimental::SYCL &&instance,
+       typename std::decay<SourceSpace>::type::data_type>::value);
+   auto& q = *instance.impl_internal_space_instance()->m_queue;
+   auto event = q.memcpy(t.data(), s.data(), t.size() * sizeof(typename std::decay<TargetSpace>::type::data_type));
 -  return hpx::sycl::experimental::detail::get_future(event);
--}
--#endif
-+/* #if defined(KOKKOS_ENABLE_SYCL) */
-+/* /// deep_copy_async specialization for SYCL spaces. It comes with the advantage of not having */
-+/* /// to create our own sycl::event in get_future - instead it uses the copy event directly by */
-+/* /// circumventing kokkos::deep_copy and running sycl:memcpy itself. This reduces the */ 
-+/* /// overhead. */
-+/* template<typename TargetSpace, typename SourceSpace> */
-+/* hpx::shared_future<void> deep_copy_async(Kokkos::Experimental::SYCL &&instance, */
-+/*     TargetSpace &&t, SourceSpace &&s) { */
-+/*   assert(t.size() == s.size()); */
-+/*   assert(q.is_in_order()); */
-+/*   static_assert(std::is_same<typename std::decay<TargetSpace>::type::data_type, */
-+/*       typename std::decay<SourceSpace>::type::data_type>::value); */
-+/*   auto& q = *instance.impl_internal_space_instance()->m_queue; */
-+/*   auto event = q.memcpy(t.data(), s.data(), t.size() * sizeof(typename std::decay<TargetSpace>::type::data_type)); */
-+/*   return hpx::sycl::experimental::detail::get_future(event); */
-+/* } */
-+/* #endif */
++  q.ext_oneapi_submit_barrier(std::vector<decltype(event)>{event});
++  q.wait_and_throw();
++  instance.fence();
++  return hpx::make_ready_future();
++  /* auto fut = hpx::sycl::experimental::detail::get_future(event); */
++  /* fut.wait(); */
+ }
+ #endif
  } // namespace kokkos
- } // namespace hpx
 diff --git a/src/hpx/kokkos/future.hpp b/src/hpx/kokkos/future.hpp
-index b0d83d8..1b97753 100644
+index b0d83d8..1f2b0be 100644
 --- a/src/hpx/kokkos/future.hpp
 +++ b/src/hpx/kokkos/future.hpp
-@@ -80,15 +80,15 @@ template <> struct get_future<Kokkos::Experimental::HIP> {
- };
- #endif
- 
--#if defined(KOKKOS_ENABLE_SYCL)
--template <> struct get_future<Kokkos::Experimental::SYCL> {
--  template <typename E> static hpx::shared_future<void> call(E &&inst) {
--    HPX_KOKKOS_DETAIL_LOG("getting future from SYCL queue %p", &(inst.sycl_queue()));
+@@ -84,8 +84,10 @@ template <> struct get_future<Kokkos::Experimental::HIP> {
+ template <> struct get_future<Kokkos::Experimental::SYCL> {
+   template <typename E> static hpx::shared_future<void> call(E &&inst) {
+     HPX_KOKKOS_DETAIL_LOG("getting future from SYCL queue %p", &(inst.sycl_queue()));
 -    auto fut = hpx::sycl::experimental::detail::get_future(inst.sycl_queue());
 -    return fut ;
--  }
--};
--#endif
-+/* #if defined(KOKKOS_ENABLE_SYCL) */
-+/* template <> struct get_future<Kokkos::Experimental::SYCL> { */
-+/*   template <typename E> static hpx::shared_future<void> call(E &&inst) { */
-+/*     HPX_KOKKOS_DETAIL_LOG("getting future from SYCL queue %p", &(inst.sycl_queue())); */
-+/*     auto fut = hpx::sycl::experimental::detail::get_future(inst.sycl_queue()); */
-+/*     return fut ; */
-+/*   } */
-+/* }; */
-+/* #endif */
- 
- #if defined(KOKKOS_ENABLE_HPX) && KOKKOS_VERSION >= 30000
- template <> struct get_future<Kokkos::Experimental::HPX> {
++    inst.fence();
++    return hpx::make_ready_future();
++    /* auto fut = hpx::sycl::experimental::detail::get_future(inst.sycl_queue()); */
++    /* return fut ; */
+   }
+ };
+ #endif
