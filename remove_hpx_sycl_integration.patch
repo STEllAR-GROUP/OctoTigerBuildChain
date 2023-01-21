@@ -1,35 +1,47 @@
-diff --git a/src/hpx/kokkos/deep_copy.hpp b/src/hpx/kokkos/deep_copy.hpp
-index 11a5412..6ddaeab 100644
---- a/src/hpx/kokkos/deep_copy.hpp
-+++ b/src/hpx/kokkos/deep_copy.hpp
-@@ -37,7 +37,12 @@ hpx::shared_future<void> deep_copy_async(Kokkos::Experimental::SYCL &&instance,
-       typename std::decay<SourceSpace>::type::data_type>::value);
-   auto& q = *instance.impl_internal_space_instance()->m_queue;
-   auto event = q.memcpy(t.data(), s.data(), t.size() * sizeof(typename std::decay<TargetSpace>::type::data_type));
--  return hpx::sycl::experimental::detail::get_future(event);
-+  q.ext_oneapi_submit_barrier(std::vector<decltype(event)>{event});
-+  q.wait_and_throw();
-+  instance.fence();
-+  return hpx::make_ready_future();
-+  /* auto fut = hpx::sycl::experimental::detail::get_future(event); */
-+  /* fut.wait(); */
- }
- #endif
- } // namespace kokkos
-diff --git a/src/hpx/kokkos/future.hpp b/src/hpx/kokkos/future.hpp
-index b0d83d8..1f2b0be 100644
---- a/src/hpx/kokkos/future.hpp
-+++ b/src/hpx/kokkos/future.hpp
-@@ -84,8 +84,10 @@ template <> struct get_future<Kokkos::Experimental::HIP> {
- template <> struct get_future<Kokkos::Experimental::SYCL> {
-   template <typename E> static hpx::shared_future<void> call(E &&inst) {
-     HPX_KOKKOS_DETAIL_LOG("getting future from SYCL queue %p", &(inst.sycl_queue()));
--    auto fut = hpx::sycl::experimental::detail::get_future(inst.sycl_queue());
--    return fut ;
-+    inst.fence();
-+    return hpx::make_ready_future();
-+    /* auto fut = hpx::sycl::experimental::detail::get_future(inst.sycl_queue()); */
-+    /* return fut ; */
-   }
- };
- #endif
+diff --git a/libs/core/async_sycl/include/hpx/async_sycl/sycl_future.hpp b/libs/core/async_sycl/include/hpx/async_sycl/sycl_future.hpp
+index cfbc673f97..df3c4157bd 100644
+--- a/libs/core/async_sycl/include/hpx/async_sycl/sycl_future.hpp
++++ b/libs/core/async_sycl/include/hpx/async_sycl/sycl_future.hpp
+@@ -76,26 +76,28 @@ namespace hpx { namespace sycl { namespace experimental {
+         hpx::future<void> get_future(
+             Allocator const& a, cl::sycl::event command_event)
+         {
+-            using shared_state = future_data<Allocator>;
++            /* using shared_state = future_data<Allocator>; */
+ 
+-            using other_allocator = typename std::allocator_traits<
+-                Allocator>::template rebind_alloc<shared_state>;
+-            using traits = std::allocator_traits<other_allocator>;
++            /* using other_allocator = typename std::allocator_traits< */
++            /*     Allocator>::template rebind_alloc<shared_state>; */
++            /* using traits = std::allocator_traits<other_allocator>; */
+ 
+-            using init_no_addref = typename shared_state::init_no_addref;
++            /* using init_no_addref = typename shared_state::init_no_addref; */
+ 
+-            using unique_ptr = std::unique_ptr<shared_state,
+-                util::allocator_deleter<other_allocator>>;
++            /* using unique_ptr = std::unique_ptr<shared_state, */
++            /*     util::allocator_deleter<other_allocator>>; */
+ 
+-            other_allocator alloc(a);
+-            unique_ptr p(traits::allocate(alloc, 1),
+-                hpx::util::allocator_deleter<other_allocator>{alloc});
++            /* other_allocator alloc(a); */
++            /* unique_ptr p(traits::allocate(alloc, 1), */
++            /*     hpx::util::allocator_deleter<other_allocator>{alloc}); */
+ 
+-            traits::construct(
+-                alloc, p.get(), init_no_addref{}, alloc, command_event);
++            /* traits::construct( */
++            /*     alloc, p.get(), init_no_addref{}, alloc, command_event); */
+ 
+-            return hpx::traits::future_access<future<void>>::create(
+-                p.release(), false);
++            /* return hpx::traits::future_access<future<void>>::create( */
++            /*     p.release(), false); */
++            command_event.wait();
++            return hpx::make_ready_future();
+         }
+         // -------------------------------------------------------------
+         // non allocator version of : get future with an event set
