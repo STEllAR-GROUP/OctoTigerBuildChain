@@ -11,7 +11,7 @@ SYNOPSIS
     {with-mpi,without-mpi,with-libfabric} {with-papi,without-papi} {with-apex,without-apex} {with-kokkos,without-kokkos}
     {with-simd,without-simd} {with-hpx-backend-multipole,without-hpx-backend-multipole} 
     {with-hpx-backend-monopole,without-hpx-backend-monopole}
-    {with-hpx-cuda-polling, without-hpx-cuda-polling}
+    {with-hpx-cuda-polling, without-hpx-cuda-polling, with-hpx-sycl-polling, without-hpx-sycl-polling}
     {with-otf2, without-otf2}
     [cmake|gcc|boost|hdf5|silo|hwloc|jemalloc|vc|hpx|octotiger|openmpi ...]
 DESCRIPTION
@@ -164,11 +164,29 @@ fi
 if [[ "${11}" == "without-hpx-cuda-polling" ]]; then
     echo "HPX Kokkos with cuda callbacks"
     export HPX_KOKKOS_FUTURE_TYPE=callback
+    export HPX_KOKKOS_SYCL_FUTURE_TYPE=host_task
 elif [[ "${11}" == "with-hpx-cuda-polling" ]]; then
     echo "HPX Kokkos with cuda event polling"
     export HPX_KOKKOS_FUTURE_TYPE=event
+    export HPX_KOKKOS_SYCL_FUTURE_TYPE=event
+elif [[ "${11}" == "without-hpx-sycl-polling" ]]; then
+    echo "HPX Kokkos with sycl host_tasks"
+    if [[ ! "$3" == "with-sycl" ]]; then
+	    echo "sycl host_task mode enabled in non-sycl build"
+	    print_usage_abort
+    fi
+    export HPX_KOKKOS_FUTURE_TYPE=callback
+    export HPX_KOKKOS_SYCL_FUTURE_TYPE=host_task
+elif [[ "${11}" == "with-hpx-sycl-polling" ]]; then
+    echo "HPX Kokkos with sycl event polling"
+    if [[ ! "$3" == "with-sycl" ]]; then
+	    echo "sycl host_task mode enabled in non-sycl build"
+	    print_usage_abort
+    fi
+    export HPX_KOKKOS_FUTURE_TYPE=event
+    export HPX_KOKKOS_SYCL_FUTURE_TYPE=event
 else
-    echo 'CUDA polling argument must be either "with-hpx-cuda-polling" or "without-hpx-cuda-polling"' >&2
+    echo 'polling argument must be either "with-hpx-[cuda|sycl]-polling" "without-hpx-[cuda|sycl]-polling"' >&2
     print_usage_abort
 fi
 
