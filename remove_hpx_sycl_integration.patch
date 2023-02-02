@@ -1,8 +1,8 @@
 diff --git a/libs/core/async_sycl/include/hpx/async_sycl/sycl_future.hpp b/libs/core/async_sycl/include/hpx/async_sycl/sycl_future.hpp
-index cfbc673f97..df3c4157bd 100644
+index 424b7677a9..997770f873 100644
 --- a/libs/core/async_sycl/include/hpx/async_sycl/sycl_future.hpp
 +++ b/libs/core/async_sycl/include/hpx/async_sycl/sycl_future.hpp
-@@ -76,26 +76,28 @@ namespace hpx { namespace sycl { namespace experimental {
+@@ -95,26 +95,30 @@ namespace hpx { namespace sycl { namespace experimental {
          hpx::future<void> get_future(
              Allocator const& a, cl::sycl::event command_event)
          {
@@ -15,33 +15,79 @@ index cfbc673f97..df3c4157bd 100644
 +            /* using other_allocator = typename std::allocator_traits< */
 +            /*     Allocator>::template rebind_alloc<shared_state>; */
 +            /* using traits = std::allocator_traits<other_allocator>; */
- 
--            using init_no_addref = typename shared_state::init_no_addref;
++
 +            /* using init_no_addref = typename shared_state::init_no_addref; */
  
--            using unique_ptr = std::unique_ptr<shared_state,
--                util::allocator_deleter<other_allocator>>;
+-            using init_no_addref = typename shared_state::init_no_addref;
 +            /* using unique_ptr = std::unique_ptr<shared_state, */
 +            /*     util::allocator_deleter<other_allocator>>; */
  
--            other_allocator alloc(a);
--            unique_ptr p(traits::allocate(alloc, 1),
--                hpx::util::allocator_deleter<other_allocator>{alloc});
+-            using unique_ptr = std::unique_ptr<shared_state,
+-                util::allocator_deleter<other_allocator>>;
 +            /* other_allocator alloc(a); */
 +            /* unique_ptr p(traits::allocate(alloc, 1), */
 +            /*     hpx::util::allocator_deleter<other_allocator>{alloc}); */
  
--            traits::construct(
--                alloc, p.get(), init_no_addref{}, alloc, command_event);
+-            other_allocator alloc(a);
+-            unique_ptr p(traits::allocate(alloc, 1),
+-                hpx::util::allocator_deleter<other_allocator>{alloc});
 +            /* traits::construct( */
 +            /*     alloc, p.get(), init_no_addref{}, alloc, command_event); */
  
--            return hpx::traits::future_access<future<void>>::create(
--                p.release(), false);
+-            traits::construct(
+-                alloc, p.get(), init_no_addref{}, alloc, command_event);
 +            /* return hpx::traits::future_access<future<void>>::create( */
 +            /*     p.release(), false); */
+ 
+-            return hpx::traits::future_access<future<void>>::create(
+-                p.release(), false);
++            command_event.wait();
++            return hpx::make_ready_future();
++        
+         }
+         // -------------------------------------------------------------
+         /// Construct an HPX future, using SYCL host tasks to set data
+@@ -124,26 +128,29 @@ namespace hpx { namespace sycl { namespace experimental {
+             Allocator const& a, cl::sycl::event command_event,
+             cl::sycl::queue& command_queue)
+         {
+-            using shared_state = future_data<Allocator>;
++            /* using shared_state = future_data<Allocator>; */
+ 
+-            using other_allocator = typename std::allocator_traits<
+-                Allocator>::template rebind_alloc<shared_state>;
+-            using traits = std::allocator_traits<other_allocator>;
++            /* using other_allocator = typename std::allocator_traits< */
++            /*     Allocator>::template rebind_alloc<shared_state>; */
++            /* using traits = std::allocator_traits<other_allocator>; */
++
++            /* using init_no_addref = typename shared_state::init_no_addref; */
+ 
+-            using init_no_addref = typename shared_state::init_no_addref;
++            /* using unique_ptr = std::unique_ptr<shared_state, */
++            /*     util::allocator_deleter<other_allocator>>; */
+ 
+-            using unique_ptr = std::unique_ptr<shared_state,
+-                util::allocator_deleter<other_allocator>>;
++            /* other_allocator alloc(a); */
++            /* unique_ptr p(traits::allocate(alloc, 1), */
++            /*     hpx::util::allocator_deleter<other_allocator>{alloc}); */
+ 
+-            other_allocator alloc(a);
+-            unique_ptr p(traits::allocate(alloc, 1),
+-                hpx::util::allocator_deleter<other_allocator>{alloc});
++            /* traits::construct( */
++            /*     alloc, p.get(), init_no_addref{}, alloc, command_event, command_queue); */
+ 
+-            traits::construct(
+-                alloc, p.get(), init_no_addref{}, alloc, command_event, command_queue);
++            /* return hpx::traits::future_access<future<void>>::create( */
++            /*     p.release(), false); */
+ 
+-            return hpx::traits::future_access<future<void>>::create(
+-                p.release(), false);
 +            command_event.wait();
 +            return hpx::make_ready_future();
          }
          // -------------------------------------------------------------
-         // non allocator version of : get future with an event set
+         // non allocator version of get future with an event 
