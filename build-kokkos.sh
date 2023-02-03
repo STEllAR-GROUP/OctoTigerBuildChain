@@ -17,8 +17,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
 	cd ..
-	git clone https://github.com/kokkos/kokkos kokkos
-	#git clone https://github.com/msimberg/kokkos.git kokkos
+	#git clone https://github.com/kokkos/kokkos kokkos
+	git clone https://github.com/msimberg/kokkos.git kokkos
 	cd kokkos
 	# Checkout commit that adds hpx 1.7.1 support
 	git checkout ${KOKKOS_VERSION}
