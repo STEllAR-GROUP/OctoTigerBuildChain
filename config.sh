@@ -42,7 +42,7 @@ export VC_VERSION=1.4.1
 #export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
 # It does in reconstruct_experimental
 export HPX_VERSION=add_sycl_executor
-export KOKKOS_VERSION=hpx-sender-receiver
+export KOKKOS_VERSION=23a5e943c8d395e913700c96fa7ff016ac497e6d
 export HPX_KOKKOS_VERSION=add_sycl_support
 export LLVM_SYCL_VERSION=44c6437684d64aba82d5a3de0e4bbe21d2b1f7ce
 export LLVM_SYCL_BACKEND=hip
