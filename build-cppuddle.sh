@@ -12,7 +12,7 @@ mkdir -p ${DIR_BUILD}
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/SC-SGS/CPPuddle.git ${DIR_SRC}
     cd ${DIR_SRC}
-    git checkout aggregation_cleanup
+    git checkout 36455349b19aa288327bddcacc62b5e4b4664d0c
     cd -
 fi
 
