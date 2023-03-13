@@ -17,7 +17,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 fi
 
 cd ${DIR_SRC}
-git pull
+#git pull
 cd -
 
 ${CMAKE_COMMAND} \
