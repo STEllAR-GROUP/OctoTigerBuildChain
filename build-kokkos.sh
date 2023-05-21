@@ -5,7 +5,7 @@ set -ex
 : ${SOURCE_ROOT:?} ${INSTALL_ROOT:?} ${GCC_VERSION:?} ${LIB_DIR_NAME:?} ${BUILD_TYPE:?} \
     ${CMAKE_VERSION:?} ${CMAKE_COMMAND:?} ${OCT_WITH_CUDA:?} ${CUDA_SM:?} \
     ${BOOST_VERSION:?} ${BOOST_BUILD_TYPE:?} \
-    ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_VERSION:?} \
+    ${JEMALLOC_VERSION:?} ${HWLOC_VERSION:?} ${VC_VERSION:?} ${HPX_VERSION:?} ${KOKKOS_VERSION:?} \
     ${OCT_WITH_PARCEL:?} ${KOKKOS_CONFIG:?} ${OCT_CMAKE_CXX_COMPILER_INITIAL:?}
 
 DIR_SRC=${SOURCE_ROOT}/kokkos
@@ -21,7 +21,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd kokkos
 	#git checkout 1774165304d81ea2db3818b7020f6c71fbefac97
 	# Checkout commit that adds hpx 1.7.1 support
-	git checkout ba0caeeb1aecaaef16b6894d7b9ba5593b899492
+	git checkout ${KOKKOS_VERSION}
 	#git apply ../../nvcc_wrapper_for_octotiger.patch
 	#git apply ../../async_copy.patch
 	cd ..
@@ -33,7 +33,7 @@ ${CMAKE_COMMAND} \
 	-B${DIR_BUILD} \
 	-DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
 	-DKokkos_ENABLE_TESTS=OFF \
-	-DKokkos_CXX_STANDARD=17 \
+	-DCMAKE_CXX_STANDARD=17 \
 	-DKokkos_ENABLE_INTERNAL_FENCES=OFF \
        	-DKokkos_ENABLE_HIP=ON \
        	-DKokkos_ENABLE_HIP_RELOCATABLE_DEVICE_CODE=OFF \

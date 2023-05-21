@@ -42,9 +42,9 @@ export VC_VERSION=1.4.1
 #export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
 # It does in reconstruct_experimental
 
-export HPX_VERSION=04824da3e8db8c9e2b2ca3d51ca6f1971aebc40c
-export KOKKOS_VERSION=ba0caeeb1aecaaef16b6894d7b9ba5593b899492
-export HPX_KOKKOS_VERSION=20a44967c742f5a7670b4dff9658d9973bf849f2
+export HPX_VERSION=v1.9.0
+export KOKKOS_VERSION=develop
+export HPX_KOKKOS_VERSION=master
 
 #export HPX_VERSION=1.7.1
 #export KOKKOS_VERSION=d1e00352fd6262fd8d08225eb7086793432db35f
