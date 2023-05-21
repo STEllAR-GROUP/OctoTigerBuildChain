@@ -19,9 +19,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
 	git clone https://github.com/STEllAR-GROUP/hpx-kokkos.git hpx-kokkos
 	cd hpx-kokkos
-	git checkout 0.2.0
-	cp ../../add_future.patch .
-	git apply add_future.patch
+	git checkout master
 	cd ..
     )
 fi
