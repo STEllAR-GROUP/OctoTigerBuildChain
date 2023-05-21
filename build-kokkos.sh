@@ -19,7 +19,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
 	git clone https://github.com/kokkos/kokkos kokkos
 	cd kokkos
-	git checkout d1e00352fd6262fd8d08225eb7086793432db35f
+	#git checkout d1e00352fd6262fd8d08225eb7086793432db35f
+	git checkout develop
 	#git checkout 3.4.00
 	git apply ../../nvcc_wrapper_eval.patch
 	cd ..
@@ -31,7 +32,7 @@ ${CMAKE_COMMAND} \
 	-B${DIR_BUILD} \
 	-DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
 	-DKokkos_ENABLE_TESTS=OFF \
-	-DKokkos_CXX_STANDARD=17 \
+	-DCMAKE_CXX_STANDARD=17 \
 	-DKokkos_ENABLE_INTERNAL_FENCES=OFF \
        	-DKokkos_ENABLE_CUDA=${OCT_WITH_CUDA} \
 	-DKokkos_ENABLE_CUDA_LAMBDA=${OCT_WITH_CUDA} \
