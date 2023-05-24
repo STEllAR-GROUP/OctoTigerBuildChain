@@ -50,7 +50,7 @@ export VC_VERSION=1.4.1
 #export KOKKOS_VERSION=3.6.01
 #export HPX_KOKKOS_VERSION=master
 export HPX_VERSION=v1.9.0
-export KOKKOS_VERSION=develop
+export KOKKOS_VERSION=4.0.01
 export HPX_KOKKOS_VERSION=master
 
 
@@ -103,7 +103,7 @@ case $(hostname) in
         export LIB_DIR_NAME=lib64
         export CUDA_SM=sm_70
         export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_VOLTA70=ON "
-        export PARALLEL_BUILD=16
+        export PARALLEL_BUILD=32
         ;;
     workbook)
         echo 'Compiling for diablo, doing additional setup'
