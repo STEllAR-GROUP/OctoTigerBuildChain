@@ -19,10 +19,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
 	git clone https://github.com/kokkos/kokkos kokkos
 	cd kokkos
-	# Checkout commit that adds hpx 1.7.1 support
 	git checkout ${KOKKOS_VERSION}
-	#git apply ../../nvcc_wrapper_eval.patch
-	git apply ../../kokkos-single-task.patch
 	cd ..
     )
 fi
