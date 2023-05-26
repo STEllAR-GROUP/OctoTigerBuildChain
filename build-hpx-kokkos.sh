@@ -20,7 +20,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git clone https://github.com/STEllAR-GROUP/hpx-kokkos.git hpx-kokkos
 	cd hpx-kokkos
 	#git checkout ce63b0630c739a4df899749ed67baa867862f3fc
-	git checkout master
+	git checkout 246b4b8c1697fabf43601f68d42509a2b1e63ab3
+	git apply ../../relax-version.patch
 	cd ..
     )
 fi

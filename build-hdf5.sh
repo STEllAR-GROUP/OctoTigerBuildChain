@@ -28,8 +28,8 @@ ${CMAKE_COMMAND} \
     -H${DIR_SRC} \
     -B${DIR_BUILD} \
     -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL} \
-    -DCMAKE_C_COMPILER=hipcc \
-    -DCMAKE_CXX_COMPILER=hipcc \
+    -DCMAKE_C_COMPILER=clang-12 \
+    -DCMAKE_CXX_COMPILER=clang-12 \
     -DBUILD_TESTING=OFF \
      ${try1} \
     -DCMAKE_BUILD_TYPE=Release
