@@ -21,7 +21,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd kokkos
 	#git checkout 1774165304d81ea2db3818b7020f6c71fbefac97
 	# Checkout commit that adds hpx 1.7.1 support
-	git checkout d1e00352fd6262fd8d08225eb7086793432db35f
+	git checkout develop
 	#git apply ../../nvcc_wrapper_for_octotiger.patch
 	#git apply ../../async_copy.patch
 	cd ..
@@ -33,7 +33,7 @@ ${CMAKE_COMMAND} \
 	-B${DIR_BUILD} \
 	-DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
 	-DKokkos_ENABLE_TESTS=OFF \
-	-DKokkos_CXX_STANDARD=14 \
+	-DCMAKE_CXX_STANDARD=14 \
 	-DKokkos_ENABLE_INTERNAL_FENCES=OFF \
        	-DKokkos_ENABLE_HIP=ON \
        	-DKokkos_ENABLE_CUDA=${OCT_WITH_CUDA} \
