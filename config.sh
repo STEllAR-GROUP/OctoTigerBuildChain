@@ -41,9 +41,9 @@ export VC_VERSION=1.4.1
 # Octotiger does not currently work with current master/HEAD
 #export HPX_VERSION=65c22662ccd5c63f43421cf76ca29d8222bf7f23
 # It does in reconstruct_experimental
-export HPX_VERSION=1.8.0
-export KOKKOS_VERSION=2640cf70de338618a7e4fe10590b06bc1c239f4c
-export HPX_KOKKOS_VERSION=20a44967c742f5a7670b4dff9658d9973bf849f2
+export HPX_VERSION=v1.9.0
+export KOKKOS_VERSION=develop
+export HPX_KOKKOS_VERSION=master
 
 # PAPI
 export PAPI_VERSION=5.7.0
