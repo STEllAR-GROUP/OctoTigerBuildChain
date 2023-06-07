@@ -38,5 +38,4 @@ ${CMAKE_COMMAND} \
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 ${CMAKE_COMMAND} --build ${DIR_BUILD} --target install
-cp ${DIR_BUILD}/compile_commands.json ${DIR_SRC}/compile_commands.json
 
