@@ -43,7 +43,7 @@ export VC_VERSION=1.4.1
 # It does in reconstruct_experimental
 
 export HPX_VERSION=1.8.1
-export KOKKOS_VERSION=4.0.01
+export KOKKOS_VERSION=3.6.01
 export HPX_KOKKOS_VERSION=master
 
 #export HPX_VERSION=1.7.1
