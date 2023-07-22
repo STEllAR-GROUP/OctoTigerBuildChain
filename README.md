@@ -1,3 +1,5 @@
+### Note: Consider using the [spack octotiger package](https://github.com/G-071/octotiger-spack) instead!
+
 # PowerTiger
 Build chain to build octotiger on x86, cray. and ppc64le
 
