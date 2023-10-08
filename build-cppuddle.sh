@@ -17,8 +17,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 fi
 
 cd ${DIR_SRC}
-git pull
-git checkout master
+#git pull
+#git checkout master
 cd -
 
 ${CMAKE_COMMAND} -H${DIR_SRC} -B${DIR_BUILD} -DCMAKE_CXX_COMPILER=$CXX -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${DIR_INSTALL}/cppuddle -DCPPUDDLE_WITH_TESTS=OFF -DCPPUDDLE_WITH_COUNTERS=OFF
