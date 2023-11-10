@@ -20,8 +20,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	git clone https://github.com/kokkos/kokkos kokkos
 	cd kokkos
 	# Checkout commit that adds hpx 1.7.1 support
-	git checkout ${KOKKOS_VERSION}
-	git apply ../../nvcc_wrapper_eval.patch
+	#git checkout ${KOKKOS_VERSION}
+	#git apply ../../nvcc_wrapper_eval.patch
 	cd ..
     )
 fi
@@ -32,7 +32,7 @@ ${CMAKE_COMMAND} \
 	-DCMAKE_BUILD_TYPE=${BUILD_TYPE} \
 	-DKokkos_ENABLE_TESTS=OFF \
 	-DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
-	-DKokkos_CXX_STANDARD=17 \
+	-DCMAKE_CXX_STANDARD=17 \
 	-DKokkos_ENABLE_INTERNAL_FENCES=OFF \
        	-DKokkos_ENABLE_CUDA=${OCT_WITH_CUDA} \
 	-DKokkos_ENABLE_CUDA_LAMBDA=${OCT_WITH_CUDA} \
