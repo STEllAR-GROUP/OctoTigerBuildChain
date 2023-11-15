@@ -16,11 +16,12 @@ if [[ ! -d ${DIR_SRC} ]]; then
     (
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
-        wget  ${DOWNLOAD_URL}
-       	tar -xf silo-${SILO_VERSION}-bsd.tgz
-	mv silo-${SILO_VERSION}-bsd/* .
-	rm -rf  silo-${SILO_VERSION}-bsd	
-    )
+
+        wget  ${DOWNLOAD_URL} 
+	      tar -xf silo-${SILO_VERSION}-bsd.tgz
+	      mv silo-${SILO_VERSION}-bsd/* .
+	      rm -rf  silo-${SILO_VERSION}-bsd
+
 fi
 
 (

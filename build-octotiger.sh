@@ -7,15 +7,14 @@ set -ex
     ${OCT_WITH_KOKKOS_SCALAR:?} ${CUDA_SM:?} ${OCT_ARCH_FLAGS:?}
 
 
-DIR_SRC=${SOURCE_ROOT}/octotiger
-DIR_BUILD=${INSTALL_ROOT}/octotiger/build
+DIR_SRC=${SOURCE_ROOT}/octotiger-kokkos
+DIR_BUILD=${INSTALL_ROOT}/octotiger/build-kokkos
 #DIR_INSTALL=${INSTALL_ROOT}/octotiger
 
 if [[ ! -d ${DIR_SRC} ]]; then
     git clone https://github.com/STEllAR-GROUP/octotiger.git ${DIR_SRC}
     pushd ${DIR_SRC}
     git checkout master
-    git submodule update --init --recursive
     popd
 fi
 
@@ -35,8 +34,8 @@ ${CMAKE_COMMAND} \
     -DOCTOTIGER_WITH_CUDA=$OCT_WITH_CUDA \
     -DOCTOTIGER_WITH_KOKKOS=$OCT_WITH_KOKKOS \
     -DOCTOTIGER_WITH_BLAST_TEST=ON \
-    -DOCTOTIGER_WITH_TESTS=ON \
-    -DOCTOTIGER_WITH_Vc=ON \
+    -DOCTOTIGER_WITH_TESTS=OFF \
+    -DOCTOTIGER_WITH_Vc=OFF \
     -DOCTOTIGER_WITH_LEGACY_VC=OFF \
     -DOCTOTIGER_WITH_GRIDDIM=8 \
     -DOCTOTIGER_WITH_MAX_NUMBER_FIELDS=15 \
@@ -48,7 +47,7 @@ ${CMAKE_COMMAND} \
     -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
     -DVc_DIR=$INSTALL_ROOT/Vc/lib/cmake/Vc \
     -DBOOST_ROOT=$BOOST_ROOT \
-    -DHPX_DIR=$INSTALL_ROOT/hpx/$LIBHPX/cmake/HPX/ \
+    -DHPX_DIR=$INSTALL_ROOT/hpx/$LIBHPX64/cmake/HPX/ \
     -DHDF5_INCLUDE_DIR=$INSTALL_ROOT/hdf5/include \
     -DSilo_INCLUDE_DIR=$INSTALL_ROOT/silo/include \
     -DSilo_LIBRARY=$INSTALL_ROOT/silo/lib/libsiloh5.a \
@@ -58,7 +57,9 @@ ${CMAKE_COMMAND} \
     -DOCTOTIGER_ARCH_FLAG=${OCT_ARCH_FLAGS} \
     -DCPPuddle_DIR=$INSTALL_ROOT/cppuddle/build/cppuddle/lib/cmake/CPPuddle \
     -DKokkos_DIR=$INSTALL_ROOT/kokkos/install/${LIB_DIR_NAME}/cmake/Kokkos \
-    -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/${LIB_DIR_NAME}/cmake/HPXKokkos
+    -DHPXKokkos_DIR=$INSTALL_ROOT/hpx-kokkos/install/${LIB_DIR_NAME}/cmake/HPXKokkos \
+    -DCMAKE_CXX_COMPILER="${OCT_CMAKE_CXX_COMPILER}" \
+    -DOCTOTIGER_WITH_GRIDDIM=16
 
 ${CMAKE_COMMAND} --build ${DIR_BUILD} -- -j${PARALLEL_BUILD} VERBOSE=1
 cp ${DIR_BUILD}/compile_commands.json ${DIR_SRC}/compile_commands.json

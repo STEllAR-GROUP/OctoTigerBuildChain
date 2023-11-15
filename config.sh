@@ -9,6 +9,7 @@ export SOURCE_ROOT=${POWERTIGER_ROOT}/src
 # CMake
 export CMAKE_VERSION=3.19.5
 
+
 # GCC
 export GCC_VERSION=10.3.0
 
@@ -60,7 +61,6 @@ export CUDA_SM=sm_80
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE86=ON "
 #export KOKKOS_CONFIG=" -DKokkos_ARCH_SKX=ON  -DKokkos_ARCH_MAXWELL50=ON "
 export KOKKOS_CONFIG=" -DKokkos_ARCH_HSW=ON  -DKokkos_ARCH_AMPERE80=ON "
-
 
 #Libfabric
 export LIBFABRIC_VERSION=1.9.0

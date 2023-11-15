@@ -20,10 +20,8 @@ if [[ ! -d ${DIR_SRC} ]]; then
 	cd ..
 	git clone https://github.com/STEllAR-GROUP/hpx-kokkos.git hpx-kokkos
 	cd hpx-kokkos
-	#git checkout ce63b0630c739a4df899749ed67baa867862f3fc
 	git checkout ${HPX_KOKKOS_VERSION}
 	cd ..
-    )
 fi
 
 mkdir -p "$DIR_BUILD"
