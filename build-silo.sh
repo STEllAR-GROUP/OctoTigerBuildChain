@@ -9,7 +9,8 @@ DIR_SRC=${SOURCE_ROOT}/silo-4.10.2-bsd
 DIR_INSTALL=${INSTALL_ROOT}/silo
 FILE_MODULE=${INSTALL_ROOT}/modules/silo/${SILO_VERSION}
 
-DOWNLOAD_URL="https://wci.llnl.gov/sites/wci/files/2021-01/silo-${SILO_VERSION}-bsd.tgz"
+#DOWNLOAD_URL="https://wci.llnl.gov/sites/wci/files/2021-01/silo-${SILO_VERSION}-bsd.tgz"
+DOWNLOAD_URL="https://software.llnl.gov/Silo/ghpages/releases/silo-${SILO_VERSION}-bsd.tar.xz"
 
 
 if [[ ! -d ${DIR_SRC} ]]; then
@@ -17,7 +18,7 @@ if [[ ! -d ${DIR_SRC} ]]; then
         mkdir -p ${DIR_SRC}
         cd ${DIR_SRC}
         wget  ${DOWNLOAD_URL}
-       	tar -xf silo-${SILO_VERSION}-bsd.tgz
+       	tar -xf silo-${SILO_VERSION}-bsd.tar.xz
 	mv silo-${SILO_VERSION}-bsd/* .
 	rm -rf  silo-${SILO_VERSION}-bsd	
     )
